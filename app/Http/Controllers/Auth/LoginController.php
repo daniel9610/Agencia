@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Redirect;
 use Socialite;
 use Auth;
 use Exception;
@@ -59,7 +60,27 @@ class LoginController extends Controller
             'name' => $userLogin->name
         ]);
         Auth::login($user, true);
-        return redirect()->to('/');
+        return redirect()->to('/splash');
+    }
+
+    public function login(Request $request)
+    {
+        $input = $request->all();
+
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'email';
+        if(auth()->attempt(array($fieldType => $input['email'], 'password' => $input['password'])))
+        {
+            return Redirect::to('splash');
+        }else{
+            return Redirect::to('login')
+                ->with('error','Usuario/Correo Electronico y/o contraseña errados.');
+        }
+
     }
 
     public function logout(Request $request){

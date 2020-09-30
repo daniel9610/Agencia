@@ -12,15 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Auth::routes();
+
+Route::post('login', [
+    'as' => '',
+    'uses' => 'Auth\LoginController@login'
+]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('google', function () {
     return view('googleAuth');
+});
+
+Route::get('splash', function () {
+    return view('splashs.splash_login');
 });
 
 // google oauth 
