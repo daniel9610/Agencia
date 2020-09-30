@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function(){
     Route::get('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::post('subirarchivos', 'GoogleDriveController@uploadFiles');
 
-    Route::get('prueba', 'ClienteController@index');
+    Route::get('cliente', 'ClienteController@index');
 
 });
 // google drive
