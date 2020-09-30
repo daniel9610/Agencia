@@ -29,9 +29,10 @@ class CampaniaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($cliente_id)
     {
-        //
+        $campanias = Campania::where('cliente_id', $cliente_id);
+        return view ('home', compact('campanias')); 
     }
 
     /**
@@ -45,25 +46,27 @@ class CampaniaController extends Controller
         $campania = new Campania;
         $campania->nombre = $request->nombre;
         $campania->nit = $request->nit;
-        $campania->porcentaje = $request->porcentaje;
+        $campania->porcentaje = 0;
         $campania->cliente_id = $request->cliente_id;
-        $campania->fase_id = $request->fase_id;
-        $campania->categoria_id = $request->categoria_id;
+        $campania->fase_id = 1;
+        $campania->categoria_id = 1;
         $campania->encargado = $request->encargado;
         $campania->numero_contacto = $request->numero_contacto;
         $campania->email = $request->email;
         $campania->fecha_entrega = $request->fecha_entrega;
         $campania->activo = 1;
+        // dd($campania);
         $campania->save();
+        return redirect()->route('home');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
+     * @param  \App\Campania  $Campania
      * @return \Illuminate\Http\Response
      */
-    public function show(CampaniaEtapa $campaniaEtapa)
+    public function show(Campania $Campania)
     {
         //
     }
@@ -71,34 +74,51 @@ class CampaniaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
+     * @param  \App\Campania  $Campania
      * @return \Illuminate\Http\Response
      */
-    public function edit(CampaniaEtapa $campaniaEtapa)
+    public function edit($id)
     {
-        //
+        // Queda pendiente
+        // $campania = Campania::findOrFail($id);
+        // return view('', compact('campania'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
+     * @param  \App\Campania  $Campania
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CampaniaEtapa $campaniaEtapa)
+    public function update(Request $request, $id)
     {
-        //
+        $campania = Campania::findOrFail($id);
+    
+        $campania->nombre = $request->nombre;
+        $campania->nit = $request->nit;
+        $campania->cliente_id = $request->cliente_id;
+        $campania->fase_id = 1;
+        $campania->categoria_id = 1;
+        $campania->encargado = $request->encargado;
+        $campania->numero_contacto = $request->numero_contacto;
+        $campania->email = $request->email;
+        $campania->fecha_entrega = $request->fecha_entrega;
+        $campania->activo = 1;
+        $category->save();
+        return redirect()->route('home');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
+     * @param  \App\Campania  $Campania
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CampaniaEtapa $campaniaEtapa)
+    public function destroy($id)
     {
-        //
+        $campania = Campania::findOrFail($id);
+        $campania->delete();
+        return redirect()->route('home');
     }
 }

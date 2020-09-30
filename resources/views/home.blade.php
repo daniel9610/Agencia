@@ -21,32 +21,8 @@
                         </div>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                             <div class="card-body">
-                                <form action="">
-                                    <label for="cliente">cliente:</label><br>
-                                    <select name="cliente" id="cliente_id">
-                                        <option value="1">Cliente 1</option>
-                                        <option value="2">Cliente 2</option>
-                                    </select><br>
-
-                                    <label for="nombre">Nombre:</label><br>
-                                    <input type="text" name="nombre" id="nombre"><br>
-
-                                    <label for="nit">NIT:</label><br>
-                                    <input type="text" name="nit" id="nit"><br>
-
-                                    <label for="encargado">Encargado:</label><br>
-                                    <input type="text" name="encargado" id="encargado"><br>
-
-                                    <label for="numero_contacto">Número de contacto:</label><br>
-                                    <input type="text" name="numero_contacto" id="numero_contacto"><br>
-
-                                    <label for="email">Email:</label><br>
-                                    <input type="email" name="email" id="email"><br>
-
-                                    <label for="fecha_entrega">Fecha de entrega:</label><br>
-                                    <input type="fecha_entrega" name="fecha_entrega" id="fecha_entrega"><br><br>
-                                    <button class="btn btn-primary" type="submit">Crear Campaña</button>
-                                </form>
+                             
+                                @include('campanias.create')
                             </div>
                         </div>
                         </div>
@@ -98,7 +74,7 @@
 
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                             <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                            Prueba
                             </div>
                         </div>
                         </div>
