@@ -14,7 +14,7 @@ class CreateBriefsTable extends Migration
     public function up()
     {
         Schema::create('briefs', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('nombre')->nullable();
             $table->integer('campania_id')->nullable();
             $table->integer('estado_id')->nullable();

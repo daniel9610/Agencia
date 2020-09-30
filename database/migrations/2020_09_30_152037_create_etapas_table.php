@@ -14,6 +14,7 @@ class CreateEtapasTable extends Migration
     public function up()
     {
         Schema::create('etapas', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('nombre')->nullable();
             $table->string('prioridad')->nullable();
             $table->string('url')->nullable();

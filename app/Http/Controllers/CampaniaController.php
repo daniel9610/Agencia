@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Campania;
 
 class CampaniaController extends Controller
 {
@@ -13,7 +14,14 @@ class CampaniaController extends Controller
      */
     public function index()
     {
-        //
+        $campanias = Campania::all();
+        return view ('home', compact('campanias'));
+    }
+
+    public function indexCampaniaCliente($campania_id)
+    {
+        $campanias = Campania::where('campania_id', $campania_id);
+        return view ('home', compact('campanias'));
     }
 
     /**
@@ -34,7 +42,19 @@ class CampaniaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $campania = new Campania;
+        $campania->nombre = $request->nombre;
+        $campania->nit = $request->nit;
+        $campania->porcentaje = $request->porcentaje;
+        $campania->cliente_id = $request->cliente_id;
+        $campania->fase_id = $request->fase_id;
+        $campania->categoria_id = $request->categoria_id;
+        $campania->encargado = $request->encargado;
+        $campania->numero_contacto = $request->numero_contacto;
+        $campania->email = $request->email;
+        $campania->fecha_entrega = $request->fecha_entrega;
+        $campania->activo = 1;
+        $campania->save();
     }
 
     /**

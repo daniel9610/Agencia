@@ -14,7 +14,7 @@ class CreateCampaniaEtapasTable extends Migration
     public function up()
     {
         Schema::create('campania_etapas', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->integer('campania_id')->nullable();
             $table->integer('etapa_id')->nullable();
             $table->integer('estado_id')->nullable();
