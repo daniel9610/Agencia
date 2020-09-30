@@ -77,21 +77,21 @@
                     <h5 class="card-title">
                     
                         <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a> -->
-                    <a class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase de ejecución</a>
-                    <a class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">Fase diseño de propuesta</a>
+                    <a id="fase_ejecucion" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase de ejecución</a>
+                    <a id="fase_propuesta" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">Fase diseño de propuesta</a>
 
                         <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase diseño de propuesta</a> -->
                     </h5>
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
-                    <div class="card card-body">
-                        Clientes en fase de ejecución
-                    </div>
+                        <div class="card card-body" id="fase_ejecucion_div">
+                            {{-- Info desde base de datos --}}
+                        </div>
                     </div>
 
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-                        Clientes en fase de diseño de propuesta
-                    </div>
+                        <div class="card card-body">
+                            Clientes en fase de diseño de propuesta
+                        </div>
                     </div>
 
                     <!-- accordion -->
@@ -113,7 +113,21 @@
 </div>
 
 @push('scripts')
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#fase_ejecucion').click(function(){
+                $.ajax({
+                url: 'cliente',
+                type: 'GET',
+                success: function(response)
+                {
+                    $('#fase_ejecucion_div').html(response);
+                }
+                });
+            });
+        });
+    </script>
 @endpush
 
 @endsection
