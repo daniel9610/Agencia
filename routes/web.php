@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function(){
     Route::get('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::post('subirarchivos', 'GoogleDriveController@uploadFiles');
 
+    Route::get('prueba', 'ClienteController@index');
+
 });
 // google drive
 // Route::get('/drive', 'DriveController@getDrive'); // retreive folders

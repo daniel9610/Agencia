@@ -14,7 +14,7 @@ class CreateEstadosTable extends Migration
     public function up()
     {
         Schema::create('estados', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('nombre')->nullable();
             $table->integer('tipo_estado')->nullable();
             $table->boolean('activo')->nullable();

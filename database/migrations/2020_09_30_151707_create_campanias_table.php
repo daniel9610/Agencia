@@ -14,13 +14,16 @@ class CreateCampaniasTable extends Migration
     public function up()
     {
         Schema::create('campanias', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('nombre')->nullable();
             $table->string('NIT')->nullable();
             $table->integer('porcentaje')->nullable();
             $table->integer('cliente_id')->nullable();
             $table->integer('fase_id')->nullable();
             $table->integer('categoria_id')->nullable();
+            $table->string('encargado')->nullable();
+            $table->string('numero_contacto')->nullable();
+            $table->string('email')->nullable();
             $table->dateTime('fecha_entrega')->nullable();
             $table->boolean('activo')->nullable();
             $table->timestamps();
