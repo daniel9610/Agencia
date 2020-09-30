@@ -1,7 +1,8 @@
 <?php
    
 namespace App\Http\Controllers\Auth;
-   
+
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
@@ -43,35 +44,28 @@ class LoginController extends Controller
    
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        $parameters = ['access_type'=>'offline'];
+        return Socialite::driver('google')->scopes(["https://www.googleapis.com/auth/drive"]
+        )->with($parameters)->redirect();
+        // return Socialite::driver('google')->redirect();
     }
    
     public function handleGoogleCallback()
     {
-        try {
-  
-            $user = Socialite::driver('google')->user();
-   
-            $finduser = User::where('google_id', $user->id)->first();
-            
-            if($finduser){                
-                Auth::login($finduser);
-  
-                return redirect('/home');
-            }else{
-                $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'google_id'=> $user->id
-                ]);
+        $userLogin = Socialite::driver('google')->user();
+        $user = User::updateOrCreate(
+            ['email'=>$userLogin->email],
+            ['refresh_token'=> $userLogin->token,
+            'name' => $userLogin->name
+        ]);
+        Auth::login($user, true);
+        return redirect()->to('/');
+    }
 
-                Auth::login($newUser);
-   
-                return redirect()->back();
-            }
-  
-        } catch (Exception $e) {
-            return redirect('auth/google');
-        }
+    public function logout(Request $request){
+        session('g_token', '');
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        return redirect('/');
     }
 }
