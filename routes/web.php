@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function(){
     Route::get('listararchivos', 'GoogleDriveController@getFolders');
     Route::get('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::post('subirarchivos', 'GoogleDriveController@uploadFiles');
-
+    Route::resource('campanias', 'CampaniaController');
     Route::get('cliente', 'ClienteController@index');
 
 });
