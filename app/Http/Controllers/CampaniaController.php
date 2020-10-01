@@ -18,9 +18,9 @@ class CampaniaController extends Controller
         return view ('home', compact('campanias'));
     }
 
-    public function indexCampaniaCliente($campania_id)
+    public function indexCampaniaCliente($cliente_id)
     {
-        $campanias = Campania::where('campania_id', $campania_id);
+        $campanias = Campania::where('cliente_id', $cliente_id);
         return view ('home', compact('campanias'));
     }
 

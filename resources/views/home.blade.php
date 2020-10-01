@@ -59,9 +59,8 @@
                         <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase diseño de propuesta</a> -->
                     </h5>
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
-                        <div class="card card-body" id="fase_ejecucion_div">
-                            {{-- Info desde base de datos --}}
-                        </div>
+                        @include('clientes.index')
+
                     </div>
 
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
@@ -87,6 +86,8 @@
         </div>
     </div>
 </div>
+
+
 
 @push('scripts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

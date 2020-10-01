@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Campania;
+use App\Etapa;
 
 class HomeController extends Controller
 {
@@ -24,8 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $campanias = Campania::all();
-            // dd($campanias);
-        return view('home', compact('campanias'));
+        $clientes = array(
+            "1" => 'Cliente 1',
+            "2" => 'Cliente 2',);
+        // $campanias = Campania::all();
+        $clientes_id = array(
+            1,2
+        );
+        $etapas = Etapa::all();
+        $campanias = Campania::whereBetween('cliente_id', $clientes_id)->get();
+
+        return view('home', compact('campanias', 'clientes', 'etapas'));
+    
     }
 }

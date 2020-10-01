@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CampaniaEtapa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CampaniaEtapaController extends Controller
 {
@@ -12,9 +13,20 @@ class CampaniaEtapaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function indexCampaniaEtapas($campania_id)
     {
-        //
+
+        $campania_etapas = DB::table('campania_etapas')
+            ->join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
+            ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
+            ->select('etapas.nombre', 'etapas.prioridad', 'etapas.url',  'estados.nombre as estado')
+            ->where('campania_etapas.campania_id', $campania_id)
+            ->get();
+            if(count($campania_etapas)==0){
+                $campania_etapas = "vacio";
+            }
+            return view ('etapas.index', compact('campania_etapas'));
+
     }
 
     /**
@@ -22,9 +34,15 @@ class CampaniaEtapaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function agregarCampaniaEtapa($campania_id, $etapa_id, $estado_id)
     {
-        //
+        $campania_etapa = new CampaniaEtapa;
+        $campania_etapa->campania_id = $campania_id;
+        $campania_etapa->etapa_id = $etapa_id;
+        $campania_etapa->estado_id = $estado_id;
+        $campania_etapa->activo = 1;
+        $campania_etapa->save();
+        return view('home');
     }
 
     /**

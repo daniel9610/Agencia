@@ -14,22 +14,22 @@
         </select><br>
 
         <label for="nombre">Nombre:</label><br>
-        <input type="text" name="nombre" id="nombre"><br>
+        <input type="text" name="nombre" id="nombre" required><br>
 
         <label for="nit">NIT:</label><br>
-        <input type="text" name="nit" id="nit"><br>
+        <input type="text" name="nit" id="nit" required><br>
 
         <label for="encargado">Encargado:</label><br>
-        <input type="text" name="encargado" id="encargado"><br>
+        <input type="text" name="encargado" id="encargado" required><br>
 
         <label for="numero_contacto">Número de contacto:</label><br>
-        <input type="text" name="numero_contacto" id="numero_contacto"><br>
+        <input type="number" name="numero_contacto" id="numero_contacto" required><br>
 
         <label for="email">Email:</label><br>
-        <input type="email" name="email" id="email"><br>
+        <input type="email" name="email" id="email" required><br>
 
         <label for="fecha_entrega">Fecha de entrega:</label><br>
-        <input type="date" name="fecha_entrega" id="fecha_entrega"><br><br>
+        <input type="date" name="fecha_entrega" id="fecha_entrega" required><br><br>
         <button  type="submit" class="btn btn-primary">Crear Campaña</button>
     </form>
 

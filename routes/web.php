@@ -42,7 +42,13 @@ Route::middleware('auth')->group(function(){
     Route::get('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::post('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::resource('campanias', 'CampaniaController');
+    // Route::resource('clientecampanias/{cliente_id}', 'CampaniaController@indexCampaniaCliente');
+
     Route::get('cliente', 'ClienteController@index');
+    Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
+    Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa');
+
+    
 
 });
 // google drive
