@@ -46,13 +46,18 @@ Route::middleware('auth')->group(function(){
 
     Route::get('cliente', 'ClienteController@index');
     Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
+    Route::get('campaniaetapas/{campania_id}/generar-brief', 'CampaniaController@vistaSubirBrief');
+    Route::get('crearcarpetadrive/{campania_nombre}', 'GoogleDriveController@subirFolders')->name('subir_folder');
     Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa');
     Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa');
 
 
     // google drive
     Route::get('upload', 'CampaniaController@upload');
-    Route::post('upload', 'GoogleDriveController@uploadFiles');
+    Route::post('campaniaetapas/{campania_id}/generar-brief', 'GoogleDriveController@uploadFiles');
+    Route::get('actualizarestadobrief/{campania_id}/{estado_id}', 'BriefController@actualizarEstado')->name('actualizar_estado_brief');
+
+    
     
 
 });

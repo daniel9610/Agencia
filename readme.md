@@ -2,4 +2,5 @@
 
 # Por hacer
 - mostrar la categoría de la campaña
+- revisar en qué parte agregar la categoría a la campaña
 - bug de agregar etapas en el accordion

@@ -24,7 +24,7 @@ class BriefController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +35,16 @@ class BriefController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $brief = new Brief;
+        $brief->nombre = $request->nombre;
+        $brief->campania_id = $request->campania_id;
+        $brief->estado_id = $request->estado_id;
+        $brief->documento_id = $request->documento_id;
+        $brief->fecha_inicio = $request->fecha_inicio;
+        $brief->fecha_fin = $request->fecha_fin;
+        $brief->save();
+
+        return redirect('home');
     }
 
     /**
@@ -67,9 +76,9 @@ class BriefController extends Controller
      * @param  \App\Brief  $brief
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brief $brief)
+    public function update(Request $request, $brief_id)
     {
-        //
+
     }
 
     /**
@@ -81,5 +90,15 @@ class BriefController extends Controller
     public function destroy(Brief $brief)
     {
         //
+    }
+
+    public function actualizarEstado($campania_id, $estado_id)
+    {
+        $brief = Brief::where('campania_id', $campania_id)->first();
+        // dd($brief);
+        $brief->estado_id = $estado_id;
+        $brief->save();
+        flash('Estado de brief actualizado')->success();
+        return back();
     }
 }

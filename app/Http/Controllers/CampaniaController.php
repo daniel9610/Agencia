@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Campania;
-use Google_Client;
 use Carbon\Carbon;
+use App\Estado;
+use App\Brief;
 
 class CampaniaController extends Controller
 {
@@ -14,17 +15,6 @@ class CampaniaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    // private $client;
-    // private $drive;
-
-    // public function __construct(Google_Client $google)
-    // {
-    //     $this->client = $google->client();
-    //     $this->client->setAccessToken(session('user.token'));
-    //     $this->drive = $google->drive($this->client);
-    // }
-
 
     public function index()
     {
@@ -57,6 +47,7 @@ class CampaniaController extends Controller
      */
     public function store(Request $request)
     {
+        $crear_carpeta_drive = new GoogleDriveController;
         $campania = new Campania;
         $campania->nombre = $request->nombre;
         $campania->nit = $request->nit;
@@ -71,6 +62,9 @@ class CampaniaController extends Controller
         $campania->activo = 1;
         // dd($campania);
         $campania->save();
+        $crear_carpeta_drive->subirFoldersDrive($campania->nombre);
+
+
         return redirect()->route('home');
     }
 
@@ -136,51 +130,23 @@ class CampaniaController extends Controller
         return redirect()->route('home');
     }
 
-    public function upload()
+    public function vistaSubirBrief($campania_id)
     {
-        return view('etapas.brief');
+        $estado_actual = Brief::where('campania_id', $campania_id)->get();
+        $estados_brief = Estado::where('tipo_estado', 1)->get();
+        if(empty($estado_actual[0])){
+            $brief = new Brief;
+            $brief->nombre = "brief campania id: $campania_id";
+            $brief->campania_id = $campania_id;
+            $brief->estado_id = 3;
+            // $brief->documento_id = $request->documento_id;
+            // $brief->fecha_inicio = $request->fecha_inicio;
+            // $brief->fecha_fin = $request->fecha_fin;
+            $brief->save();
+        }
+        $estado_actual = Brief::where('campania_id', $campania_id)->get();
+        $estado_actual = $estado_actual[0]->estado_id;
+
+        return view ('etapas.brief', compact('estados_brief', 'campania_id','estado_actual'));
     }
-
-
-    // public function doUpload(Request $request)
-    // {
-    //     if ($request->hasFile('file')) {
-
-    //         $file = $request->file('file');
-
-    //         $mime_type = $file->getMimeType();
-    //         $title = $file->getClientOriginalName();
-    //         $description = $request->input('description');
-
-    //         $drive_file = new \Google_Service_Drive_DriveFile();
-    //         $drive_file->setName($title);
-    //         $drive_file->setDescription($description);
-    //         $drive_file->setMimeType($mime_type);
-
-    //         try {
-    //             $createdFile = $this->drive->files->create($drive_file, [
-    //                 'data' => $file,
-    //                 'mimeType' => $mime_type,
-    //                 'uploadType' => 'multipart'
-    //             ]);
-
-    //             $file_id = $createdFile->getId();
-
-    //             return redirect('/upload')
-    //                 ->with('message', [
-    //                     'type' => 'success',
-    //                     'text' => "File was uploaded with the following ID: {$file_id}"
-    //             ]);
-
-    //         } catch (Exception $e) {
-
-    //             return redirect('/upload')
-    //                 ->with('message', [
-    //                     'type' => 'error',
-    //                     'text' => 'An error occurred while trying to upload the file'
-    //                 ]);
-
-    //         }
-    //     }
-    // }
 }

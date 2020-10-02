@@ -15,6 +15,7 @@ class GoogleDriveController extends Controller
 {
     private $drive;
     public function __construct(Google_Client $client){
+        // dd($client);
         $this->middleware(function($request, $next) use ($client){
             $client->refreshToken(Auth::user()->refresh_token);
             $this->drive = new Google_Service_Drive($client);
@@ -49,45 +50,45 @@ class GoogleDriveController extends Controller
             $title = $file->getClientOriginalName();
             $description = $request->input('description');
 
-            //Crear Carpeta en drive
-            $fileMetadata = new \Google_Service_Drive_DriveFile(array(
-                'name' => 'Prueba Folder 2',
-                'mimeType' => 'application/vnd.google-apps.folder'));
-                    $file = $this->drive->files->create($fileMetadata, array(
-                'fields' => 'id'));
-                return ['file_name'=>'Prueba Folder 2','file_id'=>$file->id];
+            //Crear archivo en drive
+            $drive_file = new Google_Service_Drive_DriveFile;
+            $drive_file->setName($title);
+            $drive_file->setDescription($description);
+            $drive_file->setMimeType($mime_type);
 
-            // //Crear archivo en drive
-            // $drive_file = new Google_Service_Drive_DriveFile;
-            // $drive_file->setName($title);
-            // $drive_file->setDescription($description);
-            // $drive_file->setMimeType($mime_type);
+            try {
+                $createdFile = $this->drive->files->create($drive_file, [
+                    'data' => file_get_contents($file),
+                    'mimeType' => $mime_type,
+                    'uploadType' => 'multipart'
+                ]);
 
-            // // dd($file);
+                $file_id = $createdFile->getId();
 
-            // try {
-            //     $createdFile = $this->drive->files->create($drive_file, [
-            //         'data' => file_get_contents($file),
-            //         'mimeType' => $mime_type,
-            //         'uploadType' => 'multipart'
-            //     ]);
+                return redirect('/home')
+                    ->with('message', [
+                        'type' => 'success',
+                        'text' => "File was uploaded with the following ID: {$file_id}"
+                ]);
 
-            //     $file_id = $createdFile->getId();
+            } catch (Exception $e) {
+                return redirect('/home')
+                    ->with('message', [
+                        'type' => 'error',
+                        'text' => 'An error occurred while trying to upload the file'
+                    ]);
 
-            //     return redirect('/upload')
-            //         ->with('message', [
-            //             'type' => 'success',
-            //             'text' => "File was uploaded with the following ID: {$file_id}"
-            //     ]);
-
-            // } catch (Exception $e) {
-            //     return redirect('/upload')
-            //         ->with('message', [
-            //             'type' => 'error',
-            //             'text' => 'An error occurred while trying to upload the file'
-            //         ]);
-
-            // }
+            }
         }
+    }
+    
+    public function subirFoldersDrive($campania_nombre){
+        // dd($this->drive);
+        $fileMetadata = new \Google_Service_Drive_DriveFile(array(
+            'name' => $campania_nombre,
+            'mimeType' => 'application/vnd.google-apps.folder'));
+                $file = $this->drive->files->create($fileMetadata, array(
+            'fields' => 'id'));
+            return ['file_name'=>$campania_nombre,'file_id'=>$file->id];
     }
 }
