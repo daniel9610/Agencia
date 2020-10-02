@@ -48,10 +48,13 @@ Route::middleware('auth')->group(function(){
     Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
     Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa');
 
+
+    // google drive
+    Route::get('upload', 'CampaniaController@upload');
+    Route::post('upload', 'GoogleDriveController@uploadFiles');
     
 
 });
-// google drive
 // Route::get('/drive', 'DriveController@getDrive'); // retreive folders
 // Route::get('/drive/upload', 'DriveController@uploadFile'); // File upload form
 // Route::post('/drive/upload', 'DriveController@uploadFile'); // Upload file to Drive from Form

@@ -41,10 +41,53 @@ class GoogleDriveController extends Controller
     }
 
     public function uploadFiles(Request $request){
-        if($request->isMethod('GET')){
-            return view('drive.upload');
-        }else{
-            $this->createFile($request->file('file'));
+        if ($request->hasFile('file')) {
+
+            $file = $request->file('file');
+
+            $mime_type = $file->getMimeType();
+            $title = $file->getClientOriginalName();
+            $description = $request->input('description');
+
+            //Crear Carpeta en drive
+            $fileMetadata = new \Google_Service_Drive_DriveFile(array(
+                'name' => 'Prueba Folder 2',
+                'mimeType' => 'application/vnd.google-apps.folder'));
+                    $file = $this->drive->files->create($fileMetadata, array(
+                'fields' => 'id'));
+                return ['file_name'=>'Prueba Folder 2','file_id'=>$file->id];
+
+            // //Crear archivo en drive
+            // $drive_file = new Google_Service_Drive_DriveFile;
+            // $drive_file->setName($title);
+            // $drive_file->setDescription($description);
+            // $drive_file->setMimeType($mime_type);
+
+            // // dd($file);
+
+            // try {
+            //     $createdFile = $this->drive->files->create($drive_file, [
+            //         'data' => file_get_contents($file),
+            //         'mimeType' => $mime_type,
+            //         'uploadType' => 'multipart'
+            //     ]);
+
+            //     $file_id = $createdFile->getId();
+
+            //     return redirect('/upload')
+            //         ->with('message', [
+            //             'type' => 'success',
+            //             'text' => "File was uploaded with the following ID: {$file_id}"
+            //     ]);
+
+            // } catch (Exception $e) {
+            //     return redirect('/upload')
+            //         ->with('message', [
+            //             'type' => 'error',
+            //             'text' => 'An error occurred while trying to upload the file'
+            //         ]);
+
+            // }
         }
     }
 }

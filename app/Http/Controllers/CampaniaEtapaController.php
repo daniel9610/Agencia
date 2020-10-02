@@ -16,8 +16,8 @@ class CampaniaEtapaController extends Controller
     public function indexCampaniaEtapas($campania_id)
     {
 
-        $campania_etapas = DB::table('campania_etapas')
-            ->join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
+        $campania_etapas = CampaniaEtapa::
+            join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
             ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
             ->select('etapas.nombre', 'etapas.prioridad', 'etapas.url',  'estados.nombre as estado')
             ->where('campania_etapas.campania_id', $campania_id)
