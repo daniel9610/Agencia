@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CampaniaEtapa;
+use App\Etapa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,13 +20,33 @@ class CampaniaEtapaController extends Controller
         $campania_etapas = CampaniaEtapa::
             join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
             ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
-            ->select('etapas.nombre', 'etapas.prioridad', 'etapas.url',  'estados.nombre as estado')
+            ->select('etapas.id','campania_etapas.etapa_id','etapas.nombre', 'etapas.prioridad', 'etapas.url',  'estados.nombre as estado')
             ->where('campania_etapas.campania_id', $campania_id)
             ->get();
-            if(count($campania_etapas)==0){
-                $campania_etapas = "vacio";
+
+        if(count($campania_etapas)==0){
+            $campania_etapas = "vacio";
+        }
+
+        $etapas = Etapa::all();
+        $acum = 0;
+        foreach($etapas as $etapa){
+            foreach($campania_etapas as $campania_etapa){
+                if($etapa->id == $campania_etapa->etapa_id){
+                    $etapa->url = $campania_etapa->url;
+                    $acum++;
+                }
             }
-            return view ('etapas.index', compact('campania_etapas'));
+
+            if($acum == 0){
+                $etapa->active = false;
+            } else {
+                $etapa->active = true;
+            }
+            $acum = 0;
+        }
+
+        return view ('etapas.index', compact(['campania_etapas', 'etapas','campania_id']));
 
     }
 
@@ -42,7 +63,16 @@ class CampaniaEtapaController extends Controller
         $campania_etapa->estado_id = $estado_id;
         $campania_etapa->activo = 1;
         $campania_etapa->save();
-        return view('home');
+        $url = '/campaniaetapas/'.$campania_id;
+        return redirect($url);
+    }
+
+    public function eliminarCampaniaEtapa($campania_id, $etapa_id)
+    {
+        $campania_etapa = CampaniaEtapa::where('campania_id',$campania_id)->where('etapa_id',$etapa_id);
+        $campania_etapa->delete();
+        $url = '/campaniaetapas/'.$campania_id;
+        return redirect($url);
     }
 
     /**

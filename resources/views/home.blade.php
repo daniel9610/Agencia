@@ -87,24 +87,4 @@
     </div>
 </div>
 
-
-
-@push('scripts')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#fase_ejecucion').click(function(){
-                $.ajax({
-                url: 'cliente',
-                type: 'GET',
-                success: function(response)
-                {
-                    $('#fase_ejecucion_div').html(response);
-                }
-                });
-            });
-        });
-    </script>
-@endpush
-
 @endsection
