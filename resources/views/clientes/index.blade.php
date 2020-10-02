@@ -32,7 +32,8 @@
                         <td>{{$campania->NIT}}</td>
                         <td>{{$campania->categoria_id}}</td>
                         <td>{{$campania->fecha_entrega}}</td>
-                        <td>{{$campania->porcentaje}}</td>
+                        <td><progress value="{{$campania->porcentaje}}" max="100">{{$campania->porcentaje}} %</progress></td>
+                        {{-- <td>{{$campania->porcentaje}}</td> --}}
                         <td>
                             <a href="{{ route('campania_etapas',  $campania->id) }}" class="btn btn-dark">Etapas</a>
                             <button class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash-alt"></i> Agregar</button>
