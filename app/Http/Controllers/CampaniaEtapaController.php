@@ -31,13 +31,15 @@ class CampaniaEtapaController extends Controller
         $etapas = Etapa::all();
         $acum = 0;
         foreach($etapas as $etapa){
+            
+        if($campania_etapas != "vacio"){
             foreach($campania_etapas as $campania_etapa){
                 if($etapa->id == $campania_etapa->etapa_id){
                     $etapa->url = $campania_etapa->url;
                     $acum++;
                 }
             }
-
+        }
             if($acum == 0){
                 $etapa->active = false;
             } else {

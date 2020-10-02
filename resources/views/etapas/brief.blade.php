@@ -27,4 +27,5 @@
     <button class="button-primary">Subir</button>
 </form>
 </div>
+<a class="btn btn-primary" href="/campaniaetapas/{{$campania_id}}">Regresar</a>
 @stop
