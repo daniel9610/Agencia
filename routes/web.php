@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function(){
     Route::get('cliente', 'ClienteController@index');
     Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
     Route::get('campaniaetapas/{campania_id}/generar-brief', 'CampaniaController@vistaSubirBrief');
+    Route::get('campaniaetapas/{campania_id}/kickoff', 'CampaniaController@vistaKickoff');
     Route::get('crearcarpetadrive/{campania_nombre}', 'GoogleDriveController@subirFolders')->name('subir_folder');
     Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa');
     Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa');

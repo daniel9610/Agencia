@@ -149,4 +149,8 @@ class CampaniaController extends Controller
 
         return view ('etapas.brief', compact('estados_brief', 'campania_id','estado_actual'));
     }
+
+    public function vistaKickoff($campania_id){
+        return view('etapas.kickoff', compact($campania_id));
+    }
 }
