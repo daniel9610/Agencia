@@ -4,7 +4,9 @@
 @section('content')
 <div class="links">
     @foreach($list as $file)
-        <button class="btn btn-primary"><i class="fad fa-file-alt"></i> {{ $file->getName() }}</button>
+<a target="_blank" href="https://drive.google.com/open?id={{ $file->getId() }}" class="btn btn-primary"><i class="fad fa-file-alt"></i> {{ $file->getName() }}</a>
     @endforeach
-</div>
+</div><br><br>
+<a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Atrás</a>
+
 @stop
