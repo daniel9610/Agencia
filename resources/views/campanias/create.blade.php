@@ -1,5 +1,5 @@
 
-    <form action="{{ route('campanias.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('subir_folder') }}" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_method" value="POST">
     @csrf
         <label for="cliente">cliente:</label><br>
@@ -8,6 +8,9 @@
            // <option value="{{ $campania->id }}" {{ $category->id == $article->category_id ? 'selected' : '' }}> {{ $category->name }} </option>
          //   @endforeach
         </select> --}}
+        {{-- campo para identificar de dónde llega la petición al controlador de google --}}
+        <input type="hidden" name="es_campania" id="es_campania" value="es_campania"><br>
+
         <select name="cliente_id" id="cliente_id" required>
             <option value="1">Cliente 1</option>
             <option value="2">Cliente 2</option>
@@ -33,5 +36,5 @@
         <button  type="submit" class="btn btn-primary">Crear Campaña</button>
     </form>
 
- 
+
     

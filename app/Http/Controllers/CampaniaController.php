@@ -7,6 +7,8 @@ use App\Campania;
 use Carbon\Carbon;
 use App\Estado;
 use App\Brief;
+use App\Documento;
+use App\Http\Controllers\GoogleDriveController;
 
 class CampaniaController extends Controller
 {
@@ -17,7 +19,8 @@ class CampaniaController extends Controller
      */
 
     public function index()
-    {
+    {   
+        
         $campanias = Campania::all();
         return view ('home', compact('campanias'));
     }
@@ -47,7 +50,7 @@ class CampaniaController extends Controller
      */
     public function store(Request $request)
     {
-        $crear_carpeta_drive = new GoogleDriveController;
+        $carpeta_drive = new GoogleDriveController;
         $campania = new Campania;
         $campania->nombre = $request->nombre;
         $campania->nit = $request->nit;
@@ -61,11 +64,13 @@ class CampaniaController extends Controller
         $campania->fecha_entrega = $request->fecha_entrega;
         $campania->activo = 1;
         // dd($campania);
-        $campania->save();
-        $crear_carpeta_drive->subirFoldersDrive($campania->nombre);
+        // $campania->save();
+        $carpeta_drive->subirFoldersDrive($request);
+
+        // $crear_carpeta_drive->subirFoldersDrive($campania->nombre);
 
 
-        return redirect()->route('home');
+        return redirect()->route('subir_folder', compact('campaniaNombre'));
     }
 
     /**
@@ -74,9 +79,14 @@ class CampaniaController extends Controller
      * @param  \App\Campania  $Campania
      * @return \Illuminate\Http\Response
      */
-    public function show(Campania $Campania)
+    public function show($campania_id)
     {
-        //
+        $drive_folder = Documento::where('campania_id', $campania_id)->get();
+        $drive_id = $drive_folder[0]->drive_id;
+        // dd($drive_id);
+        $folders = new GoogleDriveController;
+
+        $folders->getFolders($drive_id);
     }
 
     /**
@@ -102,7 +112,6 @@ class CampaniaController extends Controller
     public function update(Request $request, $id)
     {
         $campania = Campania::findOrFail($id);
-    
         $campania->nombre = $request->nombre;
         $campania->nit = $request->nit;
         $campania->cliente_id = $request->cliente_id;
