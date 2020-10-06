@@ -37,13 +37,13 @@
                         <td><progress value="{{$campania->porcentaje}}" max="100">{{$campania->porcentaje}} %</progress></td>
                         {{-- <td>{{$campania->porcentaje}}</td> --}}
                         <td>
-                            <a href="{{ route('campania_etapas',  $campania->id) }}" class="btn btn-dark">Etapas</a>
-                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash-alt"></i> Agregar</button>
+                            <a href="{{ route('campania_etapas',  $campania->id) }}" class="btn btn-dark">Asignar</a>
+                            {{-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash-alt"></i> Agregar</button> --}}
                         </td>
                     </tr>
                     @endif
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header header-title">
@@ -55,18 +55,18 @@
                             <div class="modal-body">
                                 @foreach ($etapas as $etapa)
 
-                                    {{-- <a href="{{ route('agregarcampaniaetapa', $campania->id, $etapa->id, 1) }}" class="btn btn-dark">{{$etapa->nombre}}</a> --}}
+                                    <a href="{{ route('agregarcampaniaetapa', $campania->id, $etapa->id, 1) }}" class="btn btn-dark">{{$etapa->nombre}}</a>
 
                                 @endforeach
                     
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
-                                {{-- <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('destroy-form').submit();"><i class="fas fa-check"></i> Eliminar</button> --}}
+                                <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('destroy-form').submit();"><i class="fas fa-check"></i> Eliminar</button>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> --}}
                     @endforeach
                 </tbody>
               </table>

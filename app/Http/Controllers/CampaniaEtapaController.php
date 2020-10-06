@@ -32,20 +32,22 @@ class CampaniaEtapaController extends Controller
         $acum = 0;
         foreach($etapas as $etapa){
             
-        if($campania_etapas != "vacio"){
-            foreach($campania_etapas as $campania_etapa){
-                if($etapa->id == $campania_etapa->etapa_id){
-                    $etapa->url = $campania_etapa->url;
-                    $acum++;
+            if($campania_etapas != "vacio"){
+                foreach($campania_etapas as $campania_etapa){
+                    if($etapa->id == $campania_etapa->etapa_id){
+                        $etapa->url = $campania_etapa->url;
+                        $acum++;
+                    }
                 }
+
+                if($acum == 0){
+                    $etapa->active = false;
+                } else {
+                    $etapa->active = true;
+                }
+    
+                $acum = 0;
             }
-        }
-            if($acum == 0){
-                $etapa->active = false;
-            } else {
-                $etapa->active = true;
-            }
-            $acum = 0;
         }
 
         return view ('etapas.index', compact(['campania_etapas', 'etapas','campania_id']));
