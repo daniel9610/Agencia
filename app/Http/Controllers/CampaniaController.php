@@ -160,6 +160,6 @@ class CampaniaController extends Controller
     }
 
     public function vistaKickoff($campania_id){
-        return view('etapas.kickoff', compact($campania_id));
+        return view('etapas.kickoff', compact('campania_id'));
     }
 }

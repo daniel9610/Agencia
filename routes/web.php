@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function(){
     Route::post('crearcarpetadrive', 'GoogleDriveController@subirFoldersDrive')->name('subir_folder');
     
     // google calendar
-    Route::get('uploadcalendar/{campania_id}', 'GoogleDriveController@crearEventosCalendar');
+    Route::post('uploadcalendar', 'GoogleDriveController@crearEventosCalendar')->name('crear_reunion');
 
     
     
