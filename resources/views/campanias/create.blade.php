@@ -11,7 +11,7 @@
         {{-- campo para identificar de dónde llega la petición al controlador de google --}}
         <input type="hidden" name="es_campania" id="es_campania" value="es_campania"><br>
 
-        <select name="cliente_id" id="cliente_id" required>
+        <select name="cliente_id" id="cliente_id" required class="form-control">
             <option value="1">Cliente 1</option>
             <option value="2">Cliente 2</option>
         </select><br>
