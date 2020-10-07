@@ -39,8 +39,8 @@ class GoogleDriveController extends Controller
 
     public function ListFolders($id){
         try{
-            $query = "mimeType='application/vnd.google-apps.document' and '".$id."' in parents and trashed=false";
-
+            $query = " mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' and '".$id."' in parents and trashed=false";
+            // $query = " mimeType='application/vnd.google-apps.document'and '".$id."' in parents and trashed=false";
             $optParams = [
                 'fields'=>'files(id,name)',
                 'q'=>$query
@@ -60,7 +60,12 @@ class GoogleDriveController extends Controller
       
     }
 
-    public function uploadFiles(Request $request){
+    public function uploadFiles(Request $request, $campania_id){
+        $carpeta = Documento::where('campania_id', $campania_id)->get();
+        // dd(!empty($carpeta[0]));
+
+        if(!empty($carpeta[0])){
+        $carpeta_padre = $carpeta[0]->drive_id;
         if ($request->hasFile('file')) {
 
             $file = $request->file('file');
@@ -74,6 +79,7 @@ class GoogleDriveController extends Controller
             $drive_file->setName($title);
             $drive_file->setDescription($description);
             $drive_file->setMimeType($mime_type);
+            $drive_file->setParents(array($carpeta_padre));
 
             try {
                 $createdFile = $this->drive->files->create($drive_file, [
@@ -84,23 +90,20 @@ class GoogleDriveController extends Controller
 
                 $file_id = $createdFile->getId();
 
-                return redirect('/home')
-                    ->with('message', [
-                        'type' => 'success',
-                        'text' => "File was uploaded with the following ID: {$file_id}"
-                ]);
+                return redirect('campania/'.$campania_id);
+                    
+              
 
             } catch (Exception $e) {
-                return redirect('/home')
-                    ->with('message', [
-                        'type' => 'error',
-                        'text' => 'An error occurred while trying to upload the file'
-                    ]);
+                return json_encode("error en la carga de archivo".$e);
 
             }
         }
+        }
+
+
     }
-    
+
     public function subirFoldersDrive(Request $request){
         // dd($this->drive);
         // dd($request->es_campania);

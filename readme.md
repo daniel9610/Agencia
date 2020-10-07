@@ -3,4 +3,7 @@
 # Por hacer
 - mostrar la categoría de la campaña
 - revisar en qué parte agregar la categoría a la campaña
-- bug de agregar etapas en el accordion
+- mostrar un mensaje en caso de que la campaña no tenga archivos
+- tiempo de vencimiento de sesión drive
+- calendar
+- validaciones en crear carpeta drive

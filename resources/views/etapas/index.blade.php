@@ -37,6 +37,8 @@
                 @foreach($etapas as $etapa)
                     @if($etapa->active == true)
                         <li class="list-group-item activa_item arrow" id="activa{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}} <a href="{{URL::current()}}/{{$etapa->url}}" class="btn btn-dark" style="display: none" id="button{{$etapa->id}}">Gestionar</a></li>
+                    @else
+                        <li class="list-group-item activa_item arrow" id="activa{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
                     @endif
                 @endforeach
             </ul>

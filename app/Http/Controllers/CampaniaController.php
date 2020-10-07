@@ -84,9 +84,7 @@ class CampaniaController extends Controller
         $drive_folder = Documento::where('campania_id', $campania_id)->get();
         $drive_id = $drive_folder[0]->drive_id;
         // dd($drive_id);
-        $folders = new GoogleDriveController;
 
-        $folders->getFolders($drive_id);
     }
 
     /**

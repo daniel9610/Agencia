@@ -28,7 +28,9 @@
                     @foreach($campanias as $campania)
                         @if($clave == $campania->cliente_id)
                     <tr >
-                        <td>{{$campania->nombre}}</td>
+                        <td>
+                            <a href="{{ route('campania',  $campania->id) }}">{{$campania->nombre}}</a>
+                        </td>
                         <td>{{$campania->NIT}}</td>
                         <td>{{$campania->categoria_id}}</td>
                         <td>{{$campania->fecha_entrega}}</td>

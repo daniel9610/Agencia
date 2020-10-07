@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function(){
     // Route::resource('clientecampanias/{cliente_id}', 'CampaniaController@indexCampaniaCliente');
 
     Route::get('cliente', 'ClienteController@index');
-    Route::get('campania/{campania_id}', 'GoogleDriveController@listarCampaniaFolder');
+    Route::get('campania/{campania_id}', 'GoogleDriveController@listarCampaniaFolder')->name('campania');
     Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
     Route::get('campaniaetapas/{campania_id}/generar-brief', 'CampaniaController@vistaSubirBrief');
     Route::get('campaniaetapas/{campania_id}/kickoff', 'CampaniaController@vistaKickoff');
