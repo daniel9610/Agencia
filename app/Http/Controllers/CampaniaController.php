@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Campania;
+use App\Categoria;
 use Carbon\Carbon;
 use App\Estado;
 use App\Brief;

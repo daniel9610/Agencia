@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "analog-fiber-246420",
+  "private_key_id": "308af0534152a97ff43cff96da86eb15b6316ace",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDX7FXrKq4R1oBT\n1F39e7yq+k4t01XbI4bSO0oHZrRXUsVzBH2nggthtM6nSlj3LHqvVmU3C4IMZG7Q\nO6jq8yErMAh3APfjlYPynIrhvlW1gnIrlxNlLnZxWNWxxLLAuow4ulw5ySV3911S\nTEgZsaCaXEEfEgY248circNApauU953F2+na2TJq0/iUXToPUlxRIEEKlgQt5tOO\n0zXOdZK7eaoDZ2iPGnx5NAxsH0hzIt9V/Cycp97LBo+TcK1O1U3IKLGeNv9nRR+w\nI0hPeHwaQ/13Bs+mmwsCVHrmOtBm/7tK3bCCnJcjR9q1WdmKFRkhuNkMeVqnn/b0\ncf+kjNubAgMBAAECggEAKZDNWV/18mkgewK+tTVEtIVK13d/Z5gHNCFFtvcGcGj2\nqZWLuttF5aEwxvOA/NQLKgWvplEIz+nliyBw/AmhsPamKoJ9NcpqhCGuepZxWWer\nIskKasfu9RLs0DPVVVST+bemWVlnZRixVk5o8slG6XAo+Ro3KAnhI8PfempqBVrq\n7EVtoOlCbTqzWHfptFJPFeNEAL1gn/UrI8GT++zFv3ljLFd6V4gtTJDLWWlcoahG\nXYyzgKdJngHWNRD5Wl2wrQAVDg1ffwih+KZCeJN9J8ixL6gmCJnyaoAPXrHd83Lf\nmXO1jct73zSvXRCtKO86HgRFafxxlqL5fvuDjBjVQQKBgQDygG5bzIDScAI6jyi9\nM2JPCW4jMf6g3EHs4g682JLKial6zgZgIKlJa05rOJ1FWN6XjCVPXWsdLasDvyNR\nPM1LF7Q38BUs0c4tWxDOGt5SiNnq9s4exRyc0SjScJRLHbnbtVe5YHdTspeKPzDP\nIfsNSAPqvAZB21ny6XbzMbbTFwKBgQDj8StyVKh//XmVX2V35zg4nn8bAU8fMWJx\nnRZ0yl1447+Smkv0zyRRUH4QB76aLILHQ7CIPOh1iP7uOcb6w85SBAqXlmHU7e8N\nlA2LRiz1Ou8qhObr9Hy+8aXbdSNsV2EVZBtVGA9QiN142Nu5iCee0XXgOgKG9b0A\n6zlVWB/eHQKBgGDVvDvYC9D8fUdZB1GWBTm+cEaJnj4p9gFbu7rZWLScCBtLzevw\n3ui8etICB3s7o5cslXF9wloidFnIp5e3CdtkmciEjFAbb5NY+/rxa7nVf/99ko1i\n9KwCMaTm47CjLCZ54Y/a34uCk1TXKuxri06gZUAE2RLPPrnrVF6EiZb9AoGBANzH\n3eMxqLu/0iIicm++36/HpSmNDQwTk1ykYPnigML1JbtkBCos8Opp4pC4T5+ZeVp0\nb+qlxCsD9JjeEaMWQSMjkvbczAmoJKGsQ6og4K7u1HUEoX7uIl34RUPZo+PuhrRn\ncCnt0feZeZrxwXFlNasZCumShpweLWFUdQX7A3LpAoGAcvZcFAFcYtEc5KbgJM1Q\nl4A2fHUPvH1v3/W4Xgw6jTdgJ4I/T0nQoYgi1uR46yzZCho0YUwh2Z6EFlT/Jwqd\nPV5aEParI0K4iGrXni5gyw7/Y+GCRuhN/VjFksI5mTez/nJVOb18wBniDEYkDEE4\nRClI5KIu8HiRh0IoBq+WGvE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "analog-fiber-246420@appspot.gserviceaccount.com",
+  "client_id": "116018468319796082812",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/analog-fiber-246420%40appspot.gserviceaccount.com"
+}

@@ -50,7 +50,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">
+                    <h5 class="card-title clients-header">
                     
                         <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a> -->
                     <a id="fase_ejecucion" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase de ejecución</a>

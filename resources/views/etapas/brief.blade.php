@@ -7,7 +7,7 @@
             cursor: not-allowed;
             opacity: 0.5;
             text-decoration: none;
-            pointer-events: none;
+            /* pointer-events: none; */
         }
     </style>
 @endpush
@@ -89,9 +89,10 @@
             </div>
         </div>
         <div class="col-md-12">
-            <a class="btn btn-primary mr-auto btn-lg btn-block" href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>
         </div>
     </div>
+    <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>
+
 </div>
 <input class="campania" type="hidden" name="campania" id="campania" value="{{$campania_id}}">
 @push('scripts')

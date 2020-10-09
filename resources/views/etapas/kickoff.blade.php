@@ -24,6 +24,9 @@
                 <label for="nombre_reunion">Nombre Reunion:</label><br>
                 <input type="text" name="nombre_reunion" id="nombre_reunion" required class="form-control"><br>
 
+                <label for="descripcion">Descripción:</label><br>
+                <input type="text" name="descripcion" id="descripcion" required class="form-control"><br>
+
                 <label for="fecha_reunion">Fecha Reunion:</label><br>
                 <input type="date" name="fecha_reunion" id="fecha_reunion" required class="form-control"><br><br>
 
@@ -34,5 +37,6 @@
                 <button  type="submit" class="btn btn-primary btn-lg btn-block">Crear Reunion</button>
         </div>
     </div>
+    <a class="btn btn-primary mr-auto btn-lg btn-block" href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>
 </div>
 @endsection

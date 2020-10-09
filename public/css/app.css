@@ -10954,6 +10954,15 @@ body {
   border: 1px solid #ffffff;
 }
 
+.buttons-card-header {
+  width: 200px;
+}
+
+.clients-header {
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
 .splash {
   width: 100vw;
   height: 100vh;

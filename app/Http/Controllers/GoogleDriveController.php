@@ -11,6 +11,8 @@ use App\Campania;
 use App\Documento;
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Calendar_Event;
+use Google_Service_Calendar_EventDateTime;
 use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 use Illuminate\Support\Facades\Redirect;
@@ -190,17 +192,17 @@ class GoogleDriveController extends Controller
         // <iframe src="https://calendar.google.com/calendar/embed?src=c_cjj12kru97qaa1pfh5ibvcblg8%40group.calendar.google.com&ctz=America%2FBogota" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
         $m=''; //for error messages
         $id_event=''; //id event created 
-        $link_event; 
-                        
+        $link_event;
+    
         //configurar variable de entorno / set enviroment variable
-        // putenv('GOOGLE_APPLICATION_CREDENTIALS=credenciales.json');
+        env('GOOGLE_APPLICATION_CREDENTIALS');
     
         $client = new Google_Client();
         $client->useApplicationDefaultCredentials();
         $client->setScopes(['https://www.googleapis.com/auth/calendar']);
     
         //define id calendario
-        $id_calendar='c_cjj12kru97qaa1pfh5ibvcblg8@group.calendar.google.com';//
+        $id_calendar=env('CALENDARIO_ID');//
         
         $dateTimeReunion = $request->fecha_reunion . $request->hora_reunion;
         $datetime_start = new \DateTime($dateTimeReunion);
@@ -211,14 +213,13 @@ class GoogleDriveController extends Controller
         
         //datetime must be format RFC3339
         $time_start =$datetime_start->format(\DateTime::RFC3339);
-        $time_end=$time_end->format(\DateTime::RFC3339);
-    
+        $time_end=$time_end->format(\DateTime::RFC3339);    
         
-        $nombre=(isset($_POST['username']))?$_POST['username']:' xyz ';
+        $nombre=$request->nombre_reunion;
         try{
             
             //instanciamos el servicio
-                $calendarService = new Google_Service_Calendar($client);
+            $calendarService = new Google_Service_Calendar($client);
             
             
             
@@ -242,8 +243,8 @@ class GoogleDriveController extends Controller
             if($cont_events == 0){
     
                 $event = new Google_Service_Calendar_Event();
-                $event->setSummary('Cita con el paciente '.$nombre);
-                $event->setDescription('Revisión , Tratamiento');
+                $event->setSummary($nombre);
+                $event->setDescription($request->descripcion);
     
                 //fecha inicio
                 $start = new Google_Service_Calendar_EventDateTime();
@@ -254,16 +255,16 @@ class GoogleDriveController extends Controller
                 $end = new Google_Service_Calendar_EventDateTime();
                 $end->setDateTime($time_end);
                 $event->setEnd($end);
-    
-                
+                    
                 $createdEvent = $calendarService->events->insert($id_calendar, $event);
+
                 $id_event= $createdEvent->getId();
                 $link_event= $createdEvent->gethtmlLink();
 
                 return view('etapas.kickoff', compact('campania_id'));
                 
             }else{
-                $m = "Hay ".$cont_events." eventos en ese rango de fechas";
+                $m = "Hay ".$cont_events." evento(s) en ese rango de fechas";
                 return Redirect::to('campaniaetapas/'.$campania_id.'/kickoff')
                 ->with(compact('campania_id'))
                 ->with('error',$m);
