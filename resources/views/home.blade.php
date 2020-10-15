@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+    @can('campanias.create')
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -47,6 +48,8 @@
                 </div>
             </div>
         </div>
+
+        @endcan
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">

@@ -7,8 +7,10 @@ use App\Campania;
 use App\Categoria;
 use Carbon\Carbon;
 use App\Estado;
+use App\Actividad;
 use App\Brief;
 use App\Documento;
+use App\User;
 use App\Http\Controllers\GoogleDriveController;
 
 class CampaniaController extends Controller
@@ -161,4 +163,66 @@ class CampaniaController extends Controller
     public function vistaKickoff($campania_id){
         return view('etapas.kickoff', compact('campania_id'));
     }
+
+    // Estas funciones se pueden convertir en una sola, definir si es necesario que vayan separadas
+    public function vistaGenerarInvestigacionBrief($campania_id, $etapa_id){
+        $estados_actividades = Estado::where('tipo_estado', 3)->get();
+        $actividades = Actividad::
+        join('users', 'actividades.usuario_asignado', '=', 'users.id')
+        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+        ->get();
+
+
+        
+        $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
+        $users = User::all();
+        // $campania_etapa = Campania
+        return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+    } 
+
+    public function vistaGenerarAlinearEstrategia($campania_id, $etapa_id){
+        $estados_actividades = Estado::where('tipo_estado', 3)->get();
+        $actividades = Actividad::
+        join('users', 'actividades.usuario_asignado', '=', 'users.id')
+        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+        ->get();
+        $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
+        $users = User::all();
+        // $campania_etapa = Campania
+        return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+    } 
+
+    public function vistaGenerarCreatividad($campania_id, $etapa_id){
+        $estados_actividades = Estado::where('tipo_estado', 3)->get();
+        $actividades = Actividad:: join('users', 'actividades.usuario_asignado', '=', 'users.id')
+        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+        ->get();
+        $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
+        $users = User::all();
+        // $campania_etapa = Campania
+        return view('etapas.generarCreatividad', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+    } 
+
+    public function vistaPlanearEjecucion($campania_id, $etapa_id){
+        $estados_actividades = Estado::where('tipo_estado', 3)->get();
+        $actividades = Actividad::
+        join('users', 'actividades.usuario_asignado', '=', 'users.id')
+        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+        ->get();
+        $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
+        $users = User::all();
+        // $campania_etapa = Campania
+        return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+    } 
+
+
+    
 }

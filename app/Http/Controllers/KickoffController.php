@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Kickoff;
 use Illuminate\Http\Request;
 use Google_Service_Calendar;
+use Google_Service_Calendar_EventDateTime;
+use Google_Service_Calendar_Event;
 use Google_Client;
 
 class KickoffController extends Controller
