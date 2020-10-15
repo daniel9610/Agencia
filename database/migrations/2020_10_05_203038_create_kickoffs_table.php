@@ -15,6 +15,10 @@ class CreateKickoffsTable extends Migration
     {
         Schema::create('kickoffs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre')->nullable();
+            $table->string('descripcion')->nullable();
+            $table->integer('usuario_id')->nullable();
+            $table->string('campania_id')->nullable();
             $table->timestamps();
         });
     }
