@@ -72,5 +72,5 @@ Route::middleware('auth')->group(function(){
     // google calendar
     Route::post('uploadcalendar', 'GoogleDriveController@crearEventosCalendar')->name('crear_reunion');
 
-    
+    Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero');
 });
