@@ -7,11 +7,13 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import TableroComponent from './components/TableroComponent.vue'
+import TableroComponent from './components/TableroComponent.vue';
 
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import Vue from 'vue';
+import VueSlideoutPanel from 'vue2-slideout-panel';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -24,13 +26,15 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('tablero-component', require('./components/TableroComponent.vue').default);
+Vue.component('tableroform-component', require('./components/TableroFormComponent.vue').default);
 
 Vue.config.productionTip = false
 
 // Install BootstrapVue
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
+Vue.use(IconsPlugin);
+Vue.use(VueSlideoutPanel);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

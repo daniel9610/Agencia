@@ -56,7 +56,8 @@ class LoginController extends Controller
         $user = User::updateOrCreate(
             ['email'=>$userLogin->email],
             ['refresh_token'=> $userLogin->token,
-            'name' => $userLogin->name
+            'name' => $userLogin->name,
+            'photo' => $userLogin->avatar
         ]);
         Auth::login($user, true);
         return redirect()->to('/splash');

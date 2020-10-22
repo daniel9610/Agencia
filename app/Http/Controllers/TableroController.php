@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Tablero;
 use App\Actividad;
 use App\CampaniaEtapa;
+use App\Estado;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,11 +21,17 @@ class TableroController extends Controller
     {
         if(Auth::user()->getRoleNames()[0] == 'Director'){
             $actividades = Actividad::
-            where('campania_id',$campania_id)
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','users.id as user_id','users.name as usuario_encargado', 'users.photo', 'actividades.nombre', 'actividades.descripcion', 'actividades.fecha_entrega', 'actividades.estado_id', 'actividades.etapa_id', 'actividades.campania_id', 'estados.nombre as estado', 'actividades.prioridad as prioridad')
+            ->where('campania_id', $campania_id)
             ->get();
+            
         } else {
             $actividades = Actividad::
-            where('campania_id',$campania_id)
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->select('actividades.id','users.id as user_id','users.name as usuario_asignado', 'actividades.nombre', 'actividades.descripcion', 'actividades.fecha_entrega', 'actividades.estado_id', 'actividades.prioridad as prioridad')
+            ->where('campania_id',$campania_id)
             ->where('usuario_asignado',Auth::user()->id)
             ->get();
         }
@@ -35,7 +43,10 @@ class TableroController extends Controller
             ->where('campania_etapas.campania_id', $campania_id)
             ->get();
 
-        return view('tableros.create', compact('actividades', 'campania_etapas'));
+        $estados = Estado::where('activo',1)->get();
+
+        $users = User::select('id','name')->get();
+        return view('tableros.create', compact('actividades', 'campania_etapas', 'campania_id', 'estados','users'));
     }
 
     /**

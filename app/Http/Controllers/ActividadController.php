@@ -47,6 +47,25 @@ class ActividadController extends Controller
         return back()->with('status',$m);
     }
 
+    public function storeActividad(Request $request)
+    {
+        // dd($request->campania_id);
+        $actividad = new Actividad;
+        $actividad->nombre = $request->nombre;
+        $actividad->descripcion = $request->descripcion;
+        $actividad->prioridad = $request->prioridad;
+        $actividad->campania_id = $request->campania_id;
+        $actividad->etapa_id = $request->etapa_id;
+        $actividad->autor_id = Auth::user()->id;
+        $actividad->usuario_asignado = $request->usuario_asignado;
+        // $actividad->gant_id = $request->gant_id;
+        $actividad->estado_id = $request->estado_id;
+        $actividad->fecha_entrega = $request->fecha_entrega;
+        $actividad->fecha_asignacion = Carbon::now();
+        $actividad->save();
+        return response()->json('Actividad Guardada',200);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -90,6 +109,19 @@ class ActividadController extends Controller
         return back()->with('status',$m);
     }
 
+    public function updateActividad(Request $request, $id)
+    {
+        $response = Actividad::where('id',$id)
+        ->update(array(
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'prioridad' => $request->prioridad,
+            'usuario_asignado' => $request->usuario_asignado,
+            'estado_id' => $request->estado_id,
+            'fecha_entrega' => $request->fecha_entrega,
+        ));
+        return response()->json('Actividad Actualizada',200);
+    }
     /**
      * Remove the specified resource from storage.
      *

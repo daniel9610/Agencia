@@ -73,4 +73,6 @@ Route::middleware('auth')->group(function(){
     Route::post('uploadcalendar', 'GoogleDriveController@crearEventosCalendar')->name('crear_reunion');
 
     Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero');
+    Route::post('guardarActividad', 'ActividadController@storeActividad');
+    Route::post('actualizarActividad/{id}', 'ActividadController@updateActividad');
 });
