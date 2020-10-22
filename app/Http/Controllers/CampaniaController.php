@@ -12,6 +12,8 @@ use App\Brief;
 use App\Documento;
 use App\User;
 use App\Http\Controllers\GoogleDriveController;
+use Illuminate\Support\Facades\Auth;
+
 
 class CampaniaController extends Controller
 {
@@ -167,12 +169,23 @@ class CampaniaController extends Controller
     // Estas funciones se pueden convertir en una sola, definir si es necesario que vayan separadas
     public function vistaGenerarInvestigacionBrief($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
-        $actividades = Actividad::
-        join('users', 'actividades.usuario_asignado', '=', 'users.id')
-        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
-        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
-        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
-        ->get();
+        if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->get();
+        }else{
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->where('usuario_asignado', Auth::user()->id)
+            ->get();
+        }
+       
 
 
         
@@ -184,12 +197,22 @@ class CampaniaController extends Controller
 
     public function vistaGenerarAlinearEstrategia($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
-        $actividades = Actividad::
-        join('users', 'actividades.usuario_asignado', '=', 'users.id')
-        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
-        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
-        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
-        ->get();
+        if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->get();
+        }else{
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->where('usuario_asignado', Auth::user()->id)
+            ->get();
+        }
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
@@ -198,11 +221,22 @@ class CampaniaController extends Controller
 
     public function vistaGenerarCreatividad($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
-        $actividades = Actividad:: join('users', 'actividades.usuario_asignado', '=', 'users.id')
-        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
-        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
-        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
-        ->get();
+        if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->get();
+        }else{
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->where('usuario_asignado', Auth::user()->id)
+            ->get();
+        }
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
@@ -211,12 +245,22 @@ class CampaniaController extends Controller
 
     public function vistaPlanearEjecucion($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
-        $actividades = Actividad::
-        join('users', 'actividades.usuario_asignado', '=', 'users.id')
-        ->join('estados', 'actividades.estado_id', '=', 'estados.id')
-        ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
-        ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
-        ->get();
+        if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->get();
+        }else{
+            $actividades = Actividad::
+            join('users', 'actividades.usuario_asignado', '=', 'users.id')
+            ->join('estados', 'actividades.estado_id', '=', 'estados.id')
+            ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
+            ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
+            ->where('usuario_asignado', Auth::user()->id)
+            ->get();
+        }
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania

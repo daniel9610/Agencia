@@ -38405,10 +38405,9 @@ var render = function() {
                       }
                     },
                     [
-                      _c("h3", { style: { fontSize: 15 + "px" } }, [
-                        _vm._v("Generar y alinear estrategia")
-                      ]),
-                      _vm._v(" "),
+                      _vm._v(
+                        "\n          Generar y alinear estrategia\n          "
+                      ),
                       _c(
                         "svg",
                         {
@@ -38644,10 +38643,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("h3", { style: { fontSize: 15 + "px" } }, [
-                        _vm._v("Generar Creatividad")
-                      ]),
-                      _vm._v(" "),
+                      _vm._v("\n           Generar Creatividad\n            "),
                       _c(
                         "svg",
                         {
@@ -38883,10 +38879,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("h3", { style: { fontSize: 15 + "px" } }, [
-                        _vm._v("Planear Ejecución")
-                      ]),
-                      _vm._v(" "),
+                      _vm._v("\n         Planear Ejecución\n          "),
                       _c(
                         "svg",
                         {
