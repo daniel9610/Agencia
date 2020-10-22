@@ -4,11 +4,10 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col form-inline">
-          <b-button 
+          <button 
           @click="showSlideCreate"
-          variant="primary"
-          class="ml-3"
-          >Agregar Actividad</b-button>
+          class="ml-3 btn btn-primary"
+          >Agregar Actividad</button>
         </div>
       </div>
       <div class="row mt-5">
