@@ -16,6 +16,7 @@ class CreateActividadesTable extends Migration
         Schema::create('actividades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre')->nullable();
+            $table->string('descripcion')->nullable();
             $table->string('prioridad')->nullable();
             $table->integer('campania_id')->nullable();
             $table->integer('etapa_id')->nullable();
