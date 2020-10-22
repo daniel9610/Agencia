@@ -3,6 +3,7 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-12">
+                    <div class="container">
                     <form method="POST" enctype="multipart/form-data">
                         <label for="nombre">Nombre:</label><br>
                         <input v-model="nombre" type="text" name="nombre" id="nombre" required class="form-control"><br>
@@ -41,6 +42,7 @@
                         <button  type="button" class="btn btn-primary btn-lg btn-block" @click="saveActividad" v-if="mode =='create'">Crear Actividad</button>
                         <button  type="button" class="btn btn-primary btn-lg btn-block" @click="saveActividad" v-else>Editar Actividad</button>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>

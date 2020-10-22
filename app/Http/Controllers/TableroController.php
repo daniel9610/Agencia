@@ -43,7 +43,7 @@ class TableroController extends Controller
             ->where('campania_etapas.campania_id', $campania_id)
             ->get();
 
-        $estados = Estado::where('activo',1)->get();
+        $estados = Estado::where('activo',1)->where('tipo_estado', 3)->get();
 
         $users = User::select('id','name')->get();
         return view('tableros.create', compact('actividades', 'campania_etapas', 'campania_id', 'estados','users'));

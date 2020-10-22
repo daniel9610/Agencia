@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function(){
     // google calendar
     Route::post('uploadcalendar', 'GoogleDriveController@crearEventosCalendar')->name('crear_reunion');
 
-    Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero');
-    Route::post('guardarActividad', 'ActividadController@storeActividad');
-    Route::post('actualizarActividad/{id}', 'ActividadController@updateActividad');
+    Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero')->middleware('permission:campanias.create');
+    Route::post('guardarActividad', 'ActividadController@storeActividad')->middleware('permission:campanias.create');
+    Route::post('actualizarActividad/{id}', 'ActividadController@updateActividad')->middleware('permission:campanias.create');
 });
