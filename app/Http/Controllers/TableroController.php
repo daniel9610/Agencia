@@ -19,12 +19,13 @@ class TableroController extends Controller
      */
     public function index($campania_id)
     {
-        if(Auth::user()->getRoleNames()[0] == 'Director'){
+        if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'Director'){
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
             ->join('estados', 'actividades.estado_id', '=', 'estados.id')
             ->select('actividades.id','users.id as user_id','users.name as usuario_encargado', 'users.photo', 'actividades.nombre', 'actividades.descripcion', 'actividades.fecha_entrega', 'actividades.estado_id', 'actividades.etapa_id', 'actividades.campania_id', 'estados.nombre as estado', 'actividades.prioridad as prioridad')
             ->where('campania_id', $campania_id)
+            ->orderBy('estados.id', 'asc')
             ->get();
             
         } else {

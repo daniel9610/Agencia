@@ -28,6 +28,11 @@
 </div><br><br> --}}
 
 <div class="container">
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <h1>Etapas</h1>
     <div class="row justify-content-center">
         @if($campania_etapas != "vacio")
@@ -41,10 +46,13 @@
                 @endforeach
             </ul>
         </div>
+    @can('campanias.create')
+
         <div class="col-md-2">
             <button class="btn btn-primary btn-lg btn-block" id="agregar" disabled>Agregar</button>
             <button class="btn btn-primary btn-lg btn-block" id="quitar" disabled>Quitar</button>
         </div>
+
         <div class="col-md-5">
             <h5>Disponibles</h5>
             <ul class="list-group">
@@ -56,6 +64,8 @@
                 {{-- <li class="list-group-item active">Vestibulum at eros</li> --}}
             </ul>
         </div>
+    @endcan
+
         @else
         <div class="col-md-5">
         </div>
@@ -74,8 +84,9 @@
             </ul>
         </div>
         @endif
+    
         <div class="col-md-12">
-            <a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Atrás</a>
+            <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Atrás</a>
         </div>
         <input type="hidden" name="campania_id" id="campania_id" value="{{$campania_id}}">
     </div>
