@@ -75,4 +75,6 @@ Route::middleware('auth')->group(function(){
     Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero')->middleware('permission:campanias.create');
     Route::post('guardarActividad', 'ActividadController@storeActividad')->middleware('permission:campanias.create');
     Route::post('actualizarActividad/{id}', 'ActividadController@updateActividad')->middleware('permission:campanias.create');
+
+    Route::get('gantt', 'GanttController@index')->name('gantt.index');
 });

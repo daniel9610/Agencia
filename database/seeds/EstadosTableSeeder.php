@@ -14,12 +14,14 @@ class EstadosTableSeeder extends Seeder
         App\Estado::create([
             'nombre'      => 'Inicializado',
             'tipo_estado'     => '2',
+            'porcentaje' => '0',
             'activo'     => '1',
         ]);
 
         App\Estado::create([
             'nombre'      => 'Finalizado',
             'tipo_estado'     => '2',
+            'porcentaje' => '100',
             'activo'     => '1',
         ]);
 
@@ -56,36 +58,42 @@ class EstadosTableSeeder extends Seeder
         App\Estado::create([
             'nombre'      => 'Sin iniciar',
             'tipo_estado'     => '3',
+            'porcentaje' => '0',
             'activo'     => '1',
         ]);
 
         App\Estado::create([
             'nombre'      => 'En proceso',
             'tipo_estado'     => '3',
+            'porcentaje' => '25',
             'activo'     => '1',
         ]);
 
         App\Estado::create([
             'nombre'      => 'En revisión',
             'tipo_estado'     => '3',
+            'porcentaje' => '50',
             'activo'     => '1',
         ]);
 
         App\Estado::create([
             'nombre'      => 'Terminado',
             'tipo_estado'     => '3',
+            'porcentaje' => '75',
             'activo'     => '1',
         ]);
 
         App\Estado::create([
             'nombre'      => 'En ajustes',
             'tipo_estado'     => '3',
+            'porcentaje' => '75',
             'activo'     => '1',
         ]);
 
         App\Estado::create([
             'nombre'      => 'Aprobado',
             'tipo_estado'     => '3',
+            'porcentaje' => '100',
             'activo'     => '1',
         ]);
     }
