@@ -6,6 +6,9 @@ use App\Actividad;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\GoogleDriveController;
+use Google_Client;
+
 
 class ActividadController extends Controller
 {
@@ -99,6 +102,8 @@ class ActividadController extends Controller
     // Asignación de actividades
     public function update(Request $request, $id)
     {
+        // $calendar = new GoogleDriveController();
+        // $calendar->crearEventosCalendar();
         $fecha = Carbon::now();
         $actividad = Actividad::findOrFail($request->actividad_id);
         $actividad->autor_id = Auth::user()->id;

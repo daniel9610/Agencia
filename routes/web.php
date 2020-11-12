@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function(){
     Route::post('asignar_rol', 'RolController@asignarRoles')->name('asignar_rol')->middleware('role:Director');
 
     // google drive
-    Route::post('campaniaetapas/{campania_id}/generar-brief', 'GoogleDriveController@uploadFiles');
+    Route::post('campaniaetapas/{campania_id}/{etapa_id}/generar-brief', 'GoogleDriveController@uploadFiles');
     Route::get('actualizarestadobrief/{campania_id}/{estado_id}', 'BriefController@actualizarEstado')->name('actualizar_estado_brief');
     Route::post('crearcarpetadrive', 'GoogleDriveController@subirFoldersDrive')->name('subir_folder')->middleware('permission:campanias.create');
     

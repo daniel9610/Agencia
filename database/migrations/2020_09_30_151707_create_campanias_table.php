@@ -25,6 +25,7 @@ class CreateCampaniasTable extends Migration
             $table->string('numero_contacto')->nullable();
             $table->string('email')->nullable();
             $table->dateTime('fecha_entrega')->nullable();
+            $table->string('calendar_id')->nullable();
             $table->boolean('activo')->nullable();
             $table->timestamps();
         });
