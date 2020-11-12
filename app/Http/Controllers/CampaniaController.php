@@ -13,7 +13,7 @@ use App\Documento;
 use App\User;
 use App\Http\Controllers\GoogleDriveController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Google;
 
 class CampaniaController extends Controller
 {
@@ -32,6 +32,7 @@ class CampaniaController extends Controller
 
     public function indexCampaniaCliente($cliente_id)
     {
+
         $campanias = Campania::where('cliente_id', $cliente_id);
         return view ('home', compact('campanias'));
     }
@@ -41,11 +42,12 @@ class CampaniaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($cliente_id)
-    {
-        $campanias = Campania::where('cliente_id', $cliente_id);
-        return view ('home', compact('campanias')); 
-    }
+    // public function create($cliente_id)
+    // {
+
+    //     $campanias = Campania::where('cliente_id', $cliente_id);
+    //     return view ('home', compact('campanias')); 
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -86,6 +88,9 @@ class CampaniaController extends Controller
      */
     public function show($campania_id)
     {
+        $google = new Google;
+        $result = $google->listarCampaniaFolder($cliente_id);
+        dd($result);
         $drive_folder = Documento::where('campania_id', $campania_id)->get();
         $drive_id = $drive_folder[0]->drive_id;
         // dd($drive_id);

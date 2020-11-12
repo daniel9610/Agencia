@@ -20,7 +20,15 @@ class CampaniaEtapaController extends Controller
         $campania_etapas = CampaniaEtapa::
             join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
             ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
-            ->select('etapas.id','campania_etapas.etapa_id','etapas.nombre', 'etapas.prioridad', 'etapas.url',  'estados.nombre as estado')
+            ->select(
+                'etapas.id',
+                'campania_etapas.etapa_id',
+                'campania_etapas.estado_id',
+                'etapas.nombre',
+                'etapas.prioridad',
+                'etapas.url',
+                'estados.nombre as estado'
+            )
             ->where('campania_etapas.campania_id', $campania_id)
             ->get();
 
@@ -30,6 +38,7 @@ class CampaniaEtapaController extends Controller
 
         $etapas = Etapa::all();
         $acum = 0;
+        $acum2 = 0;
         foreach($etapas as $etapa){
             
             if($campania_etapas != "vacio"){
@@ -45,8 +54,23 @@ class CampaniaEtapaController extends Controller
                 } else {
                     $etapa->active = true;
                 }
+
+                foreach($campania_etapas as $campania_etapa){
+                    if($etapa->id == $campania_etapa->etapa_id){
+                        if($campania_etapa->estado_id == 1 || $campania_etapa->estado_id == 2){
+                            $acum2++;
+                        }
+                    }
+                }
+
+                if($acum2 == 0){
+                    $etapa->gestion = false;
+                } else {
+                    $etapa->gestion = true;
+                }
     
                 $acum = 0;
+                $acum2 = 0;
             }
         }
 
