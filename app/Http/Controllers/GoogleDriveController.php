@@ -23,8 +23,6 @@ class GoogleDriveController extends Controller
     public $drive;
     public $calendar; 
 
-
-
     public function __construct(Google_Client $client){
         // dd($client);
         $this->middleware(function($request, $next) use ($client){
