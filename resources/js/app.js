@@ -7,10 +7,13 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import TableroComponent from './components/TableroComponent.vue';
+import TableroComponent from './components/tablero/TableroComponent.vue';
+import IndexComponent from './components/gantt/IndexComponent.vue';
 
 import Vue from 'vue';
 import VueSlideoutPanel from 'vue2-slideout-panel';
+import GanttElastic from "gantt-elastic";
+import GanttHeader from "gantt-elastic-header";
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -22,12 +25,16 @@ import VueSlideoutPanel from 'vue2-slideout-panel';
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('tablero-component', require('./components/TableroComponent.vue').default);
-Vue.component('tableroform-component', require('./components/TableroFormComponent.vue').default);
+Vue.component('tablero-component', require('./components/tablero/TableroComponent.vue').default);
+Vue.component('tableroform-component', require('./components/tablero/TableroFormComponent.vue').default);
+Vue.component('indexgantt-component', require('./components/gantt/IndexComponent.vue').default);
+
 
 Vue.config.productionTip = false
 
 Vue.use(VueSlideoutPanel);
+Vue.use(GanttElastic);
+Vue.use(GanttHeader);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -37,6 +44,7 @@ Vue.use(VueSlideoutPanel);
 const app = new Vue({
     el: '#app',
     components:{
-        TableroComponent
+        TableroComponent,
+        IndexComponent
     }
 });
