@@ -112,7 +112,7 @@ class GoogleDriveController extends Controller
         $carpeta_nombre = $request->nombre;
         $documento = new Documento;
         if($request->es_campania){  
-                $campania = new Campania;
+            $campania = new Campania;
             $campania->nombre = $request->nombre;
             $campania->nit = $request->nit;
             $campania->porcentaje = 0;

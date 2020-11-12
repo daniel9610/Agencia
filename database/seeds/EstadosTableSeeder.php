@@ -12,6 +12,14 @@ class EstadosTableSeeder extends Seeder
     public function run()
     {
         App\Estado::create([
+            'id' => 0,
+            'nombre'      => 'Asignado',
+            'tipo_estado'     => '2',
+            'porcentaje' => '0',
+            'activo'     => '1',
+        ]);
+
+        App\Estado::create([
             'nombre'      => 'Inicializado',
             'tipo_estado'     => '2',
             'porcentaje' => '0',
