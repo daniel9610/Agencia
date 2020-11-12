@@ -17,6 +17,7 @@ class CreateEstadosTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre')->nullable();
             $table->integer('tipo_estado')->nullable();
+            $table->integer('porcentaje')->nullable();
             $table->boolean('activo')->nullable();
             $table->timestamps();
         });

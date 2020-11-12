@@ -28,6 +28,8 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.18.0",
+        "gantt-elastic": "^1.0.12",
+        "gantt-elastic-header": "^0.1.11",
         "vuedraggable": "^2.24.2"
     }
 }
