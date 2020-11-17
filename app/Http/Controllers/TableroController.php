@@ -43,11 +43,46 @@ class TableroController extends Controller
             ->select('etapas.id','campania_etapas.etapa_id','etapas.nombre', 'etapas.prioridad', 'etapas.url',  'estados.nombre as estado')
             ->where('campania_etapas.campania_id', $campania_id)
             ->get();
+        
+        $sin_iniciar = 0;
+        $en_proceso = 0;
+        $en_revision = 0;
+        $terminado = 0;
+        $en_ajustes = 0;
+        $aprobado = 0;
+
+        foreach($actividades as $actividad){
+            if($actividad->estado_id == 10){
+                $sin_iniciar = $sin_iniciar + 1;
+            } else if($actividad->estado_id == 11){
+                $en_proceso = $en_proceso + 1;
+            } else if($actividad->estado_id == 12){
+                $en_revision = $en_revision + 1;
+            } else if($actividad->estado_id == 13){
+                $terminado = $terminado + 1;
+            } else if($actividad->estado_id == 14){
+                $en_ajustes = $en_ajustes + 1;
+            } else if($actividad->estado_id == 15){
+                $aprobado = $aprobado + 1;
+            }
+        }
 
         $estados = Estado::where('activo',1)->where('tipo_estado', 3)->get();
 
         $users = User::select('id','name')->get();
-        return view('tableros.create', compact('actividades', 'campania_etapas', 'campania_id', 'estados','users'));
+        return view('tableros.create', compact(
+            'actividades',
+            'campania_etapas',
+            'campania_id',
+            'estados',
+            'users',
+            'sin_iniciar',
+            'en_proceso',
+            'en_revision',
+            'terminado',
+            'en_ajustes',
+            'aprobado'
+        ));
     }
 
     /**

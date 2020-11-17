@@ -22,7 +22,7 @@
                     <th scope="col">Fecha de entrega</th>
                     <th scope="col">Porcentaje</th>
                     <th scope="col">Etapas</th>
-                  </tr>
+                </tr>
                 </thead>
                 <tbody>
                     @foreach($campanias as $campania)
@@ -34,8 +34,13 @@
                         <td>{{$campania->NIT}}</td>
                         <td>{{$campania->categoria_id}}</td>
                         <td>{{$campania->fecha_entrega}}</td>
-                        <td><progress value="{{$campania->porcentaje}}" max="100">{{$campania->porcentaje}} %</progress></td>
+                        {{-- <td><progress value="{{$campania->porcentaje}}" max="100">{{$campania->porcentaje}} %</progress></td> --}}
                         {{-- <td>{{$campania->porcentaje}}</td> --}}
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{$campania->porcentaje}}%;" aria-valuenow="{{$campania->porcentaje}}" aria-valuemin="0" aria-valuemax="100">{{$campania->porcentaje}}%</div>
+                            </div>
+                        </td>
                         <td>
                             <a href="{{ route('campania_etapas',  $campania->id) }}" class="btn btn-dark">Gestionar</a>
                             @can('campanias.create')
