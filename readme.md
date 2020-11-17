@@ -18,4 +18,7 @@ tipo estado = 3 -> estados de actividades
 - asignación de roles, poblar la base de datos nuevamente, asignación de actividades
 - Averiguar la forma de cambiar la url de campania etapas, a cambio de enviar campania_id y etapa_id, enviar campaniaetapa_id 
 
+- Eliminar el controlador de google drive
+- Calendar
+- Terminar lo de las etapas 
 

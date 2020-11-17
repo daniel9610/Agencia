@@ -38,14 +38,8 @@ Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('listararchivos', 'GoogleDriveController@getFolders');
-    Route::get('subirarchivos', 'GoogleDriveController@uploadFiles');
-    Route::post('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::resource('campanias', 'CampaniaController');
-    // Route::resource('clientecampanias/{cliente_id}', 'CampaniaController@indexCampaniaCliente');
-
     Route::get('cliente', 'ClienteController@index');
-    Route::get('campania/{campania_id}', 'GoogleDriveController@listarCampaniaFolder')->name('campania');
 
     // Etapas
     Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
@@ -65,12 +59,12 @@ Route::middleware('auth')->group(function(){
     Route::post('asignar_rol', 'RolController@asignarRoles')->name('asignar_rol')->middleware('role:Director');
 
     // google drive
-    Route::post('campaniaetapas/{campania_id}/{etapa_id}/generar-brief', 'GoogleDriveController@uploadFiles');
+    Route::post('subirArchivo/{campania_id}', 'BriefController@subirArchivo')->name('subirArchivo');
     Route::get('actualizarestadobrief/{campania_id}/{estado_id}', 'BriefController@actualizarEstado')->name('actualizar_estado_brief');
-    Route::post('crearcarpetadrive', 'GoogleDriveController@subirFoldersDrive')->name('subir_folder')->middleware('permission:campanias.create');
+    Route::post('crearcarpetadrive', 'CampaniaController@store')->name('subir_folder')->middleware('permission:campanias.create');
     
     // google calendar
-    Route::post('uploadcalendar', 'GoogleDriveController@crearEventosCalendar')->name('crear_reunion');
+    Route::post('kickoff', 'KickoffController@programarKickOff')->name('crear_reunion');
 
     Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero')->middleware('permission:campanias.create');
     Route::post('guardarActividad', 'ActividadController@storeActividad')->middleware('permission:campanias.create');
