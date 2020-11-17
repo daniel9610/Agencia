@@ -129,7 +129,6 @@ export default {
                     alert('Faltan campos por diligenciar');
                 }
             } else {
-                console.log('Holi');
                 if(
                     this.nombre!==''&&
                     this.descripcion !==''&&
@@ -147,6 +146,7 @@ export default {
                             nombre:this.nombre,
                             descripcion:this.descripcion,
                             prioridad:this.prioridad,
+                            etapa_id:this.etapa_id,
                             estado_id:this.estado_id,
                             usuario_asignado: this.user_id,
                             fecha_entrega:this.fecha,

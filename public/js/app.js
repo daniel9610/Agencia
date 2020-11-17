@@ -2779,12 +2779,91 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  props: ['campania_etapas', 'actividades', 'campania_id', 'estados', 'users'],
+  props: ['campania_etapas', 'actividades', 'campania_id', 'estados', 'users', 'sin_iniciar', 'en_proceso', 'en_revision', 'terminado', 'en_ajustes', 'aprobado'],
   data: function data() {
     return {
       // for new tasks
@@ -2807,9 +2886,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log(this.actividades);
-    console.log(this.campania_etapas);
-
     for (var i = 0; i < this.campania_etapas.length; i++) {
       if (this.campania_etapas[i].etapa_id == 3) {
         this.showInvestigacionBrief = true;
@@ -3040,8 +3116,6 @@ __webpack_require__.r(__webpack_exports__);
           alert('Faltan campos por diligenciar');
         }
       } else {
-        console.log('Holi');
-
         if (this.nombre !== '' && this.descripcion !== '' && this.prioridad !== '' && this.etapa_id !== '' && this.estado_id !== '' && this.user_id !== '' && this.fecha !== '') {
           var _url = '/actualizarActividad/' + this.actividad.id;
 
@@ -3049,6 +3123,7 @@ __webpack_require__.r(__webpack_exports__);
             nombre: this.nombre,
             descripcion: this.descripcion,
             prioridad: this.prioridad,
+            etapa_id: this.etapa_id,
             estado_id: this.estado_id,
             usuario_asignado: this.user_id,
             fecha_entrega: this.fecha
@@ -48996,6 +49071,115 @@ var render = function() {
                 on: { click: _vm.showSlideCreate }
               },
               [_vm._v("Agregar Actividad")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                style: {
+                  height: "100%",
+                  background: "#fcf88a",
+                  borderRadius: "40px",
+                  textAlign: "center",
+                  marginRight: "20px",
+                  marginLeft: "20px"
+                }
+              },
+              [
+                _c("p", { staticStyle: { color: "#000000" } }, [
+                  _vm._v("Sin iniciar " + _vm._s(this.sin_iniciar))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                style: {
+                  height: "100%",
+                  background: "#9e00ff",
+                  borderRadius: "40px",
+                  textAlign: "center",
+                  marginRight: "20px"
+                }
+              },
+              [
+                _c("p", { staticStyle: { color: "#000000" } }, [
+                  _vm._v("En Proceso " + _vm._s(this.en_proceso))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                style: {
+                  height: "100%",
+                  background: "#a6ff81",
+                  borderRadius: "40px",
+                  textAlign: "center",
+                  marginRight: "20px"
+                }
+              },
+              [
+                _c("p", { staticStyle: { color: "#000000" } }, [
+                  _vm._v("En revisión " + _vm._s(this.en_revision))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                style: {
+                  height: "100%",
+                  background: "#8597ff",
+                  borderRadius: "40px",
+                  textAlign: "center",
+                  marginRight: "20px"
+                }
+              },
+              [
+                _c("p", { staticStyle: { color: "#000000" } }, [
+                  _vm._v("Terminado " + _vm._s(this.terminado))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                style: {
+                  height: "100%",
+                  background: "#f7a07a",
+                  borderRadius: "40px",
+                  textAlign: "center",
+                  marginRight: "20px"
+                }
+              },
+              [
+                _c("p", { staticStyle: { color: "#000000" } }, [
+                  _vm._v("En ajustes " + _vm._s(this.en_ajustes))
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                style: {
+                  height: "100%",
+                  background: "#bfe1be",
+                  borderRadius: "40px",
+                  textAlign: "center",
+                  marginRight: "20px"
+                }
+              },
+              [
+                _c("p", { staticStyle: { color: "#000000" } }, [
+                  _vm._v("Aprobado " + _vm._s(this.aprobado))
+                ])
+              ]
             )
           ])
         ]),
@@ -49020,7 +49204,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n            Generar investigación de brief \n            "
+                        "\n              Generar investigación de brief \n              "
                       ),
                       _c(
                         "svg",
@@ -49190,6 +49374,15 @@ var render = function() {
                                       staticStyle: { "font-size": "12px" }
                                     },
                                     [_vm._v(_vm._s(element.descripcion))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    {
+                                      staticClass: "text-justify",
+                                      staticStyle: { "font-size": "12px" }
+                                    },
+                                    [_vm._v(_vm._s(element.fecha_entrega))]
                                   )
                                 ])
                               ]),
@@ -49258,7 +49451,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n          Generar y alinear estrategia\n          "
+                        "\n            Generar y alinear estrategia\n            "
                       ),
                       _c(
                         "svg",
@@ -49428,6 +49621,15 @@ var render = function() {
                                       staticStyle: { "font-size": "12px" }
                                     },
                                     [_vm._v(_vm._s(element.descripcion))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    {
+                                      staticClass: "text-justify",
+                                      staticStyle: { "font-size": "12px" }
+                                    },
+                                    [_vm._v(_vm._s(element.fecha_entrega))]
                                   )
                                 ])
                               ]),
@@ -49495,7 +49697,9 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._v("\n           Generar Creatividad\n            "),
+                      _vm._v(
+                        "\n             Generar Creatividad\n              "
+                      ),
                       _c(
                         "svg",
                         {
@@ -49664,6 +49868,15 @@ var render = function() {
                                       staticStyle: { "font-size": "12px" }
                                     },
                                     [_vm._v(_vm._s(element.descripcion))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    {
+                                      staticClass: "text-justify",
+                                      staticStyle: { "font-size": "12px" }
+                                    },
+                                    [_vm._v(_vm._s(element.fecha_entrega))]
                                   )
                                 ])
                               ]),
@@ -49731,7 +49944,7 @@ var render = function() {
                       }
                     },
                     [
-                      _vm._v("\n         Planear Ejecución\n          "),
+                      _vm._v("\n           Planear Ejecución\n            "),
                       _c(
                         "svg",
                         {
@@ -49901,6 +50114,15 @@ var render = function() {
                                       staticStyle: { "font-size": "12px" }
                                     },
                                     [_vm._v(_vm._s(element.descripcion))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "p",
+                                    {
+                                      staticClass: "text-justify",
+                                      staticStyle: { "font-size": "12px" }
+                                    },
+                                    [_vm._v(_vm._s(element.fecha_entrega))]
                                   )
                                 ])
                               ]),
