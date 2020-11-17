@@ -116,6 +116,7 @@ class ActividadController extends Controller
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'prioridad' => $request->prioridad,
+            'etapa_id' => $request->etapa_id,
             'usuario_asignado' => $request->usuario_asignado,
             'estado_id' => $request->estado_id,
             'fecha_entrega' => $request->fecha_entrega,

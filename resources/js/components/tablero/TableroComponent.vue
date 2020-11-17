@@ -1,5 +1,26 @@
 <template>
-
+<!-- color = '#fcf88a'; //Amarillo
+        texto = '#000000';
+      } else if(this.actividades[i].estado_id == 11){
+        color = '#9e00ff'; //Morado
+        texto = '#ffffff';
+      } else if(this.actividades[i].estado_id == 12){
+        color = '#a6ff81'; //Verde claro
+        texto = '#000000';
+      } else if(this.actividades[i].estado_id == 13){
+        color = '#8597ff'; //Azul
+        texto = '#000000';
+      } else if(this.actividades[i].estado_id == 14){
+        color = '#f7a07a'; //Naranja
+        texto = '#000000';
+      } else if(this.actividades[i].estado_id == 15){
+        color = '#bfe1be'; //Verde oscuro
+        texto = '#000000'; 
+        'en_proceso',
+    'en_revision',
+    'terminado',
+    'en_ajustes',
+    'aprobado'-->
   <div class="row justify-content-center">
     <div class="container mt-5">
       <div class="row">
@@ -8,6 +29,61 @@
           @click="showSlideCreate"
           class="ml-3 btn btn-primary"
           >Agregar Actividad</button>
+          <div :style="{
+            height: '100%',
+            background: '#fcf88a',
+            borderRadius: '40px',
+            textAlign: 'center',
+            marginRight: '20px',
+            marginLeft: '20px',
+          }">
+            <p style="color: #000000">Sin iniciar {{this.sin_iniciar}}</p>
+          </div>
+          <div :style="{
+            height: '100%',
+            background: '#9e00ff',
+            borderRadius: '40px',
+            textAlign: 'center',
+            marginRight: '20px',
+          }">
+            <p style="color: #000000">En Proceso {{this.en_proceso}}</p>
+          </div>
+          <div :style="{
+            height: '100%',
+            background: '#a6ff81',
+            borderRadius: '40px',
+            textAlign: 'center',
+            marginRight: '20px',
+          }">
+            <p style="color: #000000">En revisión {{this.en_revision}}</p>
+          </div>
+          <div :style="{
+            height: '100%',
+            background: '#8597ff',
+            borderRadius: '40px',
+            textAlign: 'center',
+            marginRight: '20px',
+          }">
+            <p style="color: #000000">Terminado {{this.terminado}}</p>
+          </div>
+          <div :style="{
+            height: '100%',
+            background: '#f7a07a',
+            borderRadius: '40px',
+            textAlign: 'center',
+            marginRight: '20px',
+          }">
+            <p style="color: #000000">En ajustes {{this.en_ajustes}}</p>
+          </div>
+          <div :style="{
+            height: '100%',
+            background: '#bfe1be',
+            borderRadius: '40px',
+            textAlign: 'center',
+            marginRight: '20px',
+          }">
+            <p style="color: #000000">Aprobado {{this.aprobado}}</p>
+          </div>
         </div>
       </div>
       <div class="row mt-5">
@@ -66,6 +142,7 @@
                     <div class="col-md-12">
                       <p class="text-mutedd font-bold m-b-xs">Tarea: {{ element.nombre }}</p>
                       <p class="text-justify" style="font-size:12px">{{element.descripcion}}</p>
+                      <p class="text-justify" style="font-size:12px">{{element.fecha_entrega}}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -144,8 +221,8 @@
                     <div class="col-md-12">
                       <p class="text-mutedd font-bold m-b-xs">Tarea: {{ element.nombre }}</p>
                       <p class="text-justify" style="font-size:12px">{{element.descripcion}}</p>
+                      <p class="text-justify" style="font-size:12px">{{element.fecha_entrega}}</p></div>
                     </div>
-                  </div>
                   <div class="row">
                     <div class="col-md-12">
                       <div class="float-e-margins pull right">
@@ -222,6 +299,7 @@
                     <div class="col-md-12">
                       <p class="text-mutedd font-bold m-b-xs">Tarea: {{ element.nombre }}</p>
                       <p class="text-justify" style="font-size:12px">{{element.descripcion}}</p>
+                      <p class="text-justify" style="font-size:12px">{{element.fecha_entrega}}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -301,6 +379,7 @@
                     <div class="col-md-12">
                       <p class="text-mutedd font-bold m-b-xs">Tarea: {{ element.nombre }}</p>
                       <p class="text-justify" style="font-size:12px">{{element.descripcion}}</p>
+                      <p class="text-justify" style="font-size:12px">{{element.fecha_entrega}}</p>
                     </div>
                   </div>
                   <div class="row">
@@ -338,7 +417,13 @@ export default {
     'actividades',
     'campania_id',
     'estados',
-    'users'
+    'users',
+    'sin_iniciar',
+    'en_proceso',
+    'en_revision',
+    'terminado',
+    'en_ajustes',
+    'aprobado'
   ],
   data() {
     return {
@@ -362,8 +447,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.actividades);
-    console.log(this.campania_etapas);
 
     for(let i = 0; i < this.campania_etapas.length; i++){
       if(this.campania_etapas[i].etapa_id == 3){
