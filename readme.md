@@ -21,4 +21,5 @@ tipo estado = 3 -> estados de actividades
 - Eliminar el controlador de google drive
 - Calendar
 - Terminar lo de las etapas 
+- Terminar la última etapa, mirar en caso de que no agreguen "creatividad" como cambio el estado de la siguiente, arreglar en caso de que no tenga la etapa asignada antes de marcar como finalizado (como cambio el estado)
 

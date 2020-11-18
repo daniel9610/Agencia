@@ -60,7 +60,6 @@
             @foreach ($estados_brief as $estado)
                 @if($estado->id == 7)
                     <div class="tab-pane container active" id="menu{{$estado->id}}">
-                        {{$estado->nombre}}
                         <h3>Cargar documento de brief</h3>
                         <div class="">
                             {{-- retornar carpeta padre desde controlador --}}

@@ -115,9 +115,11 @@ class BriefController extends Controller
 
     public function actualizarEstado($campania_id, $estado_id)
     {
-        $campania_etapa = CompaniaEtapa::
+        $campania_etapa = CampaniaEtapa::
         where("campania_id", $campania_id)
         ->where("etapa_id", 2)->first();
+
+        // dd($campania_etapa);
 
         $brief = Brief::where('campania_id', $campania_id)->first();
         $brief->estado_id = $estado_id;

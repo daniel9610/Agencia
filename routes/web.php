@@ -51,9 +51,14 @@ Route::middleware('auth')->group(function(){
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/planear-ejecucion', 'CampaniaController@vistaPlanearEjecucion');
     Route::resource('actividades', 'ActividadController');
 
-    Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');;
-    Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa')->middleware('permission:campanias.create');;
-
+    Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');
+    Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa')->middleware('permission:campanias.create');
+    Route::get('finalizarkickoff/{campania_id}', 'KickoffController@finalizarKickOff')->name('finalizarkickoff')->middleware('permission:campanias.create');
+    Route::get('finalizarinvestigacionbrief/{campania_id}', 'GenerarInvestigacionBriefController@finalizarInvestigacionBrief')->name('finalizarinvestigacionbrief')->middleware('permission:campanias.create');
+    Route::get('finalizaralinearestrategia/{campania_id}', 'GenerarAlinearEstrategiaController@finalizarAlinearEstrategia')->name('finalizaralinearestrategia')->middleware('permission:campanias.create');
+    Route::get('finalizaracreatividad/{campania_id}', 'CreatividadController@finalizarCreatividad')->name('finalizarCreatividad')->middleware('permission:campanias.create');
+    Route::get('finalizaraplanearejecucion/{campania_id}', 'PlanearEjecucionController@finalizarPlanearEjecucion')->name('finalizarPlanearEjecucion')->middleware('permission:campanias.create');
+    
     //Roles
     Route::get('asignacionroles', 'RolController@vistaRoles')->middleware('role:Director');
     Route::post('asignar_rol', 'RolController@asignarRoles')->name('asignar_rol')->middleware('role:Director');
