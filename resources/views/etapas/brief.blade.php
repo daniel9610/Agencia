@@ -60,10 +60,10 @@
             @foreach ($estados_brief as $estado)
                 @if($estado->id == 7)
                     <div class="tab-pane container active" id="menu{{$estado->id}}">
-                        {{$estado->nombre}}
                         <h3>Cargar documento de brief</h3>
                         <div class="">
-                            <form method="POST" enctype="multipart/form-data">
+                            {{-- retornar carpeta padre desde controlador --}}
+                            <form method="POST" action="{{ route('subirArchivo', $campania_id) }}" enctype="multipart/form-data">
                                 <input type="hidden" name="_method" value="POST">
                                 @csrf
                                 <div class="row">

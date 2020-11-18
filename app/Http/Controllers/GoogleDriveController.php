@@ -11,6 +11,7 @@ use App\Campania;
 use App\Documento;
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Calendar_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
 use Google_Service_Drive;
@@ -20,14 +21,13 @@ use Illuminate\Support\Facades\Redirect;
 class GoogleDriveController extends Controller
 {
     public $drive;
-    public $calendar;
+    public $calendar; 
+
     public function __construct(Google_Client $client){
         // dd($client);
         $this->middleware(function($request, $next) use ($client){
             $client->refreshToken(Auth::user()->refresh_token);
             $this->drive = new Google_Service_Drive($client);
-            // $this->drive = new Google_Service_Drive($client);
-
             return $next($request);
         });
     }
@@ -109,35 +109,57 @@ class GoogleDriveController extends Controller
     public function subirFoldersDrive(Request $request){
         // dd($this->drive);
         // dd($request->es_campania);
+        // $documento = new Documento;
         $carpeta_nombre = $request->nombre;
-        $documento = new Documento;
+
+              //Crear calendario con nombre de la campania en calendar
+            //   env('GOOGLE_APPLICATION_CREDENTIALS');
+    
+            //   $client = new Google_Client();
+            //   $client->useApplicationDefaultCredentials();
+            //   $client->setScopes(['https://www.googleapis.com/auth/calendar']);
+
+            //   $service = new Google_Service_Calendar($client);
+            //   $calendar = new Google_Service_Calendar_Calendar();
+            //   $calendar->setSummary($carpeta_nombre);
+            //   $calendar->setTimeZone('America/Bogota');
+
+            //   $createdCalendar = $service->calendars->insert($calendar);
+
         if($request->es_campania){  
-            $campania = new Campania;
-            $campania->nombre = $request->nombre;
-            $campania->nit = $request->nit;
-            $campania->porcentaje = 0;
-            $campania->cliente_id = $request->cliente_id;
-            $campania->fase_id = 1;
-            $campania->categoria_id = 1;
-            $campania->encargado = $request->encargado;
-            $campania->numero_contacto = $request->numero_contacto;
-            $campania->email = $request->email;
-            $campania->fecha_entrega = $request->fecha_entrega;
-            $campania->activo = 1;
+            // $campania = new Campania;
+            // $campania->nombre = $request->nombre;
+            // $campania->nit = $request->nit;
+            // $campania->porcentaje = 0;
+            // $campania->cliente_id = $request->cliente_id;
+            // $campania->fase_id = 1;
+            // $campania->categoria_id = 1;
+            // $campania->encargado = $request->encargado;
+            // $campania->numero_contacto = $request->numero_contacto;
+            // $campania->email = $request->email;
+            // $campania->fecha_entrega = $request->fecha_entrega;
+            // $campania->activo = 1;
+        
+            //   dd($createdCalendar->getId());
+            //   $campania->calendar_id = $createdCalendar->getId();
             try{
+                //crear folder con nombre de la campania en drive
                 $fileMetadata = new Google_Service_Drive_DriveFile(array(
                     'name' => $carpeta_nombre,
                     'mimeType' => 'application/vnd.google-apps.folder'));
                         $file = $this->drive->files->create($fileMetadata, array(
                     'fields' => 'id'));
-            $campania->save();
+
+              
+
+            // $campania->save();
             
-            $documento->nombre = $carpeta_nombre;
-            $documento->tipo = "carpeta campania";
-            $documento->campania_id = $campania->id;
-            $documento->usuario_id = Auth::user()->id;
-            $documento->drive_id = $file->id;
-            $documento->save();
+            // $documento->nombre = $carpeta_nombre;
+            // $documento->tipo = "carpeta campania";
+            // $documento->campania_id = $campania->id;
+            // $documento->usuario_id = Auth::user()->id;
+            // $documento->drive_id = $file->id;
+            // $documento->save();
             return redirect()->route('home');
 
             }catch(Exception $e){
@@ -202,7 +224,8 @@ class GoogleDriveController extends Controller
         $client->setScopes(['https://www.googleapis.com/auth/calendar']);
     
         //define id calendario
-        $id_calendar=env('CALENDARIO_ID');//
+        // $id_calendar=env('CALENDARIO_ID');
+        $id_calendar=$request->calendar_id;
         
         $dateTimeReunion = $request->fecha_reunion . $request->hora_reunion;
         $datetime_start = new \DateTime($dateTimeReunion);

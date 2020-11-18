@@ -75,7 +75,7 @@ class LoginController extends Controller
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'email';
         if(auth()->attempt(array($fieldType => $input['email'], 'password' => $input['password'])))
         {
-            return Redirect::to('splash');
+            return Redirect::to('/splash');
         }else{
             return Redirect::to('login')
                 ->with('error','Usuario/Correo Electronico y/o contraseña errados.');

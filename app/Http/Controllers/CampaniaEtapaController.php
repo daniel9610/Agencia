@@ -88,7 +88,11 @@ class CampaniaEtapaController extends Controller
         $campania_etapa = new CampaniaEtapa;
         $campania_etapa->campania_id = $campania_id;
         $campania_etapa->etapa_id = $etapa_id;
-        $campania_etapa->estado_id = $estado_id;
+        $campania_etapa->estado_id = 0;
+        // Buscar la manera de saber el estado de la etapa anterior
+        // if($etapa_id){
+
+        // }
         $campania_etapa->activo = 1;
         $campania_etapa->save();
         $url = '/campaniaetapas/'.$campania_id;

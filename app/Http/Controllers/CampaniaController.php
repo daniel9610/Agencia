@@ -11,9 +11,18 @@ use App\Actividad;
 use App\Brief;
 use App\Documento;
 use App\User;
-use App\Http\Controllers\GoogleDriveController;
 use Illuminate\Support\Facades\Auth;
-use App\Google;
+use Illuminate\Support\Facades\Redirect;
+
+use App\Repositories\GoogleRepository;
+use App\Http\Controllers\GoogleDriveController;
+use Google_Client;
+use Google_Service_Calendar;
+use Google_Service_Calendar_Calendar;
+use Google_Service_Calendar_Event;
+use Google_Service_Calendar_EventDateTime;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
 
 class CampaniaController extends Controller
 {
@@ -22,6 +31,17 @@ class CampaniaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $drive;
+    protected $google_repository;
+
+    public function __construct(Google_Client $client, GoogleRepository $google_repository, Request $request){
+        $this->middleware(function($request, $next) use ($client){
+            $client->refreshToken(Auth::user()->refresh_token);
+            $this->drive = new Google_Service_Drive($client);
+            return $next($request);
+        });
+        $this->google_repository = $google_repository;
+    }
 
     public function index()
     {   
@@ -57,8 +77,13 @@ class CampaniaController extends Controller
      */
     public function store(Request $request)
     {
-        $carpeta_drive = new GoogleDriveController;
+        // $carpeta_drive = new Google;
+        
+        // $result = (new GoogleDriveController)->subirFoldersDrive($request);
+
         $campania = new Campania;
+        $documento = new Documento;
+        $carpeta_nombre = $request->nombre;
         $campania->nombre = $request->nombre;
         $campania->nit = $request->nit;
         $campania->porcentaje = 0;
@@ -71,13 +96,23 @@ class CampaniaController extends Controller
         $campania->fecha_entrega = $request->fecha_entrega;
         $campania->activo = 1;
         // dd($campania);
-        // $campania->save();
-        $carpeta_drive->subirFoldersDrive($request);
+        // $carpeta_drive->subirFoldersDrive($request);
+        $carpeta_drive = $this->google_repository->subirFoldersDrive($request, $this->drive);
 
+        $campania->save();
+
+        $documento->nombre = $carpeta_nombre;
+        $documento->tipo = "carpeta campania";
+        $documento->campania_id = $campania->id;
+        $documento->usuario_id = Auth::user()->id;
+        // dd($carpeta_drive);
+        $documento->drive_id = $carpeta_drive->id;
+        $documento->save();
         // $crear_carpeta_drive->subirFoldersDrive($campania->nombre);
 
+        return redirect()->route('home');
 
-        return redirect()->route('subir_folder', compact('campaniaNombre'));
+        // return redirect()->route('subir_folder', compact('campaniaNombre'));
     }
 
     /**
@@ -88,13 +123,11 @@ class CampaniaController extends Controller
      */
     public function show($campania_id)
     {
-        $google = new Google;
-        $result = $google->listarCampaniaFolder($cliente_id);
-        dd($result);
         $drive_folder = Documento::where('campania_id', $campania_id)->get();
         $drive_id = $drive_folder[0]->drive_id;
-        // dd($drive_id);
-
+        $tipo_archivo = "xlsx";
+        $list = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
+        print view('campanias.index', compact('list'));
     }
 
     /**

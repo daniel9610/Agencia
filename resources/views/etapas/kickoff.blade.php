@@ -34,7 +34,10 @@
                 <input type="time" name="hora_reunion" id="hora_reunion" required class="form-control"><br><br>
                 
                 <input type="hidden" name="campania_id" value="{{$campania_id}}">
-                <button  type="submit" class="btn btn-primary btn-lg btn-block">Crear Reunion</button>
+                <button  type="submit" class="btn btn-primary btn-lg btn-block">Crear Reunion</button><br><br>
+                <a href="{{ URL::route('creartablero', $campania_id) }}" class="btn btn-primary btn-lg btn-block" target="_blank">Crear Actividades</a>
+                <a href="{{ URL::route('finalizarkickoff', $campania_id) }}" class="btn btn-primary btn-lg btn-block">Finalizar KickOff</a>
+                
         </div>
     </div>
     <a class="btn btn-primary mr-auto btn-lg btn-block" href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>

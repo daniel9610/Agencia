@@ -38,14 +38,8 @@ Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('listararchivos', 'GoogleDriveController@getFolders');
-    Route::get('subirarchivos', 'GoogleDriveController@uploadFiles');
-    Route::post('subirarchivos', 'GoogleDriveController@uploadFiles');
     Route::resource('campanias', 'CampaniaController');
-    // Route::resource('clientecampanias/{cliente_id}', 'CampaniaController@indexCampaniaCliente');
-
     Route::get('cliente', 'ClienteController@index');
-    Route::get('campania/{campania_id}', 'GoogleDriveController@listarCampaniaFolder')->name('campania');
 
     // Etapas
     Route::get('campaniaetapas/{campania_id}/', 'CampaniaEtapaController@indexCampaniaEtapas')->name('campania_etapas');
@@ -57,20 +51,25 @@ Route::middleware('auth')->group(function(){
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/planear-ejecucion', 'CampaniaController@vistaPlanearEjecucion');
     Route::resource('actividades', 'ActividadController');
 
-    Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');;
-    Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa')->middleware('permission:campanias.create');;
-
+    Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');
+    Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa')->middleware('permission:campanias.create');
+    Route::get('finalizarkickoff/{campania_id}', 'KickoffController@finalizarKickOff')->name('finalizarkickoff')->middleware('permission:campanias.create');
+    Route::get('finalizarinvestigacionbrief/{campania_id}', 'GenerarInvestigacionBriefController@finalizarInvestigacionBrief')->name('finalizarinvestigacionbrief')->middleware('permission:campanias.create');
+    Route::get('finalizaralinearestrategia/{campania_id}', 'GenerarAlinearEstrategiaController@finalizarAlinearEstrategia')->name('finalizaralinearestrategia')->middleware('permission:campanias.create');
+    Route::get('finalizaracreatividad/{campania_id}', 'CreatividadController@finalizarCreatividad')->name('finalizarCreatividad')->middleware('permission:campanias.create');
+    Route::get('finalizaraplanearejecucion/{campania_id}', 'PlanearEjecucionController@finalizarPlanearEjecucion')->name('finalizarPlanearEjecucion')->middleware('permission:campanias.create');
+    
     //Roles
     Route::get('asignacionroles', 'RolController@vistaRoles')->middleware('role:Director');
     Route::post('asignar_rol', 'RolController@asignarRoles')->name('asignar_rol')->middleware('role:Director');
 
     // google drive
-    Route::post('campaniaetapas/{campania_id}/generar-brief', 'GoogleDriveController@uploadFiles');
+    Route::post('subirArchivo/{campania_id}', 'BriefController@subirArchivo')->name('subirArchivo');
     Route::get('actualizarestadobrief/{campania_id}/{estado_id}', 'BriefController@actualizarEstado')->name('actualizar_estado_brief');
-    Route::post('crearcarpetadrive', 'GoogleDriveController@subirFoldersDrive')->name('subir_folder')->middleware('permission:campanias.create');
+    Route::post('crearcarpetadrive', 'CampaniaController@store')->name('subir_folder')->middleware('permission:campanias.create');
     
     // google calendar
-    Route::post('uploadcalendar', 'GoogleDriveController@crearEventosCalendar')->name('crear_reunion');
+    Route::post('kickoff', 'KickoffController@programarKickOff')->name('crear_reunion');
 
     Route::get('creartablero/{campania_id}', 'TableroController@index')->name('creartablero')->middleware('permission:campanias.create');
     Route::post('guardarActividad', 'ActividadController@storeActividad')->middleware('permission:campanias.create');

@@ -29,7 +29,7 @@
                         @if($clave == $campania->cliente_id)
                     <tr >
                         <td>
-                            <a href="{{ route('campania',  $campania->id) }}">{{$campania->nombre}}</a>
+                            <a href="{{ route('campanias.show',  $campania->id) }}">{{$campania->nombre}}</a>
                         </td>
                         <td>{{$campania->NIT}}</td>
                         <td>{{$campania->categoria_id}}</td>
