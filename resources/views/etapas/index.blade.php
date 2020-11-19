@@ -58,7 +58,7 @@
             <ul class="list-group">
                 @foreach($etapas as $etapa)
                     @if($etapa->active == false)
-                        <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
+            <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
                     @endif
                 @endforeach
                 {{-- <li class="list-group-item active">Vestibulum at eros</li> --}}

@@ -138,7 +138,7 @@ class BriefController extends Controller
         $carpeta_padre = $carpeta[0]->drive_id;
         $archivo_drive = $this->google_repository->subirArchivos($request, $this->drive, $carpeta_padre);
         if($archivo_drive){
-            return redirect('campanias/'.$campania_id);
+            return back()->with("success", "Documento cargado satisfactoriamente");
         }
     }
 }

@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function(){
     Route::get('finalizaralinearestrategia/{campania_id}', 'GenerarAlinearEstrategiaController@finalizarAlinearEstrategia')->name('finalizaralinearestrategia')->middleware('permission:campanias.create');
     Route::get('finalizaracreatividad/{campania_id}', 'CreatividadController@finalizarCreatividad')->name('finalizarCreatividad')->middleware('permission:campanias.create');
     Route::get('finalizaraplanearejecucion/{campania_id}', 'PlanearEjecucionController@finalizarPlanearEjecucion')->name('finalizarPlanearEjecucion')->middleware('permission:campanias.create');
+    Route::post('clienteacepta', 'PlanearEjecucionController@clienteAcepta')->name('clienteAcepta')->middleware('permission:campanias.create');
     
     //Roles
     Route::get('asignacionroles', 'RolController@vistaRoles')->middleware('role:Director');
@@ -65,6 +66,8 @@ Route::middleware('auth')->group(function(){
 
     // google drive
     Route::post('subirArchivo/{campania_id}', 'BriefController@subirArchivo')->name('subirArchivo');
+    Route::post('subirPresentacion/{campania_id}', 'GenerarInvestigacionBriefController@subirPresentacion')->name('subirPresentacion');
+    
     Route::get('actualizarestadobrief/{campania_id}/{estado_id}', 'BriefController@actualizarEstado')->name('actualizar_estado_brief');
     Route::post('crearcarpetadrive', 'CampaniaController@store')->name('subir_folder')->middleware('permission:campanias.create');
     

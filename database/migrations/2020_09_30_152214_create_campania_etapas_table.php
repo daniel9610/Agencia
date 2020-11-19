@@ -18,6 +18,7 @@ class CreateCampaniaEtapasTable extends Migration
             $table->integer('campania_id')->nullable();
             $table->integer('etapa_id')->nullable();
             $table->integer('estado_id')->nullable();
+            $table->integer('encargado_id')->nullable();
             $table->boolean('activo')->nullable();
             $table->timestamps();
         });

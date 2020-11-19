@@ -67,20 +67,37 @@ class GoogleRepository
     }
 
     public function ListarFolders($id, $drive, $tipo_archivo){
-
+        $list = array();
         try{
             if($tipo_archivo == "xlsx"){
-                $query = " mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' and '".$id."' in parents and trashed=false";
+                $query1 = " mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' and '".$id."' in parents and trashed=false";
+                $query2 = " mimeType='application/vnd.google-apps.spreadsheet' and '".$id."' in parents and trashed=false";
             }elseif($tipo_archivo == "ppt"){
-                $query = " mimeType='application/vnd.google-apps.presentation'and '".$id."' in parents and trashed=false";
+                $query1 = "mimeType='application/vnd.google-apps.presentation' and '".$id."' in parents and trashed=false ";
+                $query2 = "mimeType='application/vnd.openxmlformats-officedocument.presentationml.presentation' and '".$id."' in parents and trashed=false ";
             }
             // $query = " mimeType='application/vnd.google-apps.document'and '".$id."' in parents and trashed=false";
             $optParams = [
                 'fields'=>'files(id,name)',
-                'q'=>$query
+                'q'=>$query1
             ];
             $results = $drive->files->ListFiles($optParams);
-            $list = $results->getFiles();
+            $list1 = $results->getFiles();
+
+            $optParams = [
+                'fields'=>'files(id,name)',
+                'q'=>$query2
+            ];
+
+            $results = $drive->files->ListFiles($optParams);
+            $list2 = $results->getFiles();
+
+            if(count($list1)>0){
+               $list = array_merge($list, $list1);
+            }
+            if(count($list2)>0){
+               $list = array_merge($list, $list2);
+            }
             return $list;
 
         }catch(Exception $e){

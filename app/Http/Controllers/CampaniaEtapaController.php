@@ -88,11 +88,12 @@ class CampaniaEtapaController extends Controller
         $campania_etapa = new CampaniaEtapa;
         $campania_etapa->campania_id = $campania_id;
         $campania_etapa->etapa_id = $etapa_id;
-        $campania_etapa->estado_id = 0;
         // Buscar la manera de saber el estado de la etapa anterior
-        // if($etapa_id){
-
-        // }
+        if($etapa_id == 1){
+            $campania_etapa->estado_id = 1;
+        }else{
+            $campania_etapa->estado_id = 0;
+        }
         $campania_etapa->activo = 1;
         $campania_etapa->save();
         $url = '/campaniaetapas/'.$campania_id;
@@ -107,59 +108,4 @@ class CampaniaEtapaController extends Controller
         return redirect($url);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CampaniaEtapa $campaniaEtapa)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CampaniaEtapa $campaniaEtapa)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CampaniaEtapa $campaniaEtapa)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CampaniaEtapa $campaniaEtapa)
-    {
-        //
-    }
 }

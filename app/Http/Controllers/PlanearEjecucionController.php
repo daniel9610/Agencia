@@ -33,4 +33,12 @@ class PlanearEjecucionController extends Controller
 
         return back()->with("success", "Etapa Planear Ejecucion finalizada");
     }
+
+    public function clienteAcepta(Request $request){
+        $campania_id = $request->campania_id;
+        $cliente_acepta = $request->acepta;
+        
+
+        return back()->with("success", "Etapa Planear Ejecucion finalizada");
+    }
 }
