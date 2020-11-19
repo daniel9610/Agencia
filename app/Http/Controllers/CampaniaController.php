@@ -184,6 +184,17 @@ class CampaniaController extends Controller
     {
         $estado_actual = Brief::where('campania_id', $campania_id)->get();
         $estados_brief = Estado::where('tipo_estado', 1)->get();
+
+        $drive_folder = Documento::where('campania_id', $campania_id)->get();
+        $drive_id = $drive_folder[0]->drive_id;
+        $tipo_archivo = "xlsx";
+        $archivos = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
+        if($archivos){
+            $list = $archivos;
+        }else{
+            $list = "Sin archivos";
+        }
+
         if(empty($estado_actual[0])){
             $brief = new Brief;
             $brief->nombre = "brief campania id: $campania_id";
@@ -197,7 +208,7 @@ class CampaniaController extends Controller
         $estado_actual = Brief::where('campania_id', $campania_id)->get();
         $estado_actual = $estado_actual[0]->estado_id;
 
-        return view ('etapas.brief', compact('estados_brief', 'campania_id','estado_actual'));
+        return view ('etapas.brief', compact('estados_brief', 'campania_id','estado_actual', 'list'));
     }
 
     public function vistaKickoff($campania_id){
@@ -207,6 +218,17 @@ class CampaniaController extends Controller
     // Estas funciones se pueden convertir en una sola, definir si es necesario que vayan separadas
     public function vistaGenerarInvestigacionBrief($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
+
+        $drive_folder = Documento::where('campania_id', $campania_id)->get();
+        $drive_id = $drive_folder[0]->drive_id;
+        $tipo_archivo = "ppt";
+        $archivos = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
+        if($archivos){
+            $list = $archivos;
+        }else{
+            $list = "Sin archivos";
+        }
+
         if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
@@ -214,6 +236,8 @@ class CampaniaController extends Controller
             ->select('actividades.id','actividades.nombre','actividades.prioridad', 'estados.nombre as estado_id', 'users.name as usuario_asignado', 'actividades.fecha_entrega')
             ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
             ->get();
+
+
         }else{
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
@@ -230,11 +254,22 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
-        return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+        return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
     } 
 
     public function vistaGenerarAlinearEstrategia($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
+
+        $drive_folder = Documento::where('campania_id', $campania_id)->get();
+        $drive_id = $drive_folder[0]->drive_id;
+        $tipo_archivo = "ppt";
+        $archivos = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
+        if($archivos){
+            $list = $archivos;
+        }else{
+            $list = "Sin archivos";
+        }
+
         if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
@@ -254,11 +289,22 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
-        return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+        return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
     } 
 
     public function vistaGenerarCreatividad($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
+
+        $drive_folder = Documento::where('campania_id', $campania_id)->get();
+        $drive_id = $drive_folder[0]->drive_id;
+        $tipo_archivo = "ppt";
+        $archivos = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
+        if($archivos){
+            $list = $archivos;
+        }else{
+            $list = "Sin archivos";
+        }
+
         if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
@@ -278,11 +324,22 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
-        return view('etapas.generarCreatividad', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+        return view('etapas.generarCreatividad', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
     } 
 
     public function vistaPlanearEjecucion($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
+
+        $drive_folder = Documento::where('campania_id', $campania_id)->get();
+        $drive_id = $drive_folder[0]->drive_id;
+        $tipo_archivo = "ppt";
+        $archivos = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
+        if($archivos){
+            $list = $archivos;
+        }else{
+            $list = "Sin archivos";
+        }
+
         if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
@@ -302,7 +359,7 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
-        return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar'));
+        return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
     } 
 
 
