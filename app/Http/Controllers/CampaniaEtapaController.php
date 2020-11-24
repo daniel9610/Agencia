@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CampaniaEtapa;
 use App\Etapa;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -88,7 +89,6 @@ class CampaniaEtapaController extends Controller
         $campania_etapa = new CampaniaEtapa;
         $campania_etapa->campania_id = $campania_id;
         $campania_etapa->etapa_id = $etapa_id;
-        // Buscar la manera de saber el estado de la etapa anterior
         if($etapa_id == 1){
             $campania_etapa->estado_id = 1;
         }else{
@@ -108,4 +108,39 @@ class CampaniaEtapaController extends Controller
         return redirect($url);
     }
 
+    public function vistaAsignarEncargados($campania_id)
+    {
+        $usuarios = User::all();
+        $etapas = CampaniaEtapa::
+        join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
+        ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
+        ->select(
+            'campania_etapas.id as id',
+            'campania_etapas.etapa_id as etapa_id',
+            'campania_etapas.estado_id',
+            'etapas.nombre',
+            'etapas.prioridad',
+            'etapas.url',
+            'estados.nombre as estado'
+        )
+        ->where('campania_etapas.campania_id', $campania_id)
+        ->get();
+
+        return view('etapas.asignarEncargados', compact('usuarios', 'etapas', 'campania_id'));
+    }
+
+    public function asignarEncargado(Request $request)
+    {
+        $campania_etapa_id = $request->campania_etapa_id;
+        $encargado_id = $request->encargado_id;
+
+        $campania_etapa = CampaniaEtapa::
+        where('id', $campania_etapa_id)
+        ->first();
+
+        $campania_etapa->encargado_id = $encargado_id;
+        $campania_etapa->save();
+        // Enviar correo al responsable asignado
+        return back()->with('success', 'Responsable asignado correctamente');
+    }
 }

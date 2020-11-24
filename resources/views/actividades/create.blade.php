@@ -7,6 +7,14 @@
         <label for="nombre">Nombre:</label><br>
         <input type="text" name="nombre" id="nombre" required class="form-control"><br>
 
+        <label for="entregable_id">Entregable:</label><br>
+        <select name="entregable_id" id="entregable_id" class="form-control" required>
+            <option value=""> </option>
+            @foreach($entregables as $entregable)
+                <option value="{{ $entregable->id }}"> {{ $entregable->nombre }} </option>
+            @endforeach
+        </select>
+
         <label for="prioridad">Prioridad:</label><br>
         <select name="prioridad" id="prioridad" class="form-control" required>
                 <option value=""> </option>

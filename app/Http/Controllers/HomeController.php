@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Campania;
 use App\Etapa;
+use App\Cliente;
 use App\Actividad;
 
 class HomeController extends Controller
@@ -26,30 +27,49 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $clientes = array(
-            "1" => 'Cliente 1',
-            "2" => 'Cliente 2',);
-        // $campanias = Campania::all();
-        $clientes_id = array(
-            1,2
-        );
+       
+        $clientes = Cliente::where('activo', 1)->get();
+        // $clientes_fase_ejecucion = Cliente::where('fase_id', 2)->get();
+       
+        // dd(count($clientes_fase_ejecucion));
         $etapas = Etapa::all();
-        $campanias = Campania::whereBetween('cliente_id', $clientes_id)->get();
-        foreach($campanias as $campania){
-            $actividades = Actividad::
-            join('estados', 'estados.id','actividades.estado_id')
-            ->select('estados.porcentaje')
-            ->where('actividades.campania_id',$campania->id)
-            ->avg('estados.porcentaje');
+        $campanias_fase_diseño = Campania::where('fase_id', 1)->get();
+        $campanias_fase_ejecucion = Campania::where('fase_id', 2)->get();
 
-            if($actividades == null){
-                $actvidades = 0;
+        if(count($campanias_fase_diseño)>0){
+            foreach($campanias_fase_diseño as $campania){
+                $actividades = Actividad::
+                join('estados', 'estados.id','actividades.estado_id')
+                ->select('estados.porcentaje')
+                ->where('actividades.campania_id',$campania->id)
+                ->avg('estados.porcentaje');
+
+                if($actividades == null){
+                    $actvidades = 0;
+                }
+
+                $campania->porcentaje = round($actividades);
             }
-
-            $campania->porcentaje = round($actividades);
         }
 
-        return view('home', compact('campanias', 'clientes', 'etapas'));
+        if(count($campanias_fase_ejecucion)>0){
+            foreach($campanias_fase_ejecucion as $campania){
+                $actividades = Actividad::
+                join('estados', 'estados.id','actividades.estado_id')
+                ->select('estados.porcentaje')
+                ->where('actividades.campania_id',$campania->id)
+                ->avg('estados.porcentaje');
+
+                if($actividades == null){
+                    $actvidades = 0;
+                }
+
+                $campania->porcentaje = round($actividades);
+            }
+        }
+        
+
+        return view('home', compact('campanias', 'etapas', 'clientes', 'campanias_fase_diseño', 'campanias_fase_ejecucion'));
     
     }
 }

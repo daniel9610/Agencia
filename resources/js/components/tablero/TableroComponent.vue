@@ -518,6 +518,7 @@ export default {
         props: {
           campania_id : this.campania_id,
           estados : this.estados,
+          entregables : this.entregables,
           etapas: this.campania_etapas,
           users: this.users,
           mode: 'create',
@@ -542,6 +543,7 @@ export default {
             props: {
               campania_id : this.campania_id,
               estados : this.estados,
+              entregables : this.entregables,
               etapas: this.campania_etapas,
               users: this.users,
               mode: 'edit',

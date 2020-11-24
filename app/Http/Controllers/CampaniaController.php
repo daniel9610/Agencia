@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Campania;
 use App\Categoria;
+use App\Entregable;
+use App\CampaniaEtapa;
 use Carbon\Carbon;
 use App\Estado;
 use App\Actividad;
@@ -88,17 +90,14 @@ class CampaniaController extends Controller
         $campania->nit = $request->nit;
         $campania->porcentaje = 0;
         $campania->cliente_id = $request->cliente_id;
-        $campania->fase_id = 1;
         $campania->categoria_id = 1;
+        $campania->fase_id = 1;
         $campania->encargado = $request->encargado;
         $campania->numero_contacto = $request->numero_contacto;
         $campania->email = $request->email;
         $campania->fecha_entrega = $request->fecha_entrega;
         $campania->activo = 1;
-        // dd($campania);
-        // $carpeta_drive->subirFoldersDrive($request);
         $carpeta_drive = $this->google_repository->subirFoldersDrive($request, $this->drive);
-
         $campania->save();
 
         $documento->nombre = $carpeta_nombre;
@@ -108,9 +107,23 @@ class CampaniaController extends Controller
         // dd($carpeta_drive);
         $documento->drive_id = $carpeta_drive->id;
         $documento->save();
+
+        for($i=1; $i<=6; $i++){
+            $etapas = new CampaniaEtapa;
+            $etapas->campania_id = $campania->id;
+            $etapas->etapa_id = $i;
+            if($i == 1){
+                $etapas->estado_id = 1;
+            }else{
+                $etapas->estado_id = 0;
+            }
+            $etapas->activo = 1;
+            $etapas->save();
+        }
+
         // $crear_carpeta_drive->subirFoldersDrive($campania->nombre);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success','Campaña creada correctamente');
 
         // return redirect()->route('subir_folder', compact('campaniaNombre'));
     }
@@ -156,7 +169,6 @@ class CampaniaController extends Controller
         $campania->nombre = $request->nombre;
         $campania->nit = $request->nit;
         $campania->cliente_id = $request->cliente_id;
-        $campania->fase_id = 1;
         $campania->categoria_id = 1;
         $campania->encargado = $request->encargado;
         $campania->numero_contacto = $request->numero_contacto;
@@ -212,12 +224,29 @@ class CampaniaController extends Controller
     }
 
     public function vistaKickoff($campania_id){
-        return view('etapas.kickoff', compact('campania_id'));
+        $etapas = CampaniaEtapa::
+        join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
+        ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
+        ->select(
+            'campania_etapas.id as id',
+            'campania_etapas.etapa_id as etapa_id',
+            'campania_etapas.estado_id',
+            'etapas.nombre',
+            'etapas.prioridad',
+            'etapas.url',
+            'estados.nombre as estado'
+        )
+        ->where('campania_etapas.campania_id', $campania_id)
+        ->get();
+
+        return view('etapas.kickoff', compact('campania_id', 'etapas'));
     }
 
     // Estas funciones se pueden convertir en una sola, definir si es necesario que vayan separadas
     public function vistaGenerarInvestigacionBrief($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
+        $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
+        
 
         $drive_folder = Documento::where('campania_id', $campania_id)->get();
         $drive_id = $drive_folder[0]->drive_id;
@@ -254,7 +283,7 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         // $campania_etapa = Campania
-        return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
+        return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
     } 
 
     public function vistaGenerarAlinearEstrategia($campania_id, $etapa_id){
@@ -288,8 +317,10 @@ class CampaniaController extends Controller
         }
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
+        $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
+
         // $campania_etapa = Campania
-        return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
+        return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
     } 
 
     public function vistaGenerarCreatividad($campania_id, $etapa_id){
@@ -323,8 +354,10 @@ class CampaniaController extends Controller
         }
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
+        $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
+
         // $campania_etapa = Campania
-        return view('etapas.generarCreatividad', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
+        return view('etapas.generarCreatividad', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
     } 
 
     public function vistaPlanearEjecucion($campania_id, $etapa_id){
@@ -358,8 +391,10 @@ class CampaniaController extends Controller
         }
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
+        $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
+
         // $campania_etapa = Campania
-        return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list'));
+        return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
     } 
 
 

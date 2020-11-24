@@ -6,6 +6,17 @@
 
 <div class="row justify-content-center">
     {{-- @can('campanias.create') --}}
+    @if(session('error') || session('success'))
+    <div class="col-md-12">
+      <div class="form-panel">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @include('alertas.index')
+          </div>
+        </div>
+      </div>
+    </div>
+    @endif
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -59,20 +70,56 @@
                             </div>
                             <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                                 <div class="card-body">
-                                    <form action="{{ route('clienteAcepta') }}" method="POST" enctype="multipart/form-data">
+                                    <form  action="{{ route('clienteAcepta') }}" method="POST" enctype="multipart/form-data" id="formulario">
                                     <input type="hidden" name="_method" value="POST">
                                     @csrf
                                     <input type="hidden" name="campania_id" id="campania_id" value="{{$campania_id}}">
                                     <div style="text-align: center">
                                         <p>¿El cliente aceptó?</p>
-                                        <input type="radio" id="si" name="acepta" value="1" required>
+
+                                        <select name="acepta" id="acepta" class="cliente_acepta">
+                                            <option value=""></option>
+                                            <option value="1">Si</option>
+                                            <option value="0">No</option>
+                                        </select><br>
+
+                                        {{-- <input class="cliente_acepta" type="radio" id="si" name="acepta" value="1" required>
                                         <label for="si">Si</label><br>
                                         
-                                        <input type="radio" id="no" name="acepta" value="0">
-                                        <label for="no">No</label><br><br>
-                                        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Finalizar">
+                                        <input class="cliente_acepta" type="radio" id="no" name="acepta" value="0">
+                                        <label for="no">No</label><br><br> --}}
                                     </div>
-                                      </form>
+
+                                                                             <!-- Modal -->
+                                                                             <div class="modal fade" id="ajustes" tabindex="-1" role="dialog" aria-labelledby="ajustesLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog" role="document">
+                                                                                  <div class="modal-content">
+                                                                                    <div class="modal-header header-title">
+                                                                                    <h5 class="modal-title" id="ajustesLabel"><i class="fa fa-trash-alt"></i>Realizar ajustes</h5>
+                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                          
+                                                                                              {{-- <div style="text-align: center"> --}}
+                                                                                                <label for="desc">Razones</label><br>
+                                                                                               <input type="text" name="desc" id="desc" required class="form-control"><br>
+                                                                                            {{-- </div> --}}
+                                                                                            <input class="btn btn-primary btn-lg btn-block" type="button" id="finalizar-dialog" value="Finalizar">
+                                                        
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-danger" id="cerrar-modal" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
+                                                                                        {{-- <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('destroy-form').submit();"><i class="fas fa-check"></i> Eliminar</button> --}}
+                                                                                    </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+
+                                         <button class="btn btn-primary btn-lg btn-block" id="finalizar1" type="button" value="Finalizar">Finalizar</button>
+
+                                    </form>
                                     {{-- <a href="{{ URL::route('finalizarCreatividad', $campania_id) }}" class="btn btn-primary btn-lg btn-block">Finalizar Creatividad</a> --}}
                                 </div>
                             </div>
@@ -204,6 +251,35 @@
 </div>
 <br><br><a class="btn btn-primary btn-lg " href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>
 
+
+
+
+@push('scripts')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+
+        $( '#finalizar1' ).click(function() {
+            var cliente_acepta = $('.cliente_acepta').val();
+            if(cliente_acepta == 0)
+            {
+                $("#ajustes").modal("show");
+            }else{
+                $("#formulario").submit() 
+            }
+        });
+
+        $("#finalizar-dialog").click(function(){  
+            if($("#desc").val()!=''){
+                $("#formulario").submit(); // Submit the form
+            }else{
+                alert("Debes escribir al menos una razón");
+            }   
+        });
+    });
+    </script>
+
+@endpush
     
 
 @endsection

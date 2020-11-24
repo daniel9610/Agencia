@@ -19,8 +19,8 @@ class CreateCampaniasTable extends Migration
             $table->string('NIT')->nullable();
             $table->integer('porcentaje')->nullable();
             $table->integer('cliente_id')->nullable();
-            $table->integer('fase_id')->nullable();
             $table->integer('categoria_id')->nullable();
+            $table->integer('fase_id')->nullable();
             $table->string('encargado')->nullable();
             $table->string('numero_contacto')->nullable();
             $table->string('email')->nullable();

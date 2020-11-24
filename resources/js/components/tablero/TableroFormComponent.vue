@@ -31,6 +31,12 @@
                             <option :value="estado.id" v-for="(estado, index) in estados" :key="index"> {{ estado.nombre }} </option>
                         </select>
 
+                         <label for="entregable_id">Entregable:</label><br>
+                        <select v-model="entregable_id" name="entregable_id" id="entregable_id" class="form-control" required>
+                            <option value=""> </option>
+                            <option :value="entregable.id" v-for="(entregable, index) in entregables" :key="index"> {{ entregable.nombre }} </option>
+                        </select>
+
                         <label for="user_id">Asignar a:</label><br>
                         <select v-model="user_id" name="user_id" id="user_id" class="form-control" required>
                             <option value=""> </option>
@@ -58,6 +64,7 @@ export default {
     props: [
     'campania_id',
     'estados',
+    'entregables',
     'etapas',
     'users',
     'mode',
@@ -70,6 +77,7 @@ export default {
             prioridad: '',
             etapa_id:'',
             estado_id: '',
+            entregable_id: '',
             user_id: '',
             fecha: '',
             date_min: new Date()
@@ -85,6 +93,7 @@ export default {
             this.prioridad = this.actividad.prioridad,
             this.etapa_id = this.actividad.etapa_id,
             this.estado_id = this.actividad.estado_id,
+            this.entregable_id = this.actividad.entregable_id,
             this.user_id = this.actividad.user_id,
             this.fecha = fecha_entrega;
         }
@@ -101,6 +110,7 @@ export default {
                     this.prioridad !== ''&&
                     this.etapa_id !==''&&
                     this.estado_id !== ''&&
+                    this.entregable_id !== ''&&
                     this.user_id !== ''&&
                     this.fecha !== ''
                 ){
@@ -115,6 +125,7 @@ export default {
                             campania_id:this.campania_id,
                             etapa_id: this.etapa_id,
                             estado_id:this.estado_id,
+                            entregable_id:this.entregable_id,
                             usuario_asignado: this.user_id,
                             fecha_entrega:this.fecha,
                         }
@@ -135,6 +146,7 @@ export default {
                     this.prioridad !== ''&&
                     this.etapa_id !==''&&
                     this.estado_id !== ''&&
+                    this.entregable_id !== ''&&
                     this.user_id !== ''&&
                     this.fecha !== ''
                 ){
@@ -148,6 +160,7 @@ export default {
                             prioridad:this.prioridad,
                             etapa_id:this.etapa_id,
                             estado_id:this.estado_id,
+                            entregable_id:this.entregable_id,
                             usuario_asignado: this.user_id,
                             fecha_entrega:this.fecha,
                         }
