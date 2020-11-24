@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Tablero;
 use App\Actividad;
 use App\CampaniaEtapa;
+use App\Entregable;
 use App\Estado;
 use App\User;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class TableroController extends Controller
         }
 
         $estados = Estado::where('activo',1)->where('tipo_estado', 3)->get();
+        $entregables = Entregable::where('campania_id',$campania_id)->get();
 
         $users = User::select('id','name')->get();
         return view('tableros.create', compact(
@@ -75,6 +77,7 @@ class TableroController extends Controller
             'campania_etapas',
             'campania_id',
             'estados',
+            'entregables',
             'users',
             'sin_iniciar',
             'en_proceso',

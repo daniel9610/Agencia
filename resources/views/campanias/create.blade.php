@@ -12,8 +12,10 @@
         <input type="hidden" name="es_campania" id="es_campania" value="es_campania"><br>
 
         <select name="cliente_id" id="cliente_id" required class="form-control">
-            <option value="1">Cliente 1</option>
-            <option value="2">Cliente 2</option>
+            <option value=""></option>
+            @foreach($clientes as $cliente)
+                <option value="{{$cliente->id}}">{{$cliente->nombre}}</option>
+            @endforeach
         </select><br>
 
         <label for="nombre">Nombre:</label><br>

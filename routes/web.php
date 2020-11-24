@@ -49,7 +49,10 @@ Route::middleware('auth')->group(function(){
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/generar-alinear-estrategia', 'CampaniaController@vistaGenerarAlinearEstrategia');
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/generar-creatividad', 'CampaniaController@vistaGenerarCreatividad');
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/planear-ejecucion', 'CampaniaController@vistaPlanearEjecucion');
+    Route::post('asignarencargado', 'CampaniaEtapaController@asignarEncargado')->name('asignarencargado')->middleware('permission:campanias.create');;
+    Route::get('asignarencargados/{campania_id}', 'CampaniaEtapaController@vistaAsignarEncargados')->name('vistaAsignarEncargados')->middleware('permission:campanias.create');;
     Route::resource('actividades', 'ActividadController');
+    Route::resource('entregables', 'EntregableController');
 
     Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');
     Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa')->middleware('permission:campanias.create');

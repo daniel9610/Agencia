@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActividadesTable extends Migration
+class CreateEntregablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,15 @@ class CreateActividadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('actividades', function (Blueprint $table) {
+        Schema::create('entregables', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre')->nullable();
             $table->string('descripcion')->nullable();
-            $table->string('prioridad')->nullable();
-            $table->integer('tipo')->nullable();
+            $table->integer('fase_id')->nullable();
             $table->integer('campania_id')->nullable();
             $table->integer('etapa_id')->nullable();
-            $table->integer('entregable_id')->nullable();
-            $table->integer('gant_id')->nullable();
             $table->integer('estado_id')->nullable();
             $table->integer('autor_id')->nullable();
-            $table->integer('usuario_asignado')->nullable();
-            $table->dateTime('fecha_asignacion')->nullable();
             $table->dateTime('fecha_entrega')->nullable();
             $table->timestamps();
         });
@@ -39,6 +34,6 @@ class CreateActividadesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actividades');
+        Schema::dropIfExists('entregables');
     }
 }
