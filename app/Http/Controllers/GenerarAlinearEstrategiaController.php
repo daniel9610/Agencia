@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Google_Client;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\GoogleRepository;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
 
 class GenerarAlinearEstrategiaController extends Controller
 {
@@ -16,9 +18,15 @@ class GenerarAlinearEstrategiaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public $drive;
     protected $google_repository;
 
-    public function __construct(GoogleRepository $google_repository){
+    public function __construct(Google_Client $client, GoogleRepository $google_repository, Request $request){
+        $this->middleware(function($request, $next) use ($client){
+            $client->refreshToken(Auth::user()->refresh_token);
+            $this->drive = new Google_Service_Drive($client);
+            return $next($request);
+        });
         $this->google_repository = $google_repository;
     }
 

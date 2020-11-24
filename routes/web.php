@@ -49,7 +49,10 @@ Route::middleware('auth')->group(function(){
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/generar-alinear-estrategia', 'CampaniaController@vistaGenerarAlinearEstrategia');
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/generar-creatividad', 'CampaniaController@vistaGenerarCreatividad');
     Route::get('campaniaetapas/{campania_id}/{etapa_id}/planear-ejecucion', 'CampaniaController@vistaPlanearEjecucion');
+    Route::post('asignarencargado', 'CampaniaEtapaController@asignarEncargado')->name('asignarencargado')->middleware('permission:campanias.create');;
+    Route::get('asignarencargados/{campania_id}', 'CampaniaEtapaController@vistaAsignarEncargados')->name('vistaAsignarEncargados')->middleware('permission:campanias.create');;
     Route::resource('actividades', 'ActividadController');
+    Route::resource('entregables', 'EntregableController');
 
     Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');
     Route::get('eliminarcampaniaetapa/{campania_id}/{etapa_id}', 'CampaniaEtapaController@eliminarCampaniaEtapa')->name('eliminarcampaniaetapa')->middleware('permission:campanias.create');
@@ -58,6 +61,7 @@ Route::middleware('auth')->group(function(){
     Route::get('finalizaralinearestrategia/{campania_id}', 'GenerarAlinearEstrategiaController@finalizarAlinearEstrategia')->name('finalizaralinearestrategia')->middleware('permission:campanias.create');
     Route::get('finalizaracreatividad/{campania_id}', 'CreatividadController@finalizarCreatividad')->name('finalizarCreatividad')->middleware('permission:campanias.create');
     Route::get('finalizaraplanearejecucion/{campania_id}', 'PlanearEjecucionController@finalizarPlanearEjecucion')->name('finalizarPlanearEjecucion')->middleware('permission:campanias.create');
+    Route::post('clienteacepta', 'PlanearEjecucionController@clienteAcepta')->name('clienteAcepta')->middleware('permission:campanias.create');
     
     //Roles
     Route::get('asignacionroles', 'RolController@vistaRoles')->middleware('role:Director');
@@ -65,6 +69,8 @@ Route::middleware('auth')->group(function(){
 
     // google drive
     Route::post('subirArchivo/{campania_id}', 'BriefController@subirArchivo')->name('subirArchivo');
+    Route::post('subirPresentacion/{campania_id}', 'GenerarInvestigacionBriefController@subirPresentacion')->name('subirPresentacion');
+    
     Route::get('actualizarestadobrief/{campania_id}/{estado_id}', 'BriefController@actualizarEstado')->name('actualizar_estado_brief');
     Route::post('crearcarpetadrive', 'CampaniaController@store')->name('subir_folder')->middleware('permission:campanias.create');
     

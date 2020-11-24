@@ -67,17 +67,13 @@ class GoogleRepository
     }
 
     public function ListarFolders($id, $drive, $tipo_archivo){
-
         try{
-            if($tipo_archivo == "xlsx"){
-                $query = " mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' and '".$id."' in parents and trashed=false";
-            }elseif($tipo_archivo == "ppt"){
-                $query = " mimeType='application/vnd.google-apps.presentation'and '".$id."' in parents and trashed=false";
-            }
-            // $query = " mimeType='application/vnd.google-apps.document'and '".$id."' in parents and trashed=false";
+            $query1 = " '".$id."' in parents and trashed=false";
+            // $query2 = " mimeType='application/vnd.google-apps.spreadsheet' and '".$id."' in parents and trashed=false";
+    
             $optParams = [
                 'fields'=>'files(id,name)',
-                'q'=>$query
+                'q'=>$query1
             ];
             $results = $drive->files->ListFiles($optParams);
             $list = $results->getFiles();

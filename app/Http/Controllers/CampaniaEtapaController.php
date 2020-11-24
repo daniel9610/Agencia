@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CampaniaEtapa;
 use App\Etapa;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -88,11 +89,11 @@ class CampaniaEtapaController extends Controller
         $campania_etapa = new CampaniaEtapa;
         $campania_etapa->campania_id = $campania_id;
         $campania_etapa->etapa_id = $etapa_id;
-        $campania_etapa->estado_id = 0;
-        // Buscar la manera de saber el estado de la etapa anterior
-        // if($etapa_id){
-
-        // }
+        if($etapa_id == 1){
+            $campania_etapa->estado_id = 1;
+        }else{
+            $campania_etapa->estado_id = 0;
+        }
         $campania_etapa->activo = 1;
         $campania_etapa->save();
         $url = '/campaniaetapas/'.$campania_id;
@@ -107,59 +108,39 @@ class CampaniaEtapaController extends Controller
         return redirect($url);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function vistaAsignarEncargados($campania_id)
     {
-        //
+        $usuarios = User::all();
+        $etapas = CampaniaEtapa::
+        join('etapas', 'campania_etapas.etapa_id', '=', 'etapas.id')
+        ->join('estados', 'campania_etapas.estado_id', '=', 'estados.id')
+        ->select(
+            'campania_etapas.id as id',
+            'campania_etapas.etapa_id as etapa_id',
+            'campania_etapas.estado_id',
+            'etapas.nombre',
+            'etapas.prioridad',
+            'etapas.url',
+            'estados.nombre as estado'
+        )
+        ->where('campania_etapas.campania_id', $campania_id)
+        ->get();
+
+        return view('etapas.asignarEncargados', compact('usuarios', 'etapas', 'campania_id'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CampaniaEtapa $campaniaEtapa)
+    public function asignarEncargado(Request $request)
     {
-        //
-    }
+        $campania_etapa_id = $request->campania_etapa_id;
+        $encargado_id = $request->encargado_id;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CampaniaEtapa $campaniaEtapa)
-    {
-        //
-    }
+        $campania_etapa = CampaniaEtapa::
+        where('id', $campania_etapa_id)
+        ->first();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CampaniaEtapa $campaniaEtapa)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\CampaniaEtapa  $campaniaEtapa
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(CampaniaEtapa $campaniaEtapa)
-    {
-        //
+        $campania_etapa->encargado_id = $encargado_id;
+        $campania_etapa->save();
+        // Enviar correo al responsable asignado
+        return back()->with('success', 'Responsable asignado correctamente');
     }
 }

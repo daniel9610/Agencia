@@ -47,7 +47,7 @@ class ActividadController extends Controller
         $actividad->prioridad = $request->prioridad;
         $actividad->campania_id = $request->campania_id;
         $actividad->etapa_id = $request->etapa_id;
-        // $actividad->gant_id = $request->gant_id;
+        $actividad->entregable_id = $request->entregable_id;
         $actividad->estado_id = $request->estado_id;
         $actividad->fecha_entrega = $request->fecha_entrega;
         $actividad->save();
@@ -66,7 +66,7 @@ class ActividadController extends Controller
         $actividad->etapa_id = $request->etapa_id;
         $actividad->autor_id = Auth::user()->id;
         $actividad->usuario_asignado = $request->usuario_asignado;
-        // $actividad->gant_id = $request->gant_id;
+        $actividad->entregable_id = $request->entregable_id;
         $actividad->estado_id = $request->estado_id;
         $actividad->fecha_entrega = $request->fecha_entrega;
         $actividad->fecha_asignacion = Carbon::now();
@@ -127,6 +127,7 @@ class ActividadController extends Controller
             'descripcion' => $request->descripcion,
             'prioridad' => $request->prioridad,
             'etapa_id' => $request->etapa_id,
+            'entregable_id' => $request->entregable_id,
             'usuario_asignado' => $request->usuario_asignado,
             'estado_id' => $request->estado_id,
             'fecha_entrega' => $request->fecha_entrega,

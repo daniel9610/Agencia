@@ -5,6 +5,7 @@
     :campania_etapas="{{ $campania_etapas }}"
     :campania_id="{{ $campania_id }}"
     :estados= "{{$estados}}"
+    :entregables= "{{$entregables}}"
     :users= "{{$users}}"
     :sin_iniciar = "{{$sin_iniciar}}"
     :en_proceso = "{{$en_proceso}}"

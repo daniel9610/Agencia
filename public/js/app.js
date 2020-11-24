@@ -2963,6 +2963,7 @@ __webpack_require__.r(__webpack_exports__);
         props: {
           campania_id: this.campania_id,
           estados: this.estados,
+          entregables: this.entregables,
           etapas: this.campania_etapas,
           users: this.users,
           mode: 'create',
@@ -2987,6 +2988,7 @@ __webpack_require__.r(__webpack_exports__);
             props: {
               campania_id: this.campania_id,
               estados: this.estados,
+              entregables: this.entregables,
               etapas: this.campania_etapas,
               users: this.users,
               mode: 'edit',
@@ -3066,9 +3068,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {},
-  props: ['campania_id', 'estados', 'etapas', 'users', 'mode', 'actividad'],
+  props: ['campania_id', 'estados', 'entregables', 'etapas', 'users', 'mode', 'actividad'],
   data: function data() {
     return {
       nombre: '',
@@ -3076,6 +3084,7 @@ __webpack_require__.r(__webpack_exports__);
       prioridad: '',
       etapa_id: '',
       estado_id: '',
+      entregable_id: '',
       user_id: '',
       fecha: '',
       date_min: new Date()
@@ -3087,7 +3096,7 @@ __webpack_require__.r(__webpack_exports__);
     if (this.mode == 'edit') {
       var fecha = new Date(this.actividad.fecha_entrega);
       var fecha_entrega = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
-      this.nombre = this.actividad.nombre, this.descripcion = this.actividad.descripcion, this.prioridad = this.actividad.prioridad, this.etapa_id = this.actividad.etapa_id, this.estado_id = this.actividad.estado_id, this.user_id = this.actividad.user_id, this.fecha = fecha_entrega;
+      this.nombre = this.actividad.nombre, this.descripcion = this.actividad.descripcion, this.prioridad = this.actividad.prioridad, this.etapa_id = this.actividad.etapa_id, this.estado_id = this.actividad.estado_id, this.entregable_id = this.actividad.entregable_id, this.user_id = this.actividad.user_id, this.fecha = fecha_entrega;
     }
   },
   computed: {},
@@ -3096,7 +3105,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.mode == 'create') {
-        if (this.nombre !== '' && this.descripcion !== '' && this.prioridad !== '' && this.etapa_id !== '' && this.estado_id !== '' && this.user_id !== '' && this.fecha !== '') {
+        if (this.nombre !== '' && this.descripcion !== '' && this.prioridad !== '' && this.etapa_id !== '' && this.estado_id !== '' && this.entregable_id !== '' && this.user_id !== '' && this.fecha !== '') {
           var url = '/guardarActividad';
           axios.post(url, {
             nombre: this.nombre,
@@ -3105,6 +3114,7 @@ __webpack_require__.r(__webpack_exports__);
             campania_id: this.campania_id,
             etapa_id: this.etapa_id,
             estado_id: this.estado_id,
+            entregable_id: this.entregable_id,
             usuario_asignado: this.user_id,
             fecha_entrega: this.fecha
           }).then(function (response) {
@@ -3116,7 +3126,7 @@ __webpack_require__.r(__webpack_exports__);
           alert('Faltan campos por diligenciar');
         }
       } else {
-        if (this.nombre !== '' && this.descripcion !== '' && this.prioridad !== '' && this.etapa_id !== '' && this.estado_id !== '' && this.user_id !== '' && this.fecha !== '') {
+        if (this.nombre !== '' && this.descripcion !== '' && this.prioridad !== '' && this.etapa_id !== '' && this.estado_id !== '' && this.entregable_id !== '' && this.user_id !== '' && this.fecha !== '') {
           var _url = '/actualizarActividad/' + this.actividad.id;
 
           axios.post(_url, {
@@ -3125,6 +3135,7 @@ __webpack_require__.r(__webpack_exports__);
             prioridad: this.prioridad,
             etapa_id: this.etapa_id,
             estado_id: this.estado_id,
+            entregable_id: this.entregable_id,
             usuario_asignado: this.user_id,
             fecha_entrega: this.fecha
           }).then(function (response) {
@@ -50415,6 +50426,58 @@ var render = function() {
                         "option",
                         { key: index, domProps: { value: estado.id } },
                         [_vm._v(" " + _vm._s(estado.nombre) + " ")]
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "entregable_id" } }, [
+                  _vm._v("Entregable:")
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.entregable_id,
+                        expression: "entregable_id"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      name: "entregable_id",
+                      id: "entregable_id",
+                      required: ""
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.entregable_id = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }),
+                    _vm._v(" "),
+                    _vm._l(_vm.entregables, function(entregable, index) {
+                      return _c(
+                        "option",
+                        { key: index, domProps: { value: entregable.id } },
+                        [_vm._v(" " + _vm._s(entregable.nombre) + " ")]
                       )
                     })
                   ],

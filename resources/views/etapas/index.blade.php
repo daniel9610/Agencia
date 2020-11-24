@@ -58,7 +58,7 @@
             <ul class="list-group">
                 @foreach($etapas as $etapa)
                     @if($etapa->active == false)
-                        <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
+            <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
                     @endif
                 @endforeach
                 {{-- <li class="list-group-item active">Vestibulum at eros</li> --}}
@@ -84,7 +84,9 @@
             </ul>
         </div>
         @endif
-    
+        <div class="col-md-12">
+            <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('vistaAsignarEncargados', $campania_id) }}"><i class="fas fa-arrow-left"></i> Asignar Encargados</a>
+        </div>
         <div class="col-md-12">
             <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Atrás</a>
         </div>

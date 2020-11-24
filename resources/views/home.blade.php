@@ -2,13 +2,20 @@
 
 @section('content')
 <div class="container">
+    @if (Session::has('success'))
+    <div class="alert alert-success">
+        <ul>
+            <li>{{ Session::get('success') }}</li>
+        </ul>
+    </div>
+@endif
     <div class="row justify-content-center">
     @can('campanias.create')
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <div class="accordion" id="accordionExample">
-                        
+
                         <div class="card">
                         <div class="card-header" id="headingTwo">
                             <h5 class="mb-0">
@@ -22,7 +29,7 @@
                         </div>
                         <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
                             <div class="card-body">
-                             
+
                                 @include('campanias.create')
                             </div>
                         </div>
@@ -53,38 +60,25 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title clients-header">
-                    
-                        <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a> -->
-                    <a id="fase_ejecucion" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase diseño de propuesta</a>
-                    <a id="fase_propuesta" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">Fase de ejecución</a>
-                    <br><br><a id="prueba" href="{{ route('test_email') }}" class="btn btn-success btn-block" >Test Email</a>
 
-                        <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase diseño de propuesta</a> -->
-                    </h5>
-                    <div class="collapse multi-collapse" id="multiCollapseExample1">
-                        @include('clientes.index')
-
-                    </div>
-
-                    <div class="collapse multi-collapse" id="multiCollapseExample2">
-                        <div class="card card-body">
-                            Clientes en fase de diseño de propuesta
+                <!-- pestañas -->
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <a class="nav-item nav-link active" id="nav-fase-disenio-tab" data-toggle="tab" href="#nav-fase-disenio" role="tab" aria-controls="nav-fase-disenio" aria-selected="true">Fase diseño de propuesta</a>
+                          <a class="nav-item nav-link" id="nav-fase-ejecucion-tab" data-toggle="tab" href="#nav-fase-ejecucion" role="tab" aria-controls="nav-fase-ejecucion" aria-selected="false">Fase de ejecución</a>
                         </div>
-                    </div>
-
-                    <!-- accordion -->
-
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                            <div class="card-body">
-                            Prueba
-                            </div>
+                      </nav>
+                      <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-fase-disenio" role="tabpanel" aria-labelledby="nav-fase-disenio-tab">
+                            @include('clientes.fase_disenio_propuesta')
                         </div>
-                        </div>
-                    </div>
-                </div>
+                        <div class="tab-pane fade" id="nav-fase-ejecucion" role="tabpanel" aria-labelledby="nav-fase-ejecucion-tab">
+                            @include('clientes.fase_ejecucion')
 
-             <!-- fin accordion -->
+                        </div>
+                      </div>
+
+             <!-- fin pestañas -->
 
             </div>
         </div>
