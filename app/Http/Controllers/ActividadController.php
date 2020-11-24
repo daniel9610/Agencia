@@ -8,10 +8,15 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleDriveController;
 use Google_Client;
-
+use App\Repositories\EmailRepository;
 
 class ActividadController extends Controller
 {
+    protected $emailrepository;
+
+    public function __construct(EmailRepository $emailrepository){
+        $this->emailrepository = $emailrepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -137,5 +142,15 @@ class ActividadController extends Controller
     public function destroy(Actividad $actividad)
     {
         //
+    }
+
+    public function test_email(){
+        $remitentes = 'ricardo.franco@tars.dev, daniel.jimenez@tars.dev, jeisson.lopez@tars.dev';
+        $nombre_correo = 'Prueba correo agencia';
+        $asunto = 'Prueba correo agencia';
+        $cuerpo = 'Esto es una prueba de correo para la aplicación de agencia';
+
+        $this->emailrepository->sendEmail($remitentes,$nombre_correo,$asunto,$cuerpo);
+        return redirect('/home');
     }
 }

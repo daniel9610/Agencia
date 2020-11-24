@@ -58,6 +58,7 @@
                         <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a> -->
                     <a id="fase_ejecucion" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase diseño de propuesta</a>
                     <a id="fase_propuesta" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">Fase de ejecución</a>
+                    <br><br><a id="prueba" href="{{ route('test_email') }}" class="btn btn-success btn-block" >Test Email</a>
 
                         <!-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase diseño de propuesta</a> -->
                     </h5>
