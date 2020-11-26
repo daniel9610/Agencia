@@ -55,6 +55,8 @@
               </div>
             </div>
 
+            @can('activities.create')
+
             <div class="card">
               <div class="card-header" id="headingFour">
                   <h5 class="mb-0">
@@ -77,6 +79,7 @@
           <br>
           <a href="{{ URL::route('creartablero', $campania_id) }}" class="btn btn-primary btn-lg btn-block" target="_blank">Crear Actividades</a>
           <a href="{{ URL::route('finalizarkickoff', $campania_id) }}" class="btn btn-primary btn-lg btn-block">Finalizar KickOff</a>
+          @endcan
         </div>
       </div>
     <a class="btn btn-primary mr-auto btn-lg btn-block" href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>

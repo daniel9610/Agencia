@@ -23,6 +23,13 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'campanias.create']);
         Permission::create(['name' => 'campanias.destroy']);
 
+        Permission::create(['name' => 'activities.index']);
+        Permission::create(['name' => 'activities.edit']);
+        Permission::create(['name' => 'activities.show']);
+        Permission::create(['name' => 'activities.create']);
+        Permission::create(['name' => 'activities.destroy']);
+
+
         //Director
         $director = Role::create(['name' => 'Director']);
 
@@ -31,7 +38,12 @@ class PermissionsTableSeeder extends Seeder
             'campanias.edit',
             'campanias.show',
             'campanias.create',
-            'campanias.destroy'
+            'campanias.destroy',
+            'activities.index',
+            'activities.edit',
+            'activities.show',
+            'activities.create',
+            'activities.destroy'
         ]);
 
         //PMO
@@ -39,7 +51,12 @@ class PermissionsTableSeeder extends Seeder
 
         $pmo->givePermissionTo([
             'campanias.index',
-            'campanias.show'
+            'campanias.show',
+            'activities.index',
+            'activities.edit',
+            'activities.show',
+            'activities.create',
+            'activities.destroy'
         ]);
 
         //Líder de investigación
@@ -47,7 +64,12 @@ class PermissionsTableSeeder extends Seeder
 
         $lider_investigacion->givePermissionTo([
             'campanias.index',
-            'campanias.show'
+            'campanias.show',
+            'activities.index',
+            'activities.edit',
+            'activities.show',
+            'activities.create',
+            'activities.destroy'
         ]);
 
         // Líder de creatividad
@@ -55,7 +77,12 @@ class PermissionsTableSeeder extends Seeder
 
         $lider_creatividad->givePermissionTo([
             'campanias.index',
-            'campanias.show'
+            'campanias.show',
+            'activities.index',
+            'activities.edit',
+            'activities.show',
+            'activities.create',
+            'activities.destroy'
         ]);
         //$director->givePermissionTo('campanias.index');
         //$director->givePermissionTo(Permission::all());
@@ -65,7 +92,9 @@ class PermissionsTableSeeder extends Seeder
 
         $talento->givePermissionTo([
             'campanias.index',
-            'campanias.show'
+            'campanias.show',
+            'activities.index',
+            'activities.edit'
         ]);
 
         // Cliente
