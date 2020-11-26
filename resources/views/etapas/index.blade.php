@@ -84,9 +84,12 @@
             </ul>
         </div>
         @endif
+    @can('campanias.create')
+
         <div class="col-md-12">
             <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('vistaAsignarEncargados', $campania_id) }}"><i class="fas fa-arrow-left"></i> Asignar Encargados</a>
         </div>
+    @endcan    
         <div class="col-md-12">
             <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Atrás</a>
         </div>

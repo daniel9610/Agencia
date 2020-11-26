@@ -6,8 +6,9 @@
 
 
 {{--  --}}
+@can('campanias.create')
+
 <div class="row justify-content-center">
-    {{-- @can('campanias.create') --}}
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -108,7 +109,7 @@
             </div>
         </div>
 {{--  --}}
-
+@endcan
 
 <div class="col-md-8">
     <div class="card">
@@ -135,7 +136,6 @@
             <div class="collapse multi-collapse" id="multiCollapseExample2">
                 @include('actividades.index')
             </div>
-
             <h5 class="card-title files-header">
             
                 {{-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a>  --}}

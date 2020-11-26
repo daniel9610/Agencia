@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-       
+               
         $clientes = Cliente::where('activo', 1)->get();
         // $clientes_fase_ejecucion = Cliente::where('fase_id', 2)->get();
        
@@ -69,7 +69,7 @@ class HomeController extends Controller
         }
         
 
-        return view('home', compact('campanias', 'etapas', 'clientes', 'campanias_fase_diseño', 'campanias_fase_ejecucion'));
+        return view('home', compact('etapas', 'clientes', 'campanias_fase_diseño', 'campanias_fase_ejecucion'));
     
     }
 }

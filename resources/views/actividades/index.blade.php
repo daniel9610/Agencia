@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         @foreach($actividades as $actividad)
-            @if($actividad)
+        @if($actividad)
         <tr >
             <td>
                 {{$actividad->nombre}}
