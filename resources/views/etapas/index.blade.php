@@ -16,14 +16,14 @@
     @if($campania_etapas == "vacio")
 
         No hay etapas asignadas a esta campaña
-        <button class="btn btn-dark">Agregar etapas</button>   
-     
+        <button class="btn btn-dark">Agregar etapas</button>
+
     @else
         @foreach ($campania_etapas as $etapa)
-        
-            <a href="{{URL::current()}}/{{$etapa->url}}" class="btn btn-dark">{{$etapa->nombre}}</a>   
+
+            <a href="{{URL::current()}}/{{$etapa->url}}" class="btn btn-dark">{{$etapa->nombre}}</a>
         @endforeach
-    @endif 
+    @endif
 
 </div><br><br> --}}
 
@@ -36,24 +36,22 @@
     <h1>Etapas</h1>
     <div class="row justify-content-center">
         @if($campania_etapas != "vacio")
-        <div class="col-md-5">
-            <h5>Asignadas</h5>
+        <div class="col-10">
+            {{-- <h5>Asignadas</h5> --}}
             <ul class="list-group">
                 @foreach($etapas as $etapa)
-                    @if($etapa->active == true)
-                        <li class="list-group-item activa_item arrow" id="activa{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}} @if($etapa->gestion == true)<a href="{{URL::current()}}/{{$etapa->id}}/{{$etapa->url}}" class="btn btn-dark" style="display: none" id="button{{$etapa->id}}">Gestionar</a>@endif</li>
-                    @endif
+                    <li class="list-group-item activa_item arrow" id="activa{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}} @if($etapa->gestion == true)<a href="{{URL::current()}}/{{$etapa->id}}/{{$etapa->url}}" class="btn btn-dark" style="display: none" id="button{{$etapa->id}}">Gestionar</a>@endif</li>
                 @endforeach
             </ul>
         </div>
     @can('campanias.create')
 
-        <div class="col-md-2">
+        {{-- <div class="col-md-2">
             <button class="btn btn-primary btn-lg btn-block" id="agregar" disabled>Agregar</button>
             <button class="btn btn-primary btn-lg btn-block" id="quitar" disabled>Quitar</button>
-        </div>
+        </div> --}}
 
-        <div class="col-md-5">
+        {{-- <div class="col-md-5">
             <h5>Disponibles</h5>
             <ul class="list-group">
                 @foreach($etapas as $etapa)
@@ -61,24 +59,22 @@
             <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
                     @endif
                 @endforeach
-                {{-- <li class="list-group-item active">Vestibulum at eros</li> --}}
+                <li class="list-group-item active">Vestibulum at eros</li>
             </ul>
-        </div>
+        </div> --}}
     @endcan
 
         @else
-        <div class="col-md-5">
+        {{-- <div class="col-md-5">
         </div>
         <div class="col-md-2">
             <button class="btn btn-primary btn-lg btn-block" id="agregar" disabled>Agregar</button>
             <button class="btn btn-primary btn-lg btn-block" id="quitar" disabled>Quitar</button>
-        </div>
-        <div class="col-md-5">
+        </div> --}}
+        <div class="col-10">
             <ul class="list-group">
                 @foreach($etapas as $etapa)
-                    @if($etapa->active == false)
-                        <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
-                    @endif
+                    <li class="list-group-item disponible_item arrow" id="disponible{{$etapa->id}}" value="{{$etapa->id}}">{{$etapa->nombre}}</li>
                 @endforeach
                 {{-- <li class="list-group-item active">Vestibulum at eros</li> --}}
             </ul>
@@ -89,7 +85,7 @@
         <div class="col-md-12">
             <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('vistaAsignarEncargados', $campania_id) }}"><i class="fas fa-arrow-left"></i> Asignar Encargados</a>
         </div>
-    @endcan    
+    @endcan
         <div class="col-md-12">
             <br><br><a class="btn btn-primary mr-auto btn-lg btn-block" href="{{ route('home') }}"><i class="fas fa-arrow-left"></i> Atrás</a>
         </div>
@@ -140,8 +136,8 @@
                     activa = id_class
                 } else {
                     if(id_class != activa){
-                        $(id_class).addClass('active'); 
-                        $(activa).removeClass('active'); 
+                        $(id_class).addClass('active');
+                        $(activa).removeClass('active');
                         activa = id_class;
                     }
                 }
@@ -163,8 +159,8 @@
                     button_activa = class_button;
                 } else {
                     if(id_class != activa){
-                        $(id_class).addClass('active'); 
-                        $(activa).removeClass('active'); 
+                        $(id_class).addClass('active');
+                        $(activa).removeClass('active');
                         activa = id_class;
 
                         class_button = '#button'+id;

@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="accordion" id="accordionExample">
-                        
+
                         <div class="card">
                         <div class="card-header" id="headingTwo">
                             <h5 class="mb-0">
@@ -29,7 +29,7 @@
                         </div>
                         <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
                             <div class="card-body">
-                             
+
                                 @include('campanias.create')
                             </div>
                         </div>
@@ -60,7 +60,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-              
+
                 <!-- pestañas -->
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">

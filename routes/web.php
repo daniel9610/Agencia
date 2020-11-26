@@ -82,4 +82,6 @@ Route::middleware('auth')->group(function(){
     Route::post('actualizarActividad/{id}', 'ActividadController@updateActividad')->middleware('permission:campanias.create');
 
     Route::get('gantt', 'GanttController@index')->name('gantt.index');
+
+    Route::get('test_email', 'ActividadController@test_email')->name('test_email');
 });
