@@ -4,6 +4,7 @@
 <div class="container">
     <h1>Planear Ejecución</h1>
 
+@can('campanias.create')
 <div class="row justify-content-center">
     {{-- @can('campanias.create') --}}
     @if(session('error') || session('success'))
@@ -128,7 +129,7 @@
                 </div>
             </div>
         </div>
-
+@endcan
 
 <div class="col-md-8">
     <div class="card">

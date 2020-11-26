@@ -34,12 +34,14 @@ class CampaniaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $drive;
+    // public $calendar;
     protected $google_repository;
 
     public function __construct(Google_Client $client, GoogleRepository $google_repository, Request $request){
         $this->middleware(function($request, $next) use ($client){
             $client->refreshToken(Auth::user()->refresh_token);
             $this->drive = new Google_Service_Drive($client);
+            // $this->calendar = new Google_Service_Calendar($client);
             return $next($request);
         });
         $this->google_repository = $google_repository;
@@ -98,6 +100,8 @@ class CampaniaController extends Controller
         $campania->fecha_entrega = $request->fecha_entrega;
         $campania->activo = 1;
         $carpeta_drive = $this->google_repository->subirFoldersDrive($request, $this->drive);
+        $calendario = $this->google_repository->crearCalendario($request);
+        $campania->calendar_id = $calendario->getId();
         $campania->save();
 
         $documento->nombre = $carpeta_nombre;
@@ -246,19 +250,25 @@ class CampaniaController extends Controller
     public function vistaGenerarInvestigacionBrief($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
         $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
+        if(count($entregables)==0){
+            $entregables = "No hay entregables";
+        }
         
-
         $drive_folder = Documento::where('campania_id', $campania_id)->get();
         $drive_id = $drive_folder[0]->drive_id;
         $tipo_archivo = "ppt";
         $archivos = $this->google_repository->ListarFolders($drive_id, $this->drive, $tipo_archivo);
-        if($archivos){
-            $list = $archivos;
-        }else{
+        // dd($archivos);
+
+        if($archivos == "Sin archivos"){
             $list = "Sin archivos";
+
+        }else{
+            $list = $archivos;
         }
 
         if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
+            
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
             ->join('estados', 'actividades.estado_id', '=', 'estados.id')
@@ -266,8 +276,8 @@ class CampaniaController extends Controller
             ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
             ->get();
 
-
         }else{
+
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
             ->join('estados', 'actividades.estado_id', '=', 'estados.id')
@@ -275,12 +285,12 @@ class CampaniaController extends Controller
             ->where('campania_id', $campania_id)->where('etapa_id', $etapa_id)
             ->where('usuario_asignado', Auth::user()->id)
             ->get();
+
         }
        
-
-
         
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
+
         $users = User::all();
         // $campania_etapa = Campania
         return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
@@ -318,7 +328,9 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
-
+        if(count($entregables)==0){
+            $entregables = "No hay entregables";
+        }
         // $campania_etapa = Campania
         return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
     } 
@@ -392,7 +404,9 @@ class CampaniaController extends Controller
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
         $users = User::all();
         $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
-
+        if(count($entregables)==0){
+            $entregables = "No hay entregables";
+        }
         // $campania_etapa = Campania
         return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
     } 

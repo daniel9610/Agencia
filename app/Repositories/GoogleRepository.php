@@ -25,26 +25,9 @@ class GoogleRepository
      *  Return the model
      */
 
-    public $drive;
-
     public function subirFoldersDrive(Request $request, $drive){
     
         $carpeta_nombre = $request->nombre;
-
-              //Crear calendario con nombre de la campania en calendar
-            //   env('GOOGLE_APPLICATION_CREDENTIALS');
-    
-            //   $client = new Google_Client();
-            //   $client->useApplicationDefaultCredentials();
-            //   $client->setScopes(['https://www.googleapis.com/auth/calendar']);
-
-            //   $service = new Google_Service_Calendar($client);
-            //   $calendar = new Google_Service_Calendar_Calendar();
-            //   $calendar->setSummary($carpeta_nombre);
-            //   $calendar->setTimeZone('America/Bogota');
-
-            //   $createdCalendar = $service->calendars->insert($calendar);
-
         if($request->es_campania){  
 
             try{
@@ -77,6 +60,9 @@ class GoogleRepository
             ];
             $results = $drive->files->ListFiles($optParams);
             $list = $results->getFiles();
+            if(count($list) == 0){
+                $list = "Sin archivos";
+            }
             return $list;
 
         }catch(Exception $e){
@@ -120,6 +106,26 @@ class GoogleRepository
 
             }
         }
+    }
+
+    public function crearCalendario(Request $request){
+               //Crear calendario con nombre de la campania en calendar
+              env('GOOGLE_APPLICATION_CREDENTIALS');
+    
+            $carpeta_nombre = $request->nombre;
+
+            $client = new Google_Client();
+            $client->useApplicationDefaultCredentials();
+            $client->setScopes(['https://www.googleapis.com/auth/calendar']);
+
+            $service = new Google_Service_Calendar($client);
+            $calendar = new Google_Service_Calendar_Calendar();
+            $calendar->setSummary($carpeta_nombre);
+            $calendar->setTimeZone('America/Bogota');
+
+            $createdCalendar = $service->calendars->insert($calendar);
+            // dd($createdCalendar);
+            return $createdCalendar;
     }
 
     public function crearEventosCalendar($campania_id, $id_calendar, $dateTimeReunion, $nombre, $descripcion){
