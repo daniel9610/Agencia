@@ -22,21 +22,27 @@ class KickoffController extends Controller
 
     protected $google_repository;
 
-    public function __construct(GoogleRepository $google_repository){
+    public function __construct(Google_Client $client, GoogleRepository $google_repository, Request $request){
+        $this->middleware(function($request, $next) use ($client){
+            $client->refreshToken(Auth::user()->refresh_token);
+            $this->client = $client;
+            // $this->calendar = new Google_Service_Calendar($client);
+            return $next($request);
+        });
         $this->google_repository = $google_repository;
     }
 
     public function programarKickOff(Request $request){
         $campania_id = $request->campania_id;
-        // $id_calendar=$request->calendar_id;
-        $id_calendar=env('CALENDARIO_ID');
+        $id_calendar=$request->calendar_id;
+        // $id_calendar=env('CALENDARIO_ID');
 
         // dd($id_calendar);
 
         $dateTimeReunion = $request->fecha_reunion . $request->hora_reunion;
         $nombre=$request->nombre_reunion;
         $descripcion = $request->descripcion;
-        $crear_evento = $this->google_repository->crearEventosCalendar($campania_id,$id_calendar, $dateTimeReunion, $nombre, $descripcion);
+        $crear_evento = $this->google_repository->crearEventosCalendar($campania_id,$id_calendar, $dateTimeReunion, $nombre, $descripcion, $this->client);
         // dd($crear_evento);
         return $crear_evento;
     }

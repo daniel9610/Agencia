@@ -34,6 +34,7 @@ class CampaniaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public $drive;
+    public $client;
     // public $calendar;
     protected $google_repository;
 
@@ -41,6 +42,7 @@ class CampaniaController extends Controller
         $this->middleware(function($request, $next) use ($client){
             $client->refreshToken(Auth::user()->refresh_token);
             $this->drive = new Google_Service_Drive($client);
+            $this->client = $client;
             // $this->calendar = new Google_Service_Calendar($client);
             return $next($request);
         });
@@ -99,8 +101,8 @@ class CampaniaController extends Controller
         $campania->email = $request->email;
         $campania->fecha_entrega = $request->fecha_entrega;
         $campania->activo = 1;
+        $calendario = $this->google_repository->crearCalendario($request, $this->client);
         $carpeta_drive = $this->google_repository->subirFoldersDrive($request, $this->drive);
-        $calendario = $this->google_repository->crearCalendario($request);
         $campania->calendar_id = $calendario->getId();
         $campania->save();
 
