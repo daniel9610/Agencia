@@ -57,7 +57,7 @@ class KickoffController extends Controller
 
         if($generar_inv_brief){
             $generar_inv_brief->estado_id = 1;
-            $generar_inv_brief->save();        
+            $generar_inv_brief->save();
         }
         return back()->with("success", "kickOff finalizado");
     }

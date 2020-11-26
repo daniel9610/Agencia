@@ -48,8 +48,8 @@ class CampaniaController extends Controller
     }
 
     public function index()
-    {   
-        
+    {
+
         $campanias = Campania::all();
         return view ('home', compact('campanias'));
     }
@@ -70,7 +70,7 @@ class CampaniaController extends Controller
     // {
 
     //     $campanias = Campania::where('cliente_id', $cliente_id);
-    //     return view ('home', compact('campanias')); 
+    //     return view ('home', compact('campanias'));
     // }
 
     /**
@@ -82,7 +82,7 @@ class CampaniaController extends Controller
     public function store(Request $request)
     {
         // $carpeta_drive = new Google;
-        
+
         // $result = (new GoogleDriveController)->subirFoldersDrive($request);
 
         $campania = new Campania;
@@ -243,7 +243,9 @@ class CampaniaController extends Controller
         ->where('campania_etapas.campania_id', $campania_id)
         ->get();
 
-        return view('etapas.kickoff', compact('campania_id', 'etapas'));
+        $campania = Campania::where('id', $campania_id)->first();
+
+        return view('etapas.kickoff', compact('campania_id', 'etapas', 'campania'));
     }
 
     // Estas funciones se pueden convertir en una sola, definir si es necesario que vayan separadas
@@ -253,7 +255,7 @@ class CampaniaController extends Controller
         if(count($entregables)==0){
             $entregables = "No hay entregables";
         }
-        
+
         $drive_folder = Documento::where('campania_id', $campania_id)->get();
         $drive_id = $drive_folder[0]->drive_id;
         $tipo_archivo = "ppt";
@@ -268,7 +270,7 @@ class CampaniaController extends Controller
         }
 
         if(Auth::user()->getRoleNames()[0] == 'Director' || Auth::user()->getRoleNames()[0] == 'PMO'){
-            
+
             $actividades = Actividad::
             join('users', 'actividades.usuario_asignado', '=', 'users.id')
             ->join('estados', 'actividades.estado_id', '=', 'estados.id')
@@ -287,14 +289,14 @@ class CampaniaController extends Controller
             ->get();
 
         }
-       
-        
+
+
         $actividades_a_asignar = Actividad::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->where('usuario_asignado', null)->get();
 
         $users = User::all();
         // $campania_etapa = Campania
         return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
-    } 
+    }
 
     public function vistaGenerarAlinearEstrategia($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
@@ -333,7 +335,7 @@ class CampaniaController extends Controller
         }
         // $campania_etapa = Campania
         return view('etapas.generarAlinearEstrategia', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
-    } 
+    }
 
     public function vistaGenerarCreatividad($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
@@ -370,7 +372,7 @@ class CampaniaController extends Controller
 
         // $campania_etapa = Campania
         return view('etapas.generarCreatividad', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
-    } 
+    }
 
     public function vistaPlanearEjecucion($campania_id, $etapa_id){
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
@@ -409,8 +411,8 @@ class CampaniaController extends Controller
         }
         // $campania_etapa = Campania
         return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables'));
-    } 
+    }
 
 
-    
+
 }
