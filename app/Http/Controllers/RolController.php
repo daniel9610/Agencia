@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Role;
 use App\User;
+use App\Cargo;
 
 class RolController extends Controller
 {
     public function vistaRoles(){
         $users = User::doesntHave('roles')->get();
         $roles = Role::all();
-        return view('roles.assign', compact('users', 'roles'));
+        $cargos = Cargo::all();
+        return view('roles.assign', compact('users', 'roles', 'cargos'));
     }
 
     public function asignarRoles(Request $request){
@@ -24,6 +26,8 @@ class RolController extends Controller
 
         $user = User::find($user_id);
         $user->assignRole($nombre_rol);
+        $user->cargo_id = $request->cargo_id;
+        $user->save();
         return redirect()->back()->with('success', 'Rol asignado correctamente');
     }
 }

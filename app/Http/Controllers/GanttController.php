@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Campania;
 use App\Etapa;
 use App\CampaniaEtapa;
+use App\Entregable;
 use App\Actividad;
 
 use Illuminate\Http\Request;
@@ -34,6 +35,38 @@ class GanttController extends Controller
         return view('gantt.index', compact(
             'campanias',
             'etapas',
+            'actividades',
+            'campania_etapas'
+        ));
+    }
+
+    public function gantEspecifico($campania_id)
+    {
+        $etapas = Etapa::all();
+
+        $campania = Campania::
+        where('id', $campania_id)->get();
+
+        $campania_etapas = CampaniaEtapa::
+        join('campanias','campanias.id','=','campania_etapas.campania_id')
+        ->join('etapas','etapas.id','=','campania_etapas.etapa_id')
+        ->where('campania_id', $campania_id)
+        ->get();
+
+        $entregables = Entregable::
+        where('campania_id', $campania_id)->get();
+
+        $actividades = Actividad::
+        join('users', 'users.id', '=', 'actividades.usuario_asignado')
+        ->join('estados','estados.id', '=', 'actividades.estado_id')
+        ->select('actividades.*', 'users.name as name','estados.porcentaje as porcentaje')
+        ->where('campania_id', $campania_id)
+        ->get();
+
+        return view('gantt.show', compact(
+            'campania',
+            'etapas',
+            'entregables',
             'actividades',
             'campania_etapas'
         ));

@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function(){
     Route::post('asignarencargado', 'CampaniaEtapaController@asignarEncargado')->name('asignarencargado')->middleware('permission:campanias.create');;
     Route::get('asignarencargados/{campania_id}', 'CampaniaEtapaController@vistaAsignarEncargados')->name('vistaAsignarEncargados')->middleware('permission:campanias.create');;
     Route::resource('actividades', 'ActividadController');
+    Route::get('cambiarestado/{actividad_id}/{estado_id}', 'ActividadController@updateEstado')->name('cambiar-estado');
     Route::resource('entregables', 'EntregableController');
 
     Route::get('agregarcampaniaetapa/{campania_id}/{etapa_id}/{estado_id}', 'CampaniaEtapaController@agregarCampaniaEtapa')->name('agregarcampaniaetapa')->middleware('permission:campanias.create');
@@ -82,6 +83,7 @@ Route::middleware('auth')->group(function(){
     Route::post('actualizarActividad/{id}', 'ActividadController@updateActividad')->middleware('permission:campanias.create');
 
     Route::get('gantt', 'GanttController@index')->name('gantt.index');
+    Route::get('show-gantt/{campania_id}', 'GanttController@gantEspecifico')->name('gantt.show');
 
     Route::get('test_email', 'ActividadController@test_email')->name('test_email');
 });

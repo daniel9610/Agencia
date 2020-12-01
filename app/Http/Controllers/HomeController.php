@@ -7,6 +7,7 @@ use App\Campania;
 use App\Etapa;
 use App\Cliente;
 use App\Actividad;
+use App\Categoria;
 
 class HomeController extends Controller
 {
@@ -29,12 +30,40 @@ class HomeController extends Controller
     {
                
         $clientes = Cliente::where('activo', 1)->get();
+        $categorias = Categoria::where('activo', 1)->get();
         // $clientes_fase_ejecucion = Cliente::where('fase_id', 2)->get();
        
         // dd(count($clientes_fase_ejecucion));
         $etapas = Etapa::all();
-        $campanias_fase_diseño = Campania::where('fase_id', 1)->get();
-        $campanias_fase_ejecucion = Campania::where('fase_id', 2)->get();
+        $campanias_fase_diseño = Campania::
+        join('categorias', 'categorias.id', 'campanias.categoria_id')
+        ->select(
+        'campanias.id',
+        'campanias.nombre',
+        'campanias.NIT',
+        'campanias.cliente_id',
+        'categorias.nombre as categoria_id',
+        'campanias.fase_id','campanias.encargado',
+        'campanias.numero_contacto',
+        'campanias.email',
+        'campanias.fecha_entrega'
+        )
+        ->where('fase_id', 1)->get();
+        // dd($campanias_fase_diseño);
+        $campanias_fase_ejecucion = Campania::
+        join('categorias', 'categorias.id', 'campanias.categoria_id')
+        ->select(
+        'campanias.id',
+        'campanias.nombre',
+        'campanias.NIT',
+        'campanias.cliente_id',
+        'categorias.nombre as categoria_id',
+        'campanias.fase_id','campanias.encargado',
+        'campanias.numero_contacto',
+        'campanias.email',
+        'campanias.fecha_entrega'
+        )
+        ->where('fase_id', 2)->get();
 
         if(count($campanias_fase_diseño)>0){
             foreach($campanias_fase_diseño as $campania){
@@ -69,7 +98,7 @@ class HomeController extends Controller
         }
         
 
-        return view('home', compact('etapas', 'clientes', 'campanias_fase_diseño', 'campanias_fase_ejecucion'));
+        return view('home', compact('etapas', 'clientes', 'campanias_fase_diseño', 'campanias_fase_ejecucion', 'categorias'));
     
     }
 }
