@@ -22,6 +22,7 @@ class CreateEntregablesTable extends Migration
             $table->integer('etapa_id')->nullable();
             $table->integer('estado_id')->nullable();
             $table->integer('autor_id')->nullable();
+            $table->integer('responsable_id')->nullable();
             $table->dateTime('fecha_entrega')->nullable();
             $table->timestamps();
         });

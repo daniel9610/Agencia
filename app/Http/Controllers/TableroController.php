@@ -72,6 +72,7 @@ class TableroController extends Controller
         $entregables = Entregable::where('campania_id',$campania_id)->get();
 
         $users = User::select('id','name')->get();
+        // dd($entregables);
         return view('tableros.create', compact(
             'actividades',
             'campania_etapas',

@@ -49,6 +49,8 @@
                                 <a href="{{ route('campania_etapas',  $campania->id) }}" class="btn btn-dark">Gestionar</a>
                                 @can('campanias.create')
                                     <a href="{{ route('creartablero' , $campania->id) }}" class="btn btn-dark">Tablero</a>
+                                    <a href="{{ route('gantt.show' , $campania->id) }}" class="btn btn-dark">Gantt</a>
+                                    
                                 @endcan
                                 {{-- <button class="btn btn-success" type="button" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash-alt"></i> Agregar</button> --}}
                             </td>

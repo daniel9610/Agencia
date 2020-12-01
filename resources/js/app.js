@@ -28,6 +28,7 @@ import GanttHeader from "gantt-elastic-header";
 Vue.component('tablero-component', require('./components/tablero/TableroComponent.vue').default);
 Vue.component('tableroform-component', require('./components/tablero/TableroFormComponent.vue').default);
 Vue.component('indexgantt-component', require('./components/gantt/IndexComponent.vue').default);
+Vue.component('showgantt-component', require('./components/gantt/ShowComponent.vue').default);
 
 
 Vue.config.productionTip = false

@@ -28,6 +28,14 @@
         @endforeach
         </select><br>
 
+        <label for="nombre_rol">Cargo:</label><br>
+        <select name="cargo_id" id="cargo_id" required class="form-control">
+            <option value=""></option>
+            @foreach($cargos as $cargo)
+            <option value="{{ $cargo->id }}"> {{ $cargo->nombre }} </option>
+        @endforeach
+        </select><br>
+
    <button  type="submit" class="btn btn-primary btn-lg btn-block">Asignar rol</button>
     </form>
 </div>

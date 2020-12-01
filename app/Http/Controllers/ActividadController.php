@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Actividad;
+use App\Log;
+use App\Estado;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -46,10 +48,18 @@ class ActividadController extends Controller
         $actividad->nombre = $request->nombre;
         $actividad->prioridad = $request->prioridad;
         $actividad->campania_id = $request->campania_id;
-        $actividad->etapa_id = $request->etapa_id;
         $actividad->entregable_id = $request->entregable_id;
         $actividad->estado_id = $request->estado_id;
         $actividad->fecha_entrega = $request->fecha_entrega;
+        if($request->etapa_id){
+            $actividad->etapa_id = $request->etapa_id;
+        }
+        if($request->usuario_asignado){
+            $actividad->usuario_asignado = $request->usuario_asignado;
+            $actividad->fecha_asignacion = Carbon::now();
+            $actividad->autor_id = Auth::user()->id;
+        }
+     
         $actividad->save();
         $m = "Actividad ".$actividad->nombre." creada correctamente";
         return back()->with('status',$m);
@@ -74,27 +84,6 @@ class ActividadController extends Controller
         return response()->json('Actividad Guardada',200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Actividad  $actividad
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Actividad $actividad)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Actividad  $actividad
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Actividad $actividad)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -117,6 +106,22 @@ class ActividadController extends Controller
         $actividad->save();
         $m = "Actividad ".$actividad->nombre." asignada correctamente"; 
         return back()->with('status',$m);
+    }
+
+    public function updateEstado($actividad_id, $estado_id){
+        $actividad = Actividad::findOrFail($actividad_id);
+        $actividad->estado_id = $estado_id;
+        $actividad->save();
+
+        $estado = Estado::where('id', $estado_id)->get();
+        $registrar_log = new Log;
+        $registrar_log->usuario_id = Auth::user()->id;
+        $registrar_log->origen_id = $actividad_id;
+        $registrar_log->tipo = 2;
+        $registrar_log->accion = "Cambio de estado de actividad a: ".$estado[0]->nombre;
+        $registrar_log->save();
+
+        return response()->json('Estado Actualizado',200);
     }
 
     public function updateActividad(Request $request, $id)

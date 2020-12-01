@@ -417,6 +417,7 @@ export default {
     'actividades',
     'campania_id',
     'estados',
+    'entregables',
     'users',
     'sin_iniciar',
     'en_proceso',
@@ -447,7 +448,7 @@ export default {
     };
   },
   mounted() {
-
+console.log(this.entregables)
     for(let i = 0; i < this.campania_etapas.length; i++){
       if(this.campania_etapas[i].etapa_id == 3){
         this.showInvestigacionBrief = true;

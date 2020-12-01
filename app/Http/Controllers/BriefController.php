@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Brief;
 use App\Documento;
 use App\CampaniaEtapa;
+use App\Log;
+use App\Estado;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Repositories\GoogleRepository;
@@ -119,11 +121,18 @@ class BriefController extends Controller
         where("campania_id", $campania_id)
         ->where("etapa_id", 2)->first();
 
-        // dd($campania_etapa);
-
+        $estado = Estado::where('id', $estado_id)->get();
+        
         $brief = Brief::where('campania_id', $campania_id)->first();
         $brief->estado_id = $estado_id;
         $brief->save();
+
+        $registrar_log = new Log;
+        $registrar_log->usuario_id = Auth::user()->id;
+        $registrar_log->origen_id = $campania_id;
+        $registrar_log->tipo = 1;
+        $registrar_log->accion = "Cambio de estado brief a: ".$estado[0]->nombre;
+        $registrar_log->save();
 
         if($estado_id == 9 && $campania_etapa){
             $campania_etapa->estado_id = 1;
