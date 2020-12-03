@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function(){
     Route::get('finalizaracreatividad/{campania_id}', 'CreatividadController@finalizarCreatividad')->name('finalizarCreatividad')->middleware('permission:campanias.create');
     Route::get('finalizaraplanearejecucion/{campania_id}', 'PlanearEjecucionController@finalizarPlanearEjecucion')->name('finalizarPlanearEjecucion')->middleware('permission:campanias.create');
     Route::post('clienteacepta', 'PlanearEjecucionController@clienteAcepta')->name('clienteAcepta')->middleware('permission:campanias.create');
+    Route::post('asignarMetodologia', 'CampaniaEtapaController@asignarMetodologia')->name('asignar-metodologia')->middleware('permission:campanias.create');
     
     //Roles
     Route::get('asignacionroles', 'RolController@vistaRoles')->middleware('role:Director');
