@@ -8,6 +8,22 @@
 {{--  --}}
 @can('campanias.create')
 
+{{-- <form method="POST" action="{{ route('asignar-metodologia') }}" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="POST">
+    @csrf
+    <select id="fnivel" name="metodologia">
+        <option value=""></option>
+        <option value="metodologia 1">Metodología 1</option>    
+        <option value="metodologia 2">Metodología 2</option>    
+        <option value="metodologia 3">Metodología 3</option>  
+        <option value="2">Otra</option>
+    </select>
+<button class="btn btn-primary">Subir</button>
+
+</form> --}}
+
+
+
 <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card">
@@ -170,13 +186,32 @@
 </div>
 
 
-
-
-
 </div>
 <br><br><a class="btn btn-primary btn-lg " href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>
-
-    
-
 @endsection
 
+@push('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+
+    $("#fnivel").change(function() {
+        var selected_option = $('#fnivel').val();
+        var text_value = $('#fnivel2').val();
+        var value = $("#fnivel2").attr('value');
+        if (selected_option == '2') {
+            $("#fnivel").after("<br><input id='fnivel2' pk='1' placeholder='metodologia' name='metodologia2'/>")
+            // $("#fnivel").val(text_value);
+
+        }
+        if (selected_option != '2') {
+            $("#fnivel2").remove()
+        }
+        $("#fnivel").val(value);
+        console.log($("#fnivel").val());
+
+        })
+    });
+
+</script>
+@endpush

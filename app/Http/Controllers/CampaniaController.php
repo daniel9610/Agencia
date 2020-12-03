@@ -13,6 +13,7 @@ use App\Actividad;
 use App\Brief;
 use App\Documento;
 use App\User;
+use App\CampaniaEtapaMetodologia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -253,6 +254,18 @@ class CampaniaController extends Controller
 
     // Estas funciones se pueden convertir en una sola, definir si es necesario que vayan separadas
     public function vistaGenerarInvestigacionBrief($campania_id, $etapa_id){
+        $campania_etapa = CampaniaEtapa::
+        where('campania_id', $campania_id)
+        ->where('etapa_id', $etapa_id)
+        ->first();
+
+        $metodologia = CampaniaEtapaMetodologia::where('campania_etapa_id', $campania_etapa->id)->get();
+        if(count($metodologia) == 0){
+            $metodologia = 0;
+        }
+// dd(count($metodologia));
+
+
         $estados_actividades = Estado::where('tipo_estado', 3)->get();
         $entregables = Entregable::where('campania_id', $campania_id)->where('etapa_id', $etapa_id)->get();
         if(count($entregables)==0){
@@ -298,7 +311,18 @@ class CampaniaController extends Controller
 
         $users = User::all();
         $estados = Estado::where('tipo_estado', 3)->get();
-        return view('etapas.generarInvestigacionBrief', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables', 'estados'));
+        return view('etapas.generarInvestigacionBrief', compact(
+            'campania_id',
+            'estados_actividades',
+            'etapa_id',
+            'actividades',
+            'users',
+            'actividades_a_asignar',
+            'list',
+            'entregables',
+            'estados',
+            'metodologia'
+        ));
     }
 
     public function vistaGenerarAlinearEstrategia($campania_id, $etapa_id){

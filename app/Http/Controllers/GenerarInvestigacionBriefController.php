@@ -52,7 +52,8 @@ class GenerarInvestigacionBriefController extends Controller
         return back()->with("success", "Investigación de brief finalizada");
     }
 
-    public function subirPresentacion(Request $request, $campania_id){
+    public function subirPresentacion(Request $request, $campania_id)
+    {
         $carpeta = Documento::where('campania_id', $campania_id)->get();
         $carpeta_padre = $carpeta[0]->drive_id;
         $archivo_drive = $this->google_repository->subirArchivos($request, $this->drive, $carpeta_padre);

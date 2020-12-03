@@ -143,4 +143,10 @@ class CampaniaEtapaController extends Controller
         // Enviar correo al responsable asignado
         return back()->with('success', 'Responsable asignado correctamente');
     }
+
+
+    public function asignarMetodologia(Request $request)
+    {
+        dd($request->metodologia);
+    }
 }

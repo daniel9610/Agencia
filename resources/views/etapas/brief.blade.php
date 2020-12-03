@@ -26,7 +26,7 @@
             </div>
           </div>
         </div>
-        @endif
+        @endif 
 
         <div class="col-md-12">
             <!-- Nav pills -->
@@ -133,6 +133,8 @@
                 }
                 });
             })
+
+
         });
     </script>
 @endpush
