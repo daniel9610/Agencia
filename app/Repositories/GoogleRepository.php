@@ -10,8 +10,8 @@ use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
-
-
+use App\Exceptions\Exception;
+use Illuminate\Support\Facades\Auth;
 // use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 //use Your Model
 
@@ -29,7 +29,6 @@ class GoogleRepository
 
         $carpeta_nombre = $request->nombre;
         if($request->es_campania){
-
             try{
                 //crear folder con nombre de la campania en drive
                 $fileMetadata = new Google_Service_Drive_DriveFile(array(
@@ -39,7 +38,7 @@ class GoogleRepository
                     'fields' => 'id'));
             return $file;
 
-            }catch(Exception $e){
+            }catch(\Exception $e){
                 Auth::logout();
                 return redirect()->route('login')->with('message', [
                     'type' => 'error',
@@ -58,6 +57,7 @@ class GoogleRepository
                 'fields'=>'files(id,name)',
                 'q'=>$query1
             ];
+
             $results = $drive->files->ListFiles($optParams);
             $list = $results->getFiles();
             if(count($list) == 0){
@@ -65,7 +65,7 @@ class GoogleRepository
             }
             return $list;
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             Auth::logout();
             return redirect()->route('login')->with('message', [
                 'type' => 'error',
@@ -101,9 +101,8 @@ class GoogleRepository
                 $file_id = $createdFile->getId();
                 return $file_id;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return json_encode("error en la carga de archivo".$e);
-
             }
         }
     }
@@ -244,7 +243,7 @@ class GoogleRepository
             return Redirect::back()
                 ->with('error',$m);
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             $m = $e->getMessage();
             return Redirect::back()
                 ->with('error',$m);
