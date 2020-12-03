@@ -86,7 +86,7 @@
 
                                         {{-- <input class="cliente_acepta" type="radio" id="si" name="acepta" value="1" required>
                                         <label for="si">Si</label><br>
-                                        
+
                                         <input class="cliente_acepta" type="radio" id="no" name="acepta" value="0">
                                         <label for="no">No</label><br><br> --}}
                                     </div>
@@ -102,13 +102,13 @@
                                                                                         </button>
                                                                                     </div>
                                                                                     <div class="modal-body">
-                                                                                          
+
                                                                                               {{-- <div style="text-align: center"> --}}
                                                                                                 <label for="desc">Razones</label><br>
                                                                                                <input type="text" name="desc" id="desc" required class="form-control"><br>
                                                                                             {{-- </div> --}}
                                                                                             <input class="btn btn-primary btn-lg btn-block" type="button" id="finalizar-dialog" value="Finalizar">
-                                                        
+
                                                                                     </div>
                                                                                     <div class="modal-footer">
                                                                                         <button type="button" class="btn btn-danger" id="cerrar-modal" data-dismiss="modal"><i class="fas fa-times"></i> Cancelar</button>
@@ -173,30 +173,30 @@
             </div>
         </div>
 
-    
+
 @endcan
 
 <div class="col-md-8">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title clients-header">
-             <h5 class="mb-0">
-                Actividades
-                <button class="btn" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="collapseThree">
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
-                    </svg>
-                </button>
-            </h5>
+                <h5 class="mb-0">
+                    Actividades
+                    <button class="btn" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="collapseThree">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
+                        </svg>
+                    </button>
+                </h5>
             </h5>
             <div class="collapse multi-collapse" id="multiCollapseExample1">
             </div>
-            <div class="collapse multi-collapse" id="multiCollapseExample2"> 
-                    @include('actividades.index') 
+            <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    @include('actividades.index')
             </div>
 
             <h5 class="card-title files-header">
-            
+
                 {{-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a>  --}}
             {{-- <a id="fase_ejecucion" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase de ejecución</a> --}}
             {{-- <a id="fase_propuesta" class=" buttons-card-header" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">Fase diseño de propuesta</a> --}}
@@ -214,7 +214,7 @@
 
             </div>
 
-            <div class="collapse multi-collapse" id="multiCollapseExample3">  
+            <div class="collapse multi-collapse" id="multiCollapseExample3">
             <div class="links">
                 @if($list == "Sin archivos")
                     Etapa sin presentaciones cargadas
@@ -228,7 +228,7 @@
 
 
             <h5 class="card-title kickOff-header">
-            
+
                 {{-- <a href="#" class="card-link btn btn-primary buttons-card-header">Fase de ejecución</a>  --}}
             {{-- <a id="fase_ejecucion" class="btn btn-primary buttons-card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Fase de ejecución</a> --}}
             {{-- <a id="fase_propuesta" class=" buttons-card-header" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2">Fase diseño de propuesta</a> --}}
@@ -246,7 +246,7 @@
 
             </div>
 
-            <div class="collapse multi-collapse" id="multiCollapseExample4">  
+            <div class="collapse multi-collapse" id="multiCollapseExample4">
                 <div class="container">
                     <div class="row">
                         @if(session('error') || session('success'))
@@ -269,19 +269,19 @@
                                 @csrf
                                 <label for="nombre_reunion">Nombre Reunion:</label><br>
                                 <input type="text" name="nombre_reunion" id="nombre_reunion" required class="form-control"><br>
-                
+
                                 <label for="descripcion">Descripción:</label><br>
                                 <input type="text" name="descripcion" id="descripcion" required class="form-control"><br>
-                
+
                                 <label for="fecha_reunion">Fecha Reunion:</label><br>
                                 <input type="date" name="fecha_reunion" id="fecha_reunion" required class="form-control"><br><br>
-                
+
                                 <label for="hora_reunion">Hora Reunion:</label><br>
                                 <input type="time" name="hora_reunion" id="hora_reunion" required class="form-control"><br><br>
-                                
+
                                 <input type="hidden" name="campania_id" value="{{$campania_id}}">
                                 <button  type="submit" class="btn btn-primary btn-lg btn-block">Crear Reunion</button><br><br>
-                                
+
                         </div>
                     </div>
                 </div>
@@ -289,10 +289,17 @@
 
     </div>
 </div>
-
-
-
-
+<br>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title clients-header">
+            <h5 class="mb-0">
+                Actividades
+                @include('etapas.planearEjecucionGantt')
+            </h5>
+        </h5>
+    </div>
+</div>
 
 </div>
 <br><br><a class="btn btn-primary btn-lg " href="/campaniaetapas/{{$campania_id}}"><i class="fas fa-arrow-left"></i> Atrás</a>
@@ -311,21 +318,21 @@
             {
                 $("#ajustes").modal("show");
             }else{
-                $("#formulario").submit() 
+                $("#formulario").submit()
             }
         });
 
-        $("#finalizar-dialog").click(function(){  
+        $("#finalizar-dialog").click(function(){
             if($("#desc").val()!=''){
                 $("#formulario").submit(); // Submit the form
             }else{
                 alert("Debes escribir al menos una razón");
-            }   
+            }
         });
     });
     </script>
 
 @endpush
-    
+
 
 @endsection

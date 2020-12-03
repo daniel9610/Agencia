@@ -1967,6 +1967,7 @@ __webpack_require__.r(__webpack_exports__);
     console.log(this.campanias);
     console.log(this.etapas);
     console.log(this.campania_etapas);
+    console.log(this.entregables);
     console.log(this.actividades);
 
     for (var i = 0; i < this.campanias.length; i++) {
@@ -1984,69 +1985,112 @@ __webpack_require__.r(__webpack_exports__);
           var fecha_asignacion_etapa = '';
           var fecha_entrega_etapa = '';
 
-          for (var k = 0; k < this.actividades.length; k++) {
-            if (this.campanias[i].id == this.actividades[k].campania_id && this.campania_etapas[j].etapa_id == this.actividades[k].etapa_id) {
-              porcentaje_aux = porcentaje_aux + this.actividades[k].porcentaje;
+          for (var k = 0; k < this.entregables.length; k++) {
+            var porcentaje_aux_entregables = 0;
+            var porcentaje_entregables = 0;
+            var acum_entregables = 0;
+            var fecha_asignacion_entregables = '';
+            var fecha_entrega_entregables = '';
+            console.log(this.campanias[i].id == this.entregables[k].campania_id && this.campania_etapas[j].etapa_id == this.entregables[k].etapa_id);
+
+            if (this.campanias[i].id == this.entregables[k].campania_id && this.campania_etapas[j].etapa_id == this.entregables[k].etapa_id) {
+              for (var l = 0; l < this.actividades.length; l++) {
+                if (this.campanias[i].id == this.actividades[l].campania_id && this.campania_etapas[j].etapa_id == this.actividades[l].etapa_id && this.entregables[k].id == this.actividades[l].entregable_id) {
+                  porcentaje_aux_entregables = porcentaje_aux_entregables + this.actividades[l].porcentaje;
+                  acum_entregables = acum_entregables + 1;
+
+                  if (fecha_asignacion_entregables == '') {
+                    fecha_asignacion_entregables = new Date(this.actividades[l].fecha_asignacion);
+                  } else {
+                    if (fecha_asignacion_entregables > new Date(this.actividades[l].fecha_asignacion)) {
+                      fecha_asignacion_entregables = new Date(this.actividades[l].fecha_asignacion);
+                    }
+                  }
+
+                  if (fecha_entrega_entregables == '') {
+                    fecha_entrega_entregables = new Date(this.actividades[l].fecha_entrega);
+                  } else {
+                    if (fecha_entrega_entregables < new Date(this.actividades[l].fecha_entrega)) {
+                      fecha_entrega_entregables = new Date(this.actividades[l].fecha_entrega);
+                    }
+                  }
+
+                  var fecha_asignacion = new Date(this.actividades[l].fecha_asignacion);
+                  var fecha_entrega = new Date(this.actividades[l].fecha_entrega);
+
+                  var _diffTime3 = Math.abs(fecha_entrega - fecha_asignacion);
+
+                  var dias = Math.ceil(_diffTime3 / (1000 * 60 * 60 * 24));
+                  this.tasks.push({
+                    id: 'campania_' + this.campanias[i].id + '_etapa_' + this.campania_etapas[j].id + '_entregables_' + this.entregables[k].id + '_actividad_' + this.actividades[l].id,
+                    label: this.actividades[l].nombre,
+                    user: this.actividades[l].name,
+                    parentId: 'campania_' + this.campanias[i].id + '_etapa_' + this.campania_etapas[j].id + '_entregables_' + this.entregables[l].id,
+                    // getDate remplazarlo por el día de asignación de la tarea
+                    start: new Date(this.actividades[l].fecha_asignacion).getTime(),
+                    // 15 es la duración del task fecha entrega menos fecha asignación
+                    duration: dias * 24 * 60 * 60 * 1000,
+                    percent: this.actividades[l].porcentaje,
+                    type: "task",
+                    style: {
+                      base: {
+                        fill: "#0287D0",
+                        stroke: "#0077C0"
+                      }
+                    }
+                  });
+                }
+
+                if (this.campanias[i].id == this.actividades[l].campania_id) {
+                  if (fecha_asignacion_campania == '') {
+                    fecha_asignacion_campania = new Date(this.actividades[l].fecha_asignacion);
+                  } else {
+                    if (fecha_asignacion_campania > new Date(this.actividades[l].fecha_asignacion)) {
+                      fecha_asignacion_campania = new Date(this.actividades[l].fecha_asignacion);
+                    }
+                  }
+
+                  if (fecha_entrega_campania == '') {
+                    fecha_entrega_campania = new Date(this.actividades[l].fecha_entrega);
+                  } else {
+                    if (fecha_entrega_campania < new Date(this.actividades[l].fecha_entrega)) {
+                      fecha_entrega_campania = new Date(this.actividades[l].fecha_entrega);
+                    }
+                  }
+                }
+              }
+
+              if (porcentaje_aux_entregables !== 0) {
+                porcentaje_entregables = porcentaje_aux_entregables / acum_entregables;
+              }
+
+              porcentaje_aux = porcentaje_aux + porcentaje_entregables;
               acum = acum + 1;
 
-              if (fecha_asignacion_etapa == '') {
-                fecha_asignacion_etapa = new Date(this.actividades[k].fecha_asignacion);
-              } else {
-                if (fecha_asignacion_etapa > new Date(this.actividades[k].fecha_asignacion)) {
-                  fecha_asignacion_etapa = new Date(this.actividades[k].fecha_asignacion);
-                }
-              }
+              var _diffTime2 = Math.abs(fecha_entrega_entregables - fecha_asignacion_entregables);
 
-              if (fecha_entrega_etapa == '') {
-                fecha_entrega_etapa = new Date(this.actividades[k].fecha_entrega);
-              } else {
-                if (fecha_entrega_etapa < new Date(this.actividades[k].fecha_entrega)) {
-                  fecha_entrega_etapa = new Date(this.actividades[k].fecha_entrega);
-                }
-              }
-
-              var fecha_asignacion = new Date(this.actividades[k].fecha_asignacion);
-              var fecha_entrega = new Date(this.actividades[k].fecha_entrega);
-
-              var _diffTime2 = Math.abs(fecha_entrega - fecha_asignacion);
-
-              var dias = Math.ceil(_diffTime2 / (1000 * 60 * 60 * 24));
+              var dias_entregable = Math.ceil(_diffTime2 / (1000 * 60 * 60 * 24));
               this.tasks.push({
-                id: 'campania_' + this.campanias[i].id + '_etapa_' + this.campania_etapas[j].id + '_actividad_' + this.actividades[k].id,
-                label: this.actividades[k].nombre,
-                user: this.actividades[k].name,
+                id: 'campania_' + this.campanias[i].id + '_etapa_' + this.campania_etapas[j].id + '_entregables_' + this.entregables[k].id,
+                label: this.entregables[k].nombre,
+                // user:this.campania_etapas[i].encargado,
                 parentId: 'campania_' + this.campanias[i].id + '_etapa_' + this.campania_etapas[j].id,
                 // getDate remplazarlo por el día de asignación de la tarea
-                start: new Date(this.actividades[k].fecha_asignacion).getTime(),
-                // 15 es la duración del task fecha entrega menos fecha asignación
-                duration: dias * 24 * 60 * 60 * 1000,
-                percent: this.actividades[k].porcentaje,
-                type: "task",
+                start: new Date(this.entregables[k].created_at).getTime(),
+                // suma de todas las duraciones
+                duration: dias_entregable * 24 * 60 * 60 * 1000,
+                //primera fecha de la primera actividad y fecha de la ultima actividad
+                percent: porcentaje_entregables,
+                //Suma de todas las actividades
+                type: "milestone",
+                collapsed: true,
                 style: {
                   base: {
-                    fill: "#0287D0",
-                    stroke: "#0077C0"
+                    fill: "#1EBC61",
+                    stroke: "#0EAC51"
                   }
                 }
               });
-            }
-
-            if (this.campanias[i].id == this.actividades[k].campania_id) {
-              if (fecha_asignacion_campania == '') {
-                fecha_asignacion_campania = new Date(this.actividades[k].fecha_asignacion);
-              } else {
-                if (fecha_asignacion_campania > new Date(this.actividades[k].fecha_asignacion)) {
-                  fecha_asignacion_campania = new Date(this.actividades[k].fecha_asignacion);
-                }
-              }
-
-              if (fecha_entrega_campania == '') {
-                fecha_entrega_campania = new Date(this.actividades[k].fecha_entrega);
-              } else {
-                if (fecha_entrega_campania < new Date(this.actividades[k].fecha_entrega)) {
-                  fecha_entrega_campania = new Date(this.actividades[k].fecha_entrega);
-                }
-              }
             }
           }
 
@@ -2105,203 +2149,6 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     }
-    /*this.tasks = [
-      {
-        id: 1,
-        label: "Make some noise",
-        user:
-          '<a href="https://www.google.com/search?q=John+Doe" target="_blank" style="color:#0077c0;">John Doe</a>',
-        // getDate remplazarlo por el día de asignación de la tarea
-        start: this.getDate(-24 * 5),
-        // 15 es la duración del task fecha entrega menos fecha asignación
-        duration: 15 * 24 * 60 * 60 * 1000,
-        percent: 85,
-        type: "project"
-        //collapsed: true,
-      },
-      {
-        id: 2,
-        label: "With great power comes great responsibility",
-        user:
-          '<a href="https://www.google.com/search?q=Peter+Parker" target="_blank" style="color:#0077c0;">Peter Parker</a>',
-        parentId: 1,
-        start: this.getDate(-24 * 4),
-        duration: 4 * 24 * 60 * 60 * 1000,
-        percent: 50,
-        type: "milestone",
-        collapsed: true,
-        style: {
-          base: {
-            fill: "#1EBC61",
-            stroke: "#0EAC51"
-          }
-        }
-      },
-      {
-        id: 3,
-        label: "Courage is being scared to death, but saddling up anyway.",
-        user:
-          '<a href="https://www.google.com/search?q=John+Wayne" target="_blank" style="color:#0077c0;">John Wayne</a>',
-        parentId: 2,
-        start: this.getDate(-24 * 3),
-        duration: 2 * 24 * 60 * 60 * 1000,
-        percent: 100,
-        type: "task"
-      },
-      {
-        id: 4,
-        label: "Put that toy AWAY!",
-        user:
-          '<a href="https://www.google.com/search?q=Clark+Kent" target="_blank" style="color:#0077c0;">Clark Kent</a>',
-        start: this.getDate(-24 * 2),
-        duration: 2 * 24 * 60 * 60 * 1000,
-        percent: 50,
-        type: "task",
-        dependentOn: [3]
-      },
-      {
-        id: 5,
-        label:
-          "One billion, gajillion, fafillion... shabadylu...mil...shabady......uh, Yen.",
-        user:
-          '<a href="https://www.google.com/search?q=Austin+Powers" target="_blank" style="color:#0077c0;">Austin Powers</a>',
-        parentId: 4,
-        start: this.getDate(0),
-        duration: 2 * 24 * 60 * 60 * 1000,
-        percent: 10,
-        type: "milestone",
-        style: {
-          base: {
-            fill: "#0287D0",
-            stroke: "#0077C0"
-          }
-        }
-      },
-      {
-        id: 6,
-        label: "Butch Mario and the Luigi Kid",
-        user:
-          '<a href="https://www.google.com/search?q=Mario+Bros" target="_blank" style="color:#0077c0;">Mario Bros</a>',
-        parentId: 5,
-        start: this.getDate(24),
-        duration: 1 * 24 * 60 * 60 * 1000,
-        percent: 50,
-        type: "task",
-        collapsed: true,
-        style: {
-          base: {
-            fill: "#8E44AD",
-            stroke: "#7E349D"
-          }
-        }
-      },
-      {
-        id: 7,
-        label: "Devon, the old man wanted me, it was his dying request",
-        user:
-          '<a href="https://www.google.com/search?q=Knight+Rider" target="_blank" style="color:#0077c0;">Knight Rider</a>',
-        parentId: 2,
-        dependentOn: [6],
-        start: this.getDate(24 * 2),
-        duration: 4 * 60 * 60 * 1000,
-        percent: 20,
-        type: "task",
-        collapsed: true
-      },
-      {
-        id: 8,
-        label: "Hey, Baby! Anybody ever tell you I have beautiful eyes?",
-        user:
-          '<a href="https://www.google.com/search?q=Johhny+Bravo" target="_blank" style="color:#0077c0;">Johhny Bravo</a>',
-        parentId: 7,
-        dependentOn: [7],
-        start: this.getDate(24 * 3),
-        duration: 1 * 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 9,
-        label:
-          "This better be important, woman. You are interrupting my very delicate calculations.",
-        user:
-          '<a href="https://www.google.com/search?q=Dexter\'s+Laboratory" target="_blank" style="color:#0077c0;">Dexter\'s Laboratory</a>',
-        parentId: 8,
-        dependentOn: [8, 7],
-        start: this.getDate(24 * 4),
-        duration: 4 * 60 * 60 * 1000,
-        percent: 20,
-        type: "task",
-        style: {
-          base: {
-            fill: "#8E44AD",
-            stroke: "#7E349D"
-          }
-        }
-      },
-      {
-        id: 10,
-        label: "current task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 5),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 11,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 6),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 12,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 7),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task",
-        parentId: 11
-      },
-      {
-        id: 13,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 8),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 14,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 9),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 15,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 16),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      }
-    ];*/
-
 
     this.options = {
       taskMapping: {
@@ -2432,7 +2279,347 @@ __webpack_require__.r(__webpack_exports__);
       this.dynamicStyle = style;
     }
   },
-  props: ['campanias', 'etapas', 'campania_etapas', 'actividades']
+  props: ['campanias', 'etapas', 'campania_etapas', 'actividades', 'entregables']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var gantt_elastic__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gantt-elastic */ "./node_modules/gantt-elastic/src/GanttElastic.vue");
+/* harmony import */ var gantt_elastic_header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gantt-elastic-header */ "./node_modules/gantt-elastic-header/src/Header.vue");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+ // just helper to get current dates
+// function getDate(hours) {
+//   const currentDate = new Date();
+//   const currentYear = currentDate.getFullYear();
+//   const currentMonth = currentDate.getMonth();
+//   const currentDay = currentDate.getDate();
+//   const timeStamp = new Date(
+//     currentYear,
+//     currentMonth,
+//     currentDay,
+//     0,
+//     0,
+//     0
+//   ).getTime();
+//   console.log(new Date(timeStamp + hours * 60 * 60 * 1000).getTime());
+//   return new Date(timeStamp + hours * 60 * 60 * 1000).getTime();
+// }
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Gantt",
+  components: {
+    GanttElastic: gantt_elastic__WEBPACK_IMPORTED_MODULE_0__["default"],
+    GanttHeader: gantt_elastic_header__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      tasks: [],
+      options: [],
+      dynamicStyle: {},
+      lastId: 16,
+      showGantt: false
+    };
+  },
+  mounted: function mounted() {
+    console.log(this.campania);
+    console.log(this.entregables);
+    console.log(this.actividades);
+
+    for (var i = 0; i < this.campania.length; i++) {
+      var porcentaje_aux_campania = 0;
+      var porcentaje_campania = 0;
+      var acum_campania = 0;
+      var fecha_asignacion_campania = '';
+      var fecha_entrega_campania = '';
+
+      for (var k = 0; k < this.entregables.length; k++) {
+        var porcentaje_aux_entregables = 0;
+        var porcentaje_entregables = 0;
+        var acum_entregables = 0;
+        var fecha_asignacion_entregables = '';
+        var fecha_entrega_entregables = '';
+
+        if (this.campania[i].id == this.entregables[k].campania_id) {
+          for (var l = 0; l < this.actividades.length; l++) {
+            if (this.campania[i].id == this.actividades[l].campania_id && this.entregables[k].id == this.actividades[l].entregable_id) {
+              porcentaje_aux_entregables = porcentaje_aux_entregables + this.actividades[l].porcentaje;
+              acum_entregables = acum_entregables + 1;
+
+              if (fecha_asignacion_entregables == '') {
+                fecha_asignacion_entregables = new Date(this.actividades[l].fecha_asignacion);
+              } else {
+                if (fecha_asignacion_entregables > new Date(this.actividades[l].fecha_asignacion)) {
+                  fecha_asignacion_entregables = new Date(this.actividades[l].fecha_asignacion);
+                }
+              }
+
+              if (fecha_entrega_entregables == '') {
+                fecha_entrega_entregables = new Date(this.actividades[l].fecha_entrega);
+              } else {
+                if (fecha_entrega_entregables < new Date(this.actividades[l].fecha_entrega)) {
+                  fecha_entrega_entregables = new Date(this.actividades[l].fecha_entrega);
+                }
+              }
+
+              var fecha_asignacion = new Date(this.actividades[l].fecha_asignacion);
+              var fecha_entrega = new Date(this.actividades[l].fecha_entrega);
+
+              var _diffTime2 = Math.abs(fecha_entrega - fecha_asignacion);
+
+              var dias = Math.ceil(_diffTime2 / (1000 * 60 * 60 * 24));
+              this.tasks.push({
+                id: 'campania_' + this.campania[i].id + '_entregables_' + this.entregables[k].id + '_actividad_' + this.actividades[l].id,
+                label: this.actividades[l].nombre,
+                user: this.actividades[l].name,
+                parentId: 'campania_' + this.campania[i].id + '_entregables_' + this.entregables[k].id,
+                // getDate remplazarlo por el día de asignación de la tarea
+                start: new Date(this.actividades[l].fecha_asignacion).getTime(),
+                // 15 es la duración del task fecha entrega menos fecha asignación
+                duration: dias * 24 * 60 * 60 * 1000,
+                percent: this.actividades[l].porcentaje,
+                type: "task",
+                style: {
+                  base: {
+                    fill: "#0287D0",
+                    stroke: "#0077C0"
+                  }
+                }
+              });
+            }
+
+            if (this.campania[i].id == this.actividades[l].campania_id) {
+              if (fecha_asignacion_campania == '') {
+                fecha_asignacion_campania = new Date(this.actividades[l].fecha_asignacion);
+              } else {
+                if (fecha_asignacion_campania > new Date(this.actividades[l].fecha_asignacion)) {
+                  fecha_asignacion_campania = new Date(this.actividades[l].fecha_asignacion);
+                }
+              }
+
+              if (fecha_entrega_campania == '') {
+                fecha_entrega_campania = new Date(this.actividades[l].fecha_entrega);
+              } else {
+                if (fecha_entrega_campania < new Date(this.actividades[l].fecha_entrega)) {
+                  fecha_entrega_campania = new Date(this.actividades[l].fecha_entrega);
+                }
+              }
+            }
+          }
+
+          if (porcentaje_aux_entregables !== 0) {
+            porcentaje_entregables = porcentaje_aux_entregables / acum_entregables;
+          }
+
+          porcentaje_aux_campania = porcentaje_aux_campania + porcentaje_entregables;
+          acum_campania = acum_campania + 1;
+
+          var _diffTime = Math.abs(fecha_entrega_entregables - fecha_asignacion_entregables);
+
+          var dias_entregable = Math.ceil(_diffTime / (1000 * 60 * 60 * 24));
+          this.tasks.push({
+            id: 'campania_' + this.campania[i].id + '_entregables_' + this.entregables[k].id,
+            label: this.entregables[k].nombre,
+            // user:this.campania_etapas[i].encargado,
+            parentId: 'campania_' + this.campania[i].id,
+            // getDate remplazarlo por el día de asignación de la tarea
+            start: new Date(this.entregables[k].created_at).getTime(),
+            // suma de todas las duraciones
+            duration: dias_entregable * 24 * 60 * 60 * 1000,
+            //primera fecha de la primera actividad y fecha de la ultima actividad
+            percent: porcentaje_entregables,
+            //Suma de todas las actividades
+            type: "milestone",
+            collapsed: true,
+            style: {
+              base: {
+                fill: "#1EBC61",
+                stroke: "#0EAC51"
+              }
+            }
+          });
+        }
+      }
+
+      if (porcentaje_aux_campania !== 0) {
+        porcentaje_campania = porcentaje_aux_campania / acum_campania;
+      }
+
+      var diffTime = Math.abs(fecha_entrega_campania - fecha_asignacion_campania);
+      var dias_campania = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      this.tasks.push({
+        id: 'campania_' + this.campania[i].id,
+        label: this.campania[i].nombre,
+        user: this.campania[i].encargado,
+        // getDate remplazarlo por el día de asignación de la tarea
+        start: new Date(this.campania[i].created_at).getTime(),
+        // suma de todas las duraciones
+        duration: dias_campania * 24 * 60 * 60 * 1000,
+        //primera fecha de las actividades sin etapa.
+        percent: porcentaje_campania,
+        //suma de todas las etapas
+        type: "project" //collapsed: true,
+
+      });
+    }
+
+    this.options = {
+      taskMapping: {
+        progress: "percent"
+      },
+      maxRows: 100,
+      maxHeight: 500,
+      title: {
+        label: "Your project title as html (link or whatever...)",
+        html: false
+      },
+      row: {
+        height: 24
+      },
+      calendar: {
+        hour: {
+          display: true
+        }
+      },
+      chart: {
+        progress: {
+          bar: false
+        },
+        expander: {
+          display: true
+        }
+      },
+      taskList: {
+        expander: {
+          straight: false
+        },
+        columns: [{
+          id: 1,
+          label: "ID",
+          value: "id",
+          width: 40
+        }, {
+          id: 2,
+          label: "Descripción",
+          value: "label",
+          width: 200,
+          expander: true,
+          html: true,
+          events: {
+            click: function click(_ref) {
+              var data = _ref.data,
+                  column = _ref.column;
+              alert("description clicked!\n" + data.label);
+            }
+          }
+        }, {
+          id: 3,
+          label: "Asignado a",
+          value: "user",
+          width: 130,
+          html: true
+        }, {
+          id: 3,
+          label: "Empieza",
+          value: function value(task) {
+            return dayjs__WEBPACK_IMPORTED_MODULE_2___default()(task.start).format("YYYY-MM-DD");
+          },
+          width: 78
+        }, {
+          id: 4,
+          label: "Tipo",
+          value: "type",
+          width: 68
+        }, {
+          id: 5,
+          label: "%",
+          value: "progress",
+          width: 35,
+          style: {
+            "task-list-header-label": {
+              "text-align": "center",
+              width: "100%"
+            },
+            "task-list-item-value-container": {
+              "text-align": "center",
+              width: "100%"
+            }
+          }
+        }]
+      },
+      locale: {
+        name: "es",
+        Now: "Now",
+        "X-Scale": "Zoom-X",
+        "Y-Scale": "Zoom-Y",
+        "Task list width": "Task list",
+        "Before/After": "Expand",
+        "Display task list": "Task list"
+      }
+    };
+    this.showGantt = true;
+  },
+  methods: {
+    // addTask() {
+    //   this.tasks.push({
+    //     id: this.lastId++,
+    //     label:
+    //       '<a href="https://images.pexels.com/photos/423364/pexels-photo-423364.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" target="_blank" style="color:#0077c0;">Yeaahh! you have added a task bro!</a>',
+    //     user:
+    //       '<a href="https://images.pexels.com/photos/423364/pexels-photo-423364.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" target="_blank" style="color:#0077c0;">Awesome!</a>',
+    //     start: getDate(24 * 3),
+    //     duration: 1 * 24 * 60 * 60 * 1000,
+    //     percent: 50,
+    //     type: "project"
+    //   });
+    // },
+    getDate: function getDate(hours) {
+      var currentDate = new Date();
+      var currentYear = currentDate.getFullYear();
+      var currentMonth = currentDate.getMonth();
+      var currentDay = currentDate.getDate();
+      var timeStamp = new Date(currentYear, currentMonth, currentDay, 0, 0, 0).getTime();
+      console.log(new Date(timeStamp + hours * 60 * 60 * 1000).getTime());
+      return new Date(timeStamp + hours * 60 * 60 * 1000).getTime();
+    },
+    tasksUpdate: function tasksUpdate(tasks) {
+      this.tasks = tasks;
+    },
+    optionsUpdate: function optionsUpdate(options) {
+      this.options = options;
+    },
+    styleUpdate: function styleUpdate(style) {
+      this.dynamicStyle = style;
+    }
+  },
+  props: ['campania', 'actividades', 'entregables']
 });
 
 /***/ }),
@@ -2505,6 +2692,7 @@ __webpack_require__.r(__webpack_exports__);
     console.log(this.campania);
     console.log(this.etapas);
     console.log(this.campania_etapas);
+    console.log(this.entregables);
     console.log(this.actividades);
 
     for (var i = 0; i < this.campania.length; i++) {
@@ -2522,69 +2710,112 @@ __webpack_require__.r(__webpack_exports__);
           var fecha_asignacion_etapa = '';
           var fecha_entrega_etapa = '';
 
-          for (var k = 0; k < this.actividades.length; k++) {
-            if (this.campania[i].id == this.actividades[k].campania_id && this.campania_etapas[j].etapa_id == this.actividades[k].etapa_id) {
-              porcentaje_aux = porcentaje_aux + this.actividades[k].porcentaje;
+          for (var k = 0; k < this.entregables.length; k++) {
+            var porcentaje_aux_entregables = 0;
+            var porcentaje_entregables = 0;
+            var acum_entregables = 0;
+            var fecha_asignacion_entregables = '';
+            var fecha_entrega_entregables = '';
+            console.log(this.campania[i].id == this.entregables[k].campania_id && this.campania_etapas[j].etapa_id == this.entregables[k].etapa_id);
+
+            if (this.campania[i].id == this.entregables[k].campania_id && this.campania_etapas[j].etapa_id == this.entregables[k].etapa_id) {
+              for (var l = 0; l < this.actividades.length; l++) {
+                if (this.campania[i].id == this.actividades[l].campania_id && this.campania_etapas[j].etapa_id == this.actividades[l].etapa_id && this.entregables[k].id == this.actividades[l].entregable_id) {
+                  porcentaje_aux_entregables = porcentaje_aux_entregables + this.actividades[l].porcentaje;
+                  acum_entregables = acum_entregables + 1;
+
+                  if (fecha_asignacion_entregables == '') {
+                    fecha_asignacion_entregables = new Date(this.actividades[l].fecha_asignacion);
+                  } else {
+                    if (fecha_asignacion_entregables > new Date(this.actividades[l].fecha_asignacion)) {
+                      fecha_asignacion_entregables = new Date(this.actividades[l].fecha_asignacion);
+                    }
+                  }
+
+                  if (fecha_entrega_entregables == '') {
+                    fecha_entrega_entregables = new Date(this.actividades[l].fecha_entrega);
+                  } else {
+                    if (fecha_entrega_entregables < new Date(this.actividades[l].fecha_entrega)) {
+                      fecha_entrega_entregables = new Date(this.actividades[l].fecha_entrega);
+                    }
+                  }
+
+                  var fecha_asignacion = new Date(this.actividades[l].fecha_asignacion);
+                  var fecha_entrega = new Date(this.actividades[l].fecha_entrega);
+
+                  var _diffTime3 = Math.abs(fecha_entrega - fecha_asignacion);
+
+                  var dias = Math.ceil(_diffTime3 / (1000 * 60 * 60 * 24));
+                  this.tasks.push({
+                    id: 'campania_' + this.campania[i].id + '_etapa_' + this.campania_etapas[j].id + '_entregables_' + this.entregables[k].id + '_actividad_' + this.actividades[l].id,
+                    label: this.actividades[l].nombre,
+                    user: this.actividades[l].name,
+                    parentId: 'campania_' + this.campania[i].id + '_etapa_' + this.campania_etapas[j].id + '_entregables_' + this.entregables[l].id,
+                    // getDate remplazarlo por el día de asignación de la tarea
+                    start: new Date(this.actividades[l].fecha_asignacion).getTime(),
+                    // 15 es la duración del task fecha entrega menos fecha asignación
+                    duration: dias * 24 * 60 * 60 * 1000,
+                    percent: this.actividades[l].porcentaje,
+                    type: "task",
+                    style: {
+                      base: {
+                        fill: "#0287D0",
+                        stroke: "#0077C0"
+                      }
+                    }
+                  });
+                }
+
+                if (this.campania[i].id == this.actividades[l].campania_id) {
+                  if (fecha_asignacion_campania == '') {
+                    fecha_asignacion_campania = new Date(this.actividades[l].fecha_asignacion);
+                  } else {
+                    if (fecha_asignacion_campania > new Date(this.actividades[l].fecha_asignacion)) {
+                      fecha_asignacion_campania = new Date(this.actividades[l].fecha_asignacion);
+                    }
+                  }
+
+                  if (fecha_entrega_campania == '') {
+                    fecha_entrega_campania = new Date(this.actividades[l].fecha_entrega);
+                  } else {
+                    if (fecha_entrega_campania < new Date(this.actividades[l].fecha_entrega)) {
+                      fecha_entrega_campania = new Date(this.actividades[l].fecha_entrega);
+                    }
+                  }
+                }
+              }
+
+              if (porcentaje_aux_entregables !== 0) {
+                porcentaje_entregables = porcentaje_aux_entregables / acum_entregables;
+              }
+
+              porcentaje_aux = porcentaje_aux + porcentaje_entregables;
               acum = acum + 1;
 
-              if (fecha_asignacion_etapa == '') {
-                fecha_asignacion_etapa = new Date(this.actividades[k].fecha_asignacion);
-              } else {
-                if (fecha_asignacion_etapa > new Date(this.actividades[k].fecha_asignacion)) {
-                  fecha_asignacion_etapa = new Date(this.actividades[k].fecha_asignacion);
-                }
-              }
+              var _diffTime2 = Math.abs(fecha_entrega_entregables - fecha_asignacion_entregables);
 
-              if (fecha_entrega_etapa == '') {
-                fecha_entrega_etapa = new Date(this.actividades[k].fecha_entrega);
-              } else {
-                if (fecha_entrega_etapa < new Date(this.actividades[k].fecha_entrega)) {
-                  fecha_entrega_etapa = new Date(this.actividades[k].fecha_entrega);
-                }
-              }
-
-              var fecha_asignacion = new Date(this.actividades[k].fecha_asignacion);
-              var fecha_entrega = new Date(this.actividades[k].fecha_entrega);
-
-              var _diffTime2 = Math.abs(fecha_entrega - fecha_asignacion);
-
-              var dias = Math.ceil(_diffTime2 / (1000 * 60 * 60 * 24));
+              var dias_entregable = Math.ceil(_diffTime2 / (1000 * 60 * 60 * 24));
               this.tasks.push({
-                id: 'campania_' + this.campania[i].id + '_etapa_' + this.campania_etapas[j].id + '_actividad_' + this.actividades[k].id,
-                label: this.actividades[k].nombre,
-                user: this.actividades[k].name,
+                id: 'campania_' + this.campania[i].id + '_etapa_' + this.campania_etapas[j].id + '_entregables_' + this.entregables[k].id,
+                label: this.entregables[k].nombre,
+                // user:this.campania_etapas[i].encargado,
                 parentId: 'campania_' + this.campania[i].id + '_etapa_' + this.campania_etapas[j].id,
                 // getDate remplazarlo por el día de asignación de la tarea
-                start: new Date(this.actividades[k].fecha_asignacion).getTime(),
-                // 15 es la duración del task fecha entrega menos fecha asignación
-                duration: dias * 24 * 60 * 60 * 1000,
-                percent: this.actividades[k].porcentaje,
-                type: "task",
+                start: new Date(this.entregables[k].created_at).getTime(),
+                // suma de todas las duraciones
+                duration: dias_entregable * 24 * 60 * 60 * 1000,
+                //primera fecha de la primera actividad y fecha de la ultima actividad
+                percent: porcentaje_entregables,
+                //Suma de todas las actividades
+                type: "milestone",
+                collapsed: true,
                 style: {
                   base: {
-                    fill: "#0287D0",
-                    stroke: "#0077C0"
+                    fill: "#1EBC61",
+                    stroke: "#0EAC51"
                   }
                 }
               });
-            }
-
-            if (this.campania[i].id == this.actividades[k].campania_id) {
-              if (fecha_asignacion_campania == '') {
-                fecha_asignacion_campania = new Date(this.actividades[k].fecha_asignacion);
-              } else {
-                if (fecha_asignacion_campania > new Date(this.actividades[k].fecha_asignacion)) {
-                  fecha_asignacion_campania = new Date(this.actividades[k].fecha_asignacion);
-                }
-              }
-
-              if (fecha_entrega_campania == '') {
-                fecha_entrega_campania = new Date(this.actividades[k].fecha_entrega);
-              } else {
-                if (fecha_entrega_campania < new Date(this.actividades[k].fecha_entrega)) {
-                  fecha_entrega_campania = new Date(this.actividades[k].fecha_entrega);
-                }
-              }
             }
           }
 
@@ -2643,203 +2874,6 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     }
-    /*this.tasks = [
-      {
-        id: 1,
-        label: "Make some noise",
-        user:
-          '<a href="https://www.google.com/search?q=John+Doe" target="_blank" style="color:#0077c0;">John Doe</a>',
-        // getDate remplazarlo por el día de asignación de la tarea
-        start: this.getDate(-24 * 5),
-        // 15 es la duración del task fecha entrega menos fecha asignación
-        duration: 15 * 24 * 60 * 60 * 1000,
-        percent: 85,
-        type: "project"
-        //collapsed: true,
-      },
-      {
-        id: 2,
-        label: "With great power comes great responsibility",
-        user:
-          '<a href="https://www.google.com/search?q=Peter+Parker" target="_blank" style="color:#0077c0;">Peter Parker</a>',
-        parentId: 1,
-        start: this.getDate(-24 * 4),
-        duration: 4 * 24 * 60 * 60 * 1000,
-        percent: 50,
-        type: "milestone",
-        collapsed: true,
-        style: {
-          base: {
-            fill: "#1EBC61",
-            stroke: "#0EAC51"
-          }
-        }
-      },
-      {
-        id: 3,
-        label: "Courage is being scared to death, but saddling up anyway.",
-        user:
-          '<a href="https://www.google.com/search?q=John+Wayne" target="_blank" style="color:#0077c0;">John Wayne</a>',
-        parentId: 2,
-        start: this.getDate(-24 * 3),
-        duration: 2 * 24 * 60 * 60 * 1000,
-        percent: 100,
-        type: "task"
-      },
-      {
-        id: 4,
-        label: "Put that toy AWAY!",
-        user:
-          '<a href="https://www.google.com/search?q=Clark+Kent" target="_blank" style="color:#0077c0;">Clark Kent</a>',
-        start: this.getDate(-24 * 2),
-        duration: 2 * 24 * 60 * 60 * 1000,
-        percent: 50,
-        type: "task",
-        dependentOn: [3]
-      },
-      {
-        id: 5,
-        label:
-          "One billion, gajillion, fafillion... shabadylu...mil...shabady......uh, Yen.",
-        user:
-          '<a href="https://www.google.com/search?q=Austin+Powers" target="_blank" style="color:#0077c0;">Austin Powers</a>',
-        parentId: 4,
-        start: this.getDate(0),
-        duration: 2 * 24 * 60 * 60 * 1000,
-        percent: 10,
-        type: "milestone",
-        style: {
-          base: {
-            fill: "#0287D0",
-            stroke: "#0077C0"
-          }
-        }
-      },
-      {
-        id: 6,
-        label: "Butch Mario and the Luigi Kid",
-        user:
-          '<a href="https://www.google.com/search?q=Mario+Bros" target="_blank" style="color:#0077c0;">Mario Bros</a>',
-        parentId: 5,
-        start: this.getDate(24),
-        duration: 1 * 24 * 60 * 60 * 1000,
-        percent: 50,
-        type: "task",
-        collapsed: true,
-        style: {
-          base: {
-            fill: "#8E44AD",
-            stroke: "#7E349D"
-          }
-        }
-      },
-      {
-        id: 7,
-        label: "Devon, the old man wanted me, it was his dying request",
-        user:
-          '<a href="https://www.google.com/search?q=Knight+Rider" target="_blank" style="color:#0077c0;">Knight Rider</a>',
-        parentId: 2,
-        dependentOn: [6],
-        start: this.getDate(24 * 2),
-        duration: 4 * 60 * 60 * 1000,
-        percent: 20,
-        type: "task",
-        collapsed: true
-      },
-      {
-        id: 8,
-        label: "Hey, Baby! Anybody ever tell you I have beautiful eyes?",
-        user:
-          '<a href="https://www.google.com/search?q=Johhny+Bravo" target="_blank" style="color:#0077c0;">Johhny Bravo</a>',
-        parentId: 7,
-        dependentOn: [7],
-        start: this.getDate(24 * 3),
-        duration: 1 * 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 9,
-        label:
-          "This better be important, woman. You are interrupting my very delicate calculations.",
-        user:
-          '<a href="https://www.google.com/search?q=Dexter\'s+Laboratory" target="_blank" style="color:#0077c0;">Dexter\'s Laboratory</a>',
-        parentId: 8,
-        dependentOn: [8, 7],
-        start: this.getDate(24 * 4),
-        duration: 4 * 60 * 60 * 1000,
-        percent: 20,
-        type: "task",
-        style: {
-          base: {
-            fill: "#8E44AD",
-            stroke: "#7E349D"
-          }
-        }
-      },
-      {
-        id: 10,
-        label: "current task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 5),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 11,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 6),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 12,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 7),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task",
-        parentId: 11
-      },
-      {
-        id: 13,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 8),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 14,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 9),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      },
-      {
-        id: 15,
-        label: "test task",
-        user:
-          '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
-        start: this.getDate(24 * 16),
-        duration: 24 * 60 * 60 * 1000,
-        percent: 0,
-        type: "task"
-      }
-    ];*/
-
 
     this.options = {
       taskMapping: {
@@ -2970,7 +3004,7 @@ __webpack_require__.r(__webpack_exports__);
       this.dynamicStyle = style;
     }
   },
-  props: ['campania', 'etapas', 'campania_etapas', 'actividades']
+  props: ['campania', 'etapas', 'campania_etapas', 'actividades', 'entregables']
 });
 
 /***/ }),
@@ -3401,7 +3435,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  props: ['campania_etapas', 'actividades', 'campania_id', 'estados', 'entregables', 'users', 'sin_iniciar', 'en_proceso', 'en_revision', 'terminado', 'en_ajustes', 'aprobado'],
+  props: ['campania_etapas', 'actividades', 'campania_id', 'estados', 'entregables', 'users', 'sin_iniciar', 'en_proceso', 'en_revision', 'terminado', 'en_ajustes', 'aprobado', 'entregables'],
   data: function data() {
     return {
       // for new tasks
@@ -49593,6 +49627,52 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=template&id=a0655606&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=template&id=a0655606& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.showGantt
+    ? _c(
+        "div",
+        [
+          _c(
+            "gantt-elastic",
+            {
+              attrs: { options: _vm.options, tasks: _vm.tasks },
+              on: {
+                "tasks-changed": _vm.tasksUpdate,
+                "options-changed": _vm.optionsUpdate,
+                "dynamic-style-changed": _vm.styleUpdate
+              }
+            },
+            [_c("gantt-header", { attrs: { slot: "header" }, slot: "header" })],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "q-mt-md" })
+        ],
+        1
+      )
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/gantt/ShowComponent.vue?vue&type=template&id=6a2dc36a&":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/gantt/ShowComponent.vue?vue&type=template&id=6a2dc36a& ***!
@@ -49801,7 +49881,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n              Generar investigación de brief \n              "
+                        "\n              Generar investigación de brief\n              "
                       ),
                       _c(
                         "svg",
@@ -79882,6 +79962,7 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('tablero-component', __webp
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('tableroform-component', __webpack_require__(/*! ./components/tablero/TableroFormComponent.vue */ "./resources/js/components/tablero/TableroFormComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('indexgantt-component', __webpack_require__(/*! ./components/gantt/IndexComponent.vue */ "./resources/js/components/gantt/IndexComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('showgantt-component', __webpack_require__(/*! ./components/gantt/ShowComponent.vue */ "./resources/js/components/gantt/ShowComponent.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_2___default.a.component('planearejecucion-component', __webpack_require__(/*! ./components/gantt/PlanearEjecucionComponent.vue */ "./resources/js/components/gantt/PlanearEjecucionComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.config.productionTip = false;
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vue2_slideout_panel__WEBPACK_IMPORTED_MODULE_3___default.a);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(gantt_elastic__WEBPACK_IMPORTED_MODULE_4__["default"]);
@@ -80011,6 +80092,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IndexComponent_vue_vue_type_template_id_7118dd51___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IndexComponent_vue_vue_type_template_id_7118dd51___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/gantt/PlanearEjecucionComponent.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/gantt/PlanearEjecucionComponent.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PlanearEjecucionComponent_vue_vue_type_template_id_a0655606___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PlanearEjecucionComponent.vue?vue&type=template&id=a0655606& */ "./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=template&id=a0655606&");
+/* harmony import */ var _PlanearEjecucionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PlanearEjecucionComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PlanearEjecucionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PlanearEjecucionComponent_vue_vue_type_template_id_a0655606___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PlanearEjecucionComponent_vue_vue_type_template_id_a0655606___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/gantt/PlanearEjecucionComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanearEjecucionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PlanearEjecucionComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanearEjecucionComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=template&id=a0655606&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=template&id=a0655606& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanearEjecucionComponent_vue_vue_type_template_id_a0655606___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PlanearEjecucionComponent.vue?vue&type=template&id=a0655606& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/gantt/PlanearEjecucionComponent.vue?vue&type=template&id=a0655606&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanearEjecucionComponent_vue_vue_type_template_id_a0655606___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlanearEjecucionComponent_vue_vue_type_template_id_a0655606___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

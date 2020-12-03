@@ -29,6 +29,7 @@ Vue.component('tablero-component', require('./components/tablero/TableroComponen
 Vue.component('tableroform-component', require('./components/tablero/TableroFormComponent.vue').default);
 Vue.component('indexgantt-component', require('./components/gantt/IndexComponent.vue').default);
 Vue.component('showgantt-component', require('./components/gantt/ShowComponent.vue').default);
+Vue.component('planearejecucion-component', require('./components/gantt/PlanearEjecucionComponent.vue').default);
 
 
 Vue.config.productionTip = false
