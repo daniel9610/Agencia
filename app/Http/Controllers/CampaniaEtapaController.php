@@ -6,6 +6,7 @@ use App\CampaniaEtapa;
 use App\Etapa;
 use App\User;
 use Illuminate\Http\Request;
+use App\Repositories\EmailRepository;
 use Illuminate\Support\Facades\DB;
 
 class CampaniaEtapaController extends Controller
@@ -15,6 +16,13 @@ class CampaniaEtapaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    protected $emailrepository;
+
+    public function __construct(EmailRepository $emailrepository){
+        $this->emailrepository = $emailrepository;
+    }
+
     public function indexCampaniaEtapas($campania_id)
     {
 
@@ -41,7 +49,7 @@ class CampaniaEtapaController extends Controller
         $acum = 0;
         $acum2 = 0;
         foreach($etapas as $etapa){
-            
+
             if($campania_etapas != "vacio"){
                 foreach($campania_etapas as $campania_etapa){
                     if($etapa->id == $campania_etapa->etapa_id){
@@ -69,7 +77,7 @@ class CampaniaEtapaController extends Controller
                 } else {
                     $etapa->gestion = true;
                 }
-    
+
                 $acum = 0;
                 $acum2 = 0;
             }
@@ -141,12 +149,22 @@ class CampaniaEtapaController extends Controller
         $campania_etapa->encargado_id = $encargado_id;
         $campania_etapa->save();
         // Enviar correo al responsable asignado
+        $user_encargado = User::where('id',$encargado_id)->first();
+
+        $this->sendEmail(
+            $user_encargado->email,
+            'Asignación etapa',
+            'Asignación etapa',
+            'Se le ha asignado una nueva etapa');
         return back()->with('success', 'Responsable asignado correctamente');
     }
 
+    public function sendEmail($remitentes,$nombre_correo,$asunto,$cuerpo){
+        //$remitentes = 'ricardo.franco@tars.dev, daniel.jimenez@tars.dev, jeisson.lopez@tars.dev';
+        //$nombre_correo = 'Prueba correo agencia';
+        //$asunto = 'Prueba correo agencia';
+        //$cuerpo = 'Esto es una prueba de correo para la aplicación de agencia';
 
-    public function asignarMetodologia(Request $request)
-    {
-        dd($request->metodologia);
+        $this->emailrepository->sendEmail($remitentes,$nombre_correo,$asunto,$cuerpo);
     }
 }

@@ -9,6 +9,7 @@
             :etapas = "{{$etapas}}"
             :campania_etapas = "{{$campania_etapas}}"
             :actividades = "{{$actividades}}"
+            :entregables = "{{$entregables}}"
             ></indexgantt-component>
         </div>
     </div>

@@ -14,6 +14,7 @@ use App\Brief;
 use App\Documento;
 use App\User;
 use App\CampaniaEtapaMetodologia;
+use App\Etapa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -457,7 +458,35 @@ class CampaniaController extends Controller
             $entregables = "No hay entregables";
         }
         // $campania_etapa = Campania
-        return view('etapas.planearEjecucion', compact('campania_id', 'estados_actividades', 'etapa_id', 'actividades', 'users', 'actividades_a_asignar', 'list', 'entregables', 'estados', 'etapas', 'entregables_para_cliente'));
+
+        //Valores para gantt
+
+        $campania_gantt = Campania::
+        where('id', $campania_id)->get();
+
+        $actividades_gantt = Actividad::
+        join('users', 'users.id', '=', 'actividades.usuario_asignado')
+        ->join('estados','estados.id', '=', 'actividades.estado_id')
+        ->select('actividades.*', 'users.name as name','estados.porcentaje as porcentaje')
+        ->where('campania_id', $campania_id)
+        ->get();
+
+
+        return view('etapas.planearEjecucion', compact(
+            'campania_id',
+            'estados_actividades',
+            'etapa_id',
+            'actividades',
+            'users',
+            'actividades_a_asignar',
+            'list',
+            'entregables',
+            'estados',
+            'etapas',
+            'entregables_para_cliente',
+            'campania_gantt',
+            'actividades_gantt'
+        ));
     }
 
 

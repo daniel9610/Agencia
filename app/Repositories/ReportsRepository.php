@@ -14,5 +14,7 @@ use Illuminate\Http\Request;
  */
 class ReportsRepository
 {
+    public function createCampania(){
 
+    }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Campania;
 use App\Etapa;
 use App\CampaniaEtapa;
-use App\Entregable;
 use App\Actividad;
+use App\Entregable;
 
 use Illuminate\Http\Request;
 
@@ -21,9 +21,16 @@ class GanttController extends Controller
     {
         $campanias = Campania::all();
         $etapas = Etapa::all();
+
         $campania_etapas = CampaniaEtapa::
         join('campanias','campanias.id','=','campania_etapas.campania_id')
         ->join('etapas','etapas.id','=','campania_etapas.etapa_id')
+        ->get();
+
+        $entregables = Entregable::
+        join('campanias','campanias.id','=','entregables.campania_id')
+        ->join('etapas','etapas.id','=','entregables.etapa_id')
+        ->select('entregables.id as id','entregables.nombre as nombre','entregables.campania_id', 'entregables.etapa_id', 'entregables.created_at')
         ->get();
 
         $actividades = Actividad::
@@ -36,7 +43,8 @@ class GanttController extends Controller
             'campanias',
             'etapas',
             'actividades',
-            'campania_etapas'
+            'campania_etapas',
+            'entregables'
         ));
     }
 
